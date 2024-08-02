@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "374544286318",
+    "project_id": "neitorsafe",
+    "storage_bucket": "neitorsafe.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:374544286318:android:0cee33288572c816a41c7f",
+        "android_client_info": {
+          "package_name": "app.neitor.nseguridad"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAAMtToOwjodxecy0BSYB7UKZ5kjglN5_A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
