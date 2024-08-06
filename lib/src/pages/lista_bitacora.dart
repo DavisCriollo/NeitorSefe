@@ -883,6 +883,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:nseguridad/src/controllers/home_ctrl.dart';
@@ -914,23 +915,20 @@ class ListaBitacora extends StatefulWidget {
 class _ListaBitacoraState extends State<ListaBitacora> {
   final TextEditingController _textSearchController = TextEditingController();
 
-
- TextEditingController _fechaInicioController = TextEditingController();
+  TextEditingController _fechaInicioController = TextEditingController();
   TextEditingController _fechaFinController = TextEditingController();
   TextEditingController _horaInicioController = TextEditingController();
   TextEditingController _horaFinController = TextEditingController();
 
-late TimeOfDay timerInicio;
+  late TimeOfDay timerInicio;
   late TimeOfDay timerFin;
 
 // Session? usuario;
 
- 
   void initload() async {
     timerInicio = TimeOfDay.now();
     timerFin = TimeOfDay.now();
-   
- }
+  }
 
   @override
   void dispose() {
@@ -1022,7 +1020,7 @@ late TimeOfDay timerInicio;
                                       onChanged: (text) {
                                         // _controller.onSearchText(text);
                                         // _controller.search(text);
-                                        _controller.searchParametro(text); 
+                                        _controller.searchParametro(text);
 
                                         //  provider.search(text);
                                         // setState(() {});
@@ -1083,27 +1081,18 @@ late TimeOfDay timerInicio;
                     onPressed: () {
                       provider.setBtnSearch(!provider.btnSearch);
                       _textSearchController.text = "";
-                      
-                      if(provider.getingresoSalida==0){
-                          // provider.setListaVisitasBitacoras([]);
 
-                                provider.getAllVisitasBitacoras(
-                                    '', 'false', 'INGRESO');
-
-                      }else{
+                      if (provider.getingresoSalida == 0) {
                         // provider.setListaVisitasBitacoras([]);
 
-                                provider.getAllVisitasBitacoras(
-                                    '', 'false', 'SALIDA');
+                        provider.getAllVisitasBitacoras('', 'false', 'INGRESO');
+                      } else {
+                        // provider.setListaVisitasBitacoras([]);
 
+                        provider.getAllVisitasBitacoras('', 'false', 'SALIDA');
                       }
 
-                    // provider.setingresoSalida(0);
-                                
-
-
-
-
+                      // provider.setingresoSalida(0);
                     }),
                 IconButton(
                     splashRadius: 2.0,
@@ -1773,34 +1762,41 @@ late TimeOfDay timerInicio;
                           // ),
 
                           //==========================================//
-                          Consumer<BitacoraController>(builder: (_, value, __) { 
-
-                            return TabBar(
-                            labelColor: Colors.black,
-                            tabs: [
-                              Tab(text: value.getingresoSalida==0 ?'INGRESOS (${value.filteredList.length})': 'INGRESOS'),
-                              Tab(text:  value.getingresoSalida==1 ?'SALIDAS (${value.filteredList.length})': 'SALIDAS'),
-                            ],
-                            onTap: (int index) {
-                              _controller.resetValuesBitacora();
-                             _controller.onInputFechaInicioChange('');
-                               _controller.onInputFechaFinChange('');
-                              if (index == 0) {
-                                // _controller.getBitacoras('', 'false'); ///*********este es el principal  */
-                                _controller.setingresoSalida(0);
-                                _controller.setListaVisitasBitacoras([]);
-                                _controller.getAllVisitasBitacoras(
-                                    '', 'false', 'INGRESO');
-                              } else {
-                                _controller.setingresoSalida(1);
-                                _controller.setListaVisitasBitacoras([]);
-                                _controller.getAllVisitasBitacoras(
-                                    '', 'false', 'SALIDA');
-                              }
+                          Consumer<BitacoraController>(
+                            builder: (_, value, __) {
+                              return TabBar(
+                                labelColor: Colors.black,
+                                tabs: [
+                                  Tab(
+                                      text: value.getingresoSalida == 0
+                                          ? 'INGRESOS (${value.filteredList.length})'
+                                          : 'INGRESOS'),
+                                  Tab(
+                                      text: value.getingresoSalida == 1
+                                          ? 'SALIDAS (${value.filteredList.length})'
+                                          : 'SALIDAS'),
+                                ],
+                                onTap: (int index) {
+                                  _controller.resetValuesBitacora();
+                                  _controller.onInputFechaInicioChange('');
+                                  _controller.onInputFechaFinChange('');
+                                  if (index == 0) {
+                                    // _controller.getBitacoras('', 'false'); ///*********este es el principal  */
+                                    _controller.setingresoSalida(0);
+                                    _controller.setListaVisitasBitacoras([]);
+                                    _controller.getAllVisitasBitacoras(
+                                        '', 'false', 'INGRESO');
+                                  } else {
+                                    _controller.setingresoSalida(1);
+                                    _controller.setListaVisitasBitacoras([]);
+                                    _controller.getAllVisitasBitacoras(
+                                        '', 'false', 'SALIDA');
+                                  }
+                                },
+                              );
                             },
-                          );
-                           },),
-                          
+                          ),
+
                           Expanded(
                               child: TabBarView(
                                   physics: const BouncingScrollPhysics(),
@@ -1871,18 +1867,20 @@ late TimeOfDay timerInicio;
                                                         //==================================//
 
                                                         GestureDetector(
-                                                          onTap:()
-                                                          {
-                                                             providers.setInfoVisita(visitante);
-                                                             Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => const InfoVisita(
-                       
-                      )));
-                                                          },
-                                                          child: Card(
-                                                                                                              child: Container(
+                                                      onTap: () {
+                                                        providers.setInfoVisita(
+                                                            visitante);
+                                                        Navigator.of(context).push(
+                                                            MaterialPageRoute(
+                                                                builder:
+                                                                    (context) =>
+                                                                        const InfoVisita()));
+                                                      },
+                                                      child: Card(
+                                                        child: Container(
                                                           decoration: BoxDecoration(
-                                                              color: Colors.white,
+                                                              color:
+                                                                  Colors.white,
                                                               borderRadius:
                                                                   BorderRadius
                                                                       .circular(
@@ -1911,8 +1909,7 @@ late TimeOfDay timerInicio;
                                                                           height: size.iScreen(
                                                                               5.5),
                                                                           decoration: BoxDecoration(
-                                                                              color:
-                                                                                  Colors.grey.shade300,
+                                                                              color: Colors.grey.shade300,
                                                                               borderRadius: BorderRadius.circular(8.0)),
                                                                           child:
                                                                               //  Image
@@ -1947,30 +1944,30 @@ late TimeOfDay timerInicio;
                                                                           ))
                                                                       : Container(
                                                                           decoration: BoxDecoration(
-                                                                              color:
-                                                                                  Colors.grey.shade300,
+                                                                              color: Colors.grey.shade300,
                                                                               borderRadius: BorderRadius.circular(8.0)),
-                                                                          width: size
-                                                                              .iScreen(6.0),
+                                                                          width:
+                                                                              size.iScreen(6.0),
                                                                           height:
                                                                               size.iScreen(6.0),
-                                                                          child: Icon(
-                                                                              Icons.person),
+                                                                          child:
+                                                                              Icon(Icons.person),
                                                                         ),
                                                                   SizedBox(
-                                                                      width: 10),
+                                                                      width:
+                                                                          10),
                                                                   Container(
-                                                                    child: Column(
+                                                                    child:
+                                                                        Column(
                                                                       mainAxisAlignment:
                                                                           MainAxisAlignment
                                                                               .start,
                                                                       children: [
                                                                         Container(
                                                                             // color: Colors.green,
-                                                                            width: size.wScreen(
-                                                                                75.0),
-                                                                            child:
-                                                                                Row(
+                                                                            width:
+                                                                                size.wScreen(75.0),
+                                                                            child: Row(
                                                                               children: [
                                                                                 Text(
                                                                                   "Documento: ",
@@ -1980,6 +1977,22 @@ late TimeOfDay timerInicio;
                                                                                   visitante["bitVisitanteCedula"] != null ? "${visitante["bitVisitanteCedula"]}" : '--- --- --- --- ---',
                                                                                   style: GoogleFonts.lexendDeca(fontSize: size.iScreen(1.8), color: Colors.black87, fontWeight: FontWeight.bold),
                                                                                 ),
+                                                                                Spacer(),
+                                                                                Container(
+                                                                                  decoration: BoxDecoration(
+                                                                                    color: Colors.white, // Fondo blanco
+                                                                                    borderRadius: BorderRadius.circular(8),
+                                                                                    border: Border.all(color: Colors.red, width: 2), // Borde rojo
+                                                                                  ),
+                                                                                  width: size.iScreen(5.0),
+                                                                                  height: size.iScreen(4.0),
+                                                                                  child: Center(
+                                                                                    child: FaIcon(
+                                                                                      FontAwesomeIcons.filePdf,
+                                                                                      color: Colors.red, // Ícono rojo
+                                                                                    ),
+                                                                                  ),
+                                                                                )
                                                                               ],
                                                                             )),
                                                                         SizedBox(
@@ -1987,8 +2000,8 @@ late TimeOfDay timerInicio;
                                                                                 size.iScreen(0.5)),
                                                                         Container(
                                                                           // color: Colors.red,
-                                                                          width: size
-                                                                              .wScreen(75.0),
+                                                                          width:
+                                                                              size.wScreen(75.0),
                                                                           child:
                                                                               Text(
                                                                             visitante["bitVisitanteNombres"] != null
@@ -2011,7 +2024,8 @@ late TimeOfDay timerInicio;
                                                                           0.5)),
                                                               Container(
                                                                 width: size
-                                                                    .wScreen(100),
+                                                                    .wScreen(
+                                                                        100),
                                                                 // color:Colors.red,
                                                                 child: Column(
                                                                   crossAxisAlignment:
@@ -2019,22 +2033,20 @@ late TimeOfDay timerInicio;
                                                                           .start,
                                                                   children: [
                                                                     SizedBox(
-                                                                        height: size
-                                                                            .iScreen(
-                                                                                0.5)),
+                                                                        height:
+                                                                            size.iScreen(0.5)),
                                                                     Row(
                                                                       children: [
                                                                         Text(
                                                                           "Departamento: ",
                                                                           style: GoogleFonts.lexendDeca(
-                                                                              fontSize:
-                                                                                  size.iScreen(1.8),
+                                                                              fontSize: size.iScreen(1.8),
                                                                               color: Colors.grey,
                                                                               fontWeight: FontWeight.normal),
                                                                         ),
                                                                         Container(
-                                                                          width: size
-                                                                              .wScreen(60),
+                                                                          width:
+                                                                              size.wScreen(60),
                                                                           child:
                                                                               Text(
                                                                             visitante["bitNombre_dpt"] != null
@@ -2049,22 +2061,20 @@ late TimeOfDay timerInicio;
                                                                       ],
                                                                     ),
                                                                     SizedBox(
-                                                                        height: size
-                                                                            .iScreen(
-                                                                                0.5)),
+                                                                        height:
+                                                                            size.iScreen(0.5)),
                                                                     Row(
                                                                       children: [
                                                                         Text(
                                                                           "Número: ",
                                                                           style: GoogleFonts.lexendDeca(
-                                                                              fontSize:
-                                                                                  size.iScreen(1.8),
+                                                                              fontSize: size.iScreen(1.8),
                                                                               color: Colors.grey,
                                                                               fontWeight: FontWeight.normal),
                                                                         ),
                                                                         Container(
-                                                                          width: size
-                                                                              .wScreen(70),
+                                                                          width:
+                                                                              size.wScreen(70),
                                                                           child:
                                                                               Text(
                                                                             visitante["bitNumero_dpt"] != null
@@ -2079,22 +2089,20 @@ late TimeOfDay timerInicio;
                                                                       ],
                                                                     ),
                                                                     SizedBox(
-                                                                        height: size
-                                                                            .iScreen(
-                                                                                0.5)),
+                                                                        height:
+                                                                            size.iScreen(0.5)),
                                                                     Row(
                                                                       children: [
                                                                         Text(
                                                                           "Ubicación: ",
                                                                           style: GoogleFonts.lexendDeca(
-                                                                              fontSize:
-                                                                                  size.iScreen(1.8),
+                                                                              fontSize: size.iScreen(1.8),
                                                                               color: Colors.grey,
                                                                               fontWeight: FontWeight.normal),
                                                                         ),
                                                                         Container(
-                                                                          width: size
-                                                                              .wScreen(70),
+                                                                          width:
+                                                                              size.wScreen(70),
                                                                           child:
                                                                               Text(
                                                                             visitante["bitCliUbicacion"] != null
@@ -2109,9 +2117,8 @@ late TimeOfDay timerInicio;
                                                                       ],
                                                                     ),
                                                                     SizedBox(
-                                                                        height: size
-                                                                            .iScreen(
-                                                                                1.0)),
+                                                                        height:
+                                                                            size.iScreen(1.0)),
                                                                     Row(
                                                                       mainAxisAlignment:
                                                                           MainAxisAlignment
@@ -2119,12 +2126,10 @@ late TimeOfDay timerInicio;
                                                                       children: [
                                                                         Container(
                                                                           padding: EdgeInsets.symmetric(
-                                                                              horizontal:
-                                                                                  size.iScreen(1.0),
+                                                                              horizontal: size.iScreen(1.0),
                                                                               vertical: size.iScreen(0.5)),
                                                                           decoration: BoxDecoration(
-                                                                              color:
-                                                                                  Colors.green.shade200,
+                                                                              color: Colors.green.shade200,
                                                                               borderRadius: BorderRadius.circular(8.0)),
                                                                           child:
                                                                               Column(
@@ -2144,21 +2149,17 @@ late TimeOfDay timerInicio;
                                                                         GestureDetector(
                                                                           onTap:
                                                                               () {
-                                                                            _controller
-                                                                                .setInfoVisitante(visitante);
-                                                        
-                                                                            showExitConfirmationDialog(
-                                                                                context,
+                                                                            _controller.setInfoVisitante(visitante);
+
+                                                                            showExitConfirmationDialog(context,
                                                                                 size);
                                                                           },
                                                                           child:
                                                                               Container(
-                                                                            padding: EdgeInsets.symmetric(
-                                                                                horizontal: size.iScreen(1.0),
-                                                                                vertical: size.iScreen(0.5)),
-                                                                            decoration: BoxDecoration(
-                                                                                color: Colors.grey.shade300,
-                                                                                borderRadius: BorderRadius.circular(8.0)),
+                                                                            padding:
+                                                                                EdgeInsets.symmetric(horizontal: size.iScreen(1.0), vertical: size.iScreen(0.5)),
+                                                                            decoration:
+                                                                                BoxDecoration(color: Colors.grey.shade300, borderRadius: BorderRadius.circular(8.0)),
                                                                             child:
                                                                                 Column(
                                                                               children: [
@@ -2178,17 +2179,16 @@ late TimeOfDay timerInicio;
                                                                       ],
                                                                     ),
                                                                     SizedBox(
-                                                                        height: size
-                                                                            .iScreen(
-                                                                                1.0)),
+                                                                        height:
+                                                                            size.iScreen(1.0)),
                                                                   ],
                                                                 ),
                                                               ),
                                                             ],
                                                           ),
-                                                                                                              ),
-                                                                                                            ),
-                                                        );
+                                                        ),
+                                                      ),
+                                                    );
 
                                                     //********************************//
                                                   },
@@ -2215,11 +2215,10 @@ late TimeOfDay timerInicio;
                                         //   ))
                                         NoData(label: 'No hay registro')
                                         : (providers.filteredList.length > 0)
-                                            ? 
-                                            RefreshIndicator(
-                                                 onRefresh: _onRefreshSalida,
-                                              child: ListView.builder(
-                                                 physics:
+                                            ? RefreshIndicator(
+                                                onRefresh: _onRefreshSalida,
+                                                child: ListView.builder(
+                                                  physics:
                                                       const BouncingScrollPhysics(),
                                                   itemCount: providers
                                                       .filteredList.length,
@@ -2229,7 +2228,8 @@ late TimeOfDay timerInicio;
                                                     //****************FECHA LOCAL INGRESO****************//
                                                     final visitante = providers
                                                         .filteredList[index];
-                                                    String fechaLocalIngreso = '';
+                                                    String fechaLocalIngreso =
+                                                        '';
                                                     if (visitante[
                                                             'bitFechaIngreso'] !=
                                                         null) {
@@ -2243,7 +2243,8 @@ late TimeOfDay timerInicio;
                                                           '--- --- --- --- --- ';
                                                     }
                                                     //****************FECHA LOCAL SALIDA****************//
-                                                    String fechaLocalSalida = '';
+                                                    String fechaLocalSalida =
+                                                        '';
                                                     if (visitante[
                                                             'bitFechaSalida'] !=
                                                         null) {
@@ -2259,30 +2260,36 @@ late TimeOfDay timerInicio;
                                                     return
                                                         // Text(cliente['residenteNombre']);
                                                         //==================================//
-                                          
+
                                                         GestureDetector(
-                                                          onDoubleTap: () {
-                                                              providers.setInfoVisita(visitante);
-                                                             Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => const InfoVisita(
-                       
-                      )));
-                                                          },
-                                                          child: Card(
-                                                                                                              child: Container(
+                                                      onDoubleTap: () {
+                                                        providers.setInfoVisita(
+                                                            visitante);
+                                                        Navigator.of(context).push(
+                                                            MaterialPageRoute(
+                                                                builder:
+                                                                    (context) =>
+                                                                        const InfoVisita()));
+                                                      },
+                                                      child: Card(
+                                                        child: Container(
                                                           decoration: BoxDecoration(
-                                                              color: Colors.white,
+                                                              color:
+                                                                  Colors.white,
                                                               borderRadius:
                                                                   BorderRadius
-                                                                      .circular(8)),
-                                                          padding:
-                                                              EdgeInsets.symmetric(
+                                                                      .circular(
+                                                                          8)),
+                                                          padding: EdgeInsets
+                                                              .symmetric(
                                                                   horizontal: size
-                                                                      .iScreen(0.5),
-                                                                  vertical:
-                                                                      size.iScreen(
+                                                                      .iScreen(
+                                                                          0.5),
+                                                                  vertical: size
+                                                                      .iScreen(
                                                                           0.5)),
-                                                          width: size.wScreen(100),
+                                                          width:
+                                                              size.wScreen(100),
                                                           child: Column(
                                                             children: [
                                                               Row(
@@ -2292,18 +2299,13 @@ late TimeOfDay timerInicio;
                                                                   visitante["bitFotoPersona"]!
                                                                           .isNotEmpty
                                                                       ? Container(
-                                                                          width: size
-                                                                              .iScreen(
-                                                                                  5.5),
-                                                                          height: size
-                                                                              .iScreen(
-                                                                                  5.5),
+                                                                          width: size.iScreen(
+                                                                              5.5),
+                                                                          height: size.iScreen(
+                                                                              5.5),
                                                                           decoration: BoxDecoration(
-                                                                              color: Colors
-                                                                                  .grey
-                                                                                  .shade300,
-                                                                              borderRadius:
-                                                                                  BorderRadius.circular(8.0)),
+                                                                              color: Colors.grey.shade300,
+                                                                              borderRadius: BorderRadius.circular(8.0)),
                                                                           child:
                                                                               //  Image
                                                                               //     .network(
@@ -2327,48 +2329,40 @@ late TimeOfDay timerInicio;
                                                                               FadeInImage(
                                                                             placeholder:
                                                                                 const AssetImage('assets/imgs/loader.gif'),
-                                                                            image: NetworkImage(
-                                                                                visitante['bitFotoPersona']),
+                                                                            image:
+                                                                                NetworkImage(visitante['bitFotoPersona']),
                                                                             imageErrorBuilder: (BuildContext context,
-                                                                                Object
-                                                                                    error,
-                                                                                StackTrace?
-                                                                                    stackTrace) {
-                                                                              return Image.asset(
-                                                                                  'assets/imgs/no-image.png'); // Imagen de respaldo
+                                                                                Object error,
+                                                                                StackTrace? stackTrace) {
+                                                                              return Image.asset('assets/imgs/no-image.png'); // Imagen de respaldo
                                                                             },
                                                                           ))
                                                                       : Container(
                                                                           decoration: BoxDecoration(
-                                                                              color: Colors
-                                                                                  .grey
-                                                                                  .shade300,
-                                                                              borderRadius:
-                                                                                  BorderRadius.circular(8.0)),
-                                                                          width: size
-                                                                              .iScreen(
-                                                                                  6.0),
-                                                                          height: size
-                                                                              .iScreen(
-                                                                                  6.0),
-                                                                          child: Icon(
-                                                                              Icons
-                                                                                  .person),
+                                                                              color: Colors.grey.shade300,
+                                                                              borderRadius: BorderRadius.circular(8.0)),
+                                                                          width:
+                                                                              size.iScreen(6.0),
+                                                                          height:
+                                                                              size.iScreen(6.0),
+                                                                          child:
+                                                                              Icon(Icons.person),
                                                                         ),
                                                                   SizedBox(
-                                                                      width: 10),
+                                                                      width:
+                                                                          10),
                                                                   Container(
-                                                                    child: Column(
+                                                                    child:
+                                                                        Column(
                                                                       mainAxisAlignment:
                                                                           MainAxisAlignment
-                                                                              .start,
+                                                                              .spaceBetween,
                                                                       children: [
                                                                         Container(
                                                                             // color: Colors.green,
-                                                                            width: size.wScreen(
-                                                                                75.0),
-                                                                            child:
-                                                                                Row(
+                                                                            width:
+                                                                                size.wScreen(75.0),
+                                                                            child: Row(
                                                                               children: [
                                                                                 Text(
                                                                                   "Documento: ",
@@ -2378,6 +2372,22 @@ late TimeOfDay timerInicio;
                                                                                   visitante["bitVisitanteCedula"].isEmpty || visitante["bitVisitanteCedula"] != null ? "${visitante["bitVisitanteCedula"]}" : '--- --- --- --- ---',
                                                                                   style: GoogleFonts.lexendDeca(fontSize: size.iScreen(1.8), color: Colors.black87, fontWeight: FontWeight.bold),
                                                                                 ),
+                                                                                Spacer(),
+                                                                                Container(
+                                                                                  decoration: BoxDecoration(
+                                                                                    color: Colors.white, // Fondo blanco
+                                                                                    borderRadius: BorderRadius.circular(8),
+                                                                                    border: Border.all(color: Colors.red, width: 2), // Borde rojo
+                                                                                  ),
+                                                                                  width: size.iScreen(5.0),
+                                                                                  height: size.iScreen(4.0),
+                                                                                  child: Center(
+                                                                                    child: FaIcon(
+                                                                                      FontAwesomeIcons.filePdf,
+                                                                                      color: Colors.red, // Ícono rojo
+                                                                                    ),
+                                                                                  ),
+                                                                                )
                                                                               ],
                                                                             )),
                                                                         SizedBox(
@@ -2385,18 +2395,15 @@ late TimeOfDay timerInicio;
                                                                                 size.iScreen(0.5)),
                                                                         Container(
                                                                           // color: Colors.red,
-                                                                          width: size
-                                                                              .wScreen(
-                                                                                  75.0),
+                                                                          width:
+                                                                              size.wScreen(75.0),
                                                                           child:
                                                                               Text(
-                                                                            visitante["bitVisitanteNombres"].isEmpty ||
-                                                                                    visitante["bitVisitanteNombres"] != null
+                                                                            visitante["bitVisitanteNombres"].isEmpty || visitante["bitVisitanteNombres"] != null
                                                                                 ? "${visitante["bitVisitanteNombres"]}"
                                                                                 : '--- --- --- --- --- ',
                                                                             style: GoogleFonts.lexendDeca(
-                                                                                fontSize:
-                                                                                    size.iScreen(1.8),
+                                                                                fontSize: size.iScreen(1.8),
                                                                                 color: Colors.black87,
                                                                                 fontWeight: FontWeight.bold),
                                                                           ),
@@ -2407,26 +2414,28 @@ late TimeOfDay timerInicio;
                                                                 ],
                                                               ),
                                                               SizedBox(
-                                                                  height:
-                                                                      size.iScreen(
+                                                                  height: size
+                                                                      .iScreen(
                                                                           0.5)),
                                                               Container(
                                                                 padding: EdgeInsets.symmetric(
                                                                     vertical: size
                                                                         .iScreen(
                                                                             0.5),
-                                                                    horizontal: size
-                                                                        .iScreen(
+                                                                    horizontal:
+                                                                        size.iScreen(
                                                                             0.5)),
                                                                 color: Colors
-                                                                    .grey.shade100,
+                                                                    .grey
+                                                                    .shade100,
                                                                 width: size
-                                                                    .wScreen(100),
+                                                                    .wScreen(
+                                                                        100),
                                                                 child: Text(
                                                                   "Se dirige a: ",
                                                                   style: GoogleFonts.lexendDeca(
-                                                                      fontSize: size
-                                                                          .iScreen(
+                                                                      fontSize:
+                                                                          size.iScreen(
                                                                               1.7),
                                                                       color: Colors
                                                                           .grey,
@@ -2437,7 +2446,8 @@ late TimeOfDay timerInicio;
                                                               ),
                                                               Container(
                                                                 width: size
-                                                                    .wScreen(100),
+                                                                    .wScreen(
+                                                                        100),
                                                                 // color:Colors.red,
                                                                 child: Column(
                                                                   crossAxisAlignment:
@@ -2449,26 +2459,20 @@ late TimeOfDay timerInicio;
                                                                         Text(
                                                                           "Persona: ",
                                                                           style: GoogleFonts.lexendDeca(
-                                                                              fontSize: size.iScreen(
-                                                                                  1.8),
-                                                                              color: Colors
-                                                                                  .grey,
-                                                                              fontWeight:
-                                                                                  FontWeight.normal),
+                                                                              fontSize: size.iScreen(1.8),
+                                                                              color: Colors.grey,
+                                                                              fontWeight: FontWeight.normal),
                                                                         ),
                                                                         Container(
-                                                                          width: size
-                                                                              .wScreen(
-                                                                                  75),
+                                                                          width:
+                                                                              size.wScreen(75),
                                                                           child:
                                                                               Text(
-                                                                            visitante["bitResApellidos"].isEmpty ||
-                                                                                    visitante["bitResApellidos"] != null
+                                                                            visitante["bitResApellidos"].isEmpty || visitante["bitResApellidos"] != null
                                                                                 ? "${visitante["bitResApellidos"]} ${visitante["bitResNombres"]}"
                                                                                 : '--- --- --- --- ---',
                                                                             style: GoogleFonts.lexendDeca(
-                                                                                fontSize:
-                                                                                    size.iScreen(1.8),
+                                                                                fontSize: size.iScreen(1.8),
                                                                                 color: Colors.black87,
                                                                                 fontWeight: FontWeight.bold),
                                                                           ),
@@ -2476,34 +2480,27 @@ late TimeOfDay timerInicio;
                                                                       ],
                                                                     ),
                                                                     SizedBox(
-                                                                        height: size
-                                                                            .iScreen(
-                                                                                0.5)),
+                                                                        height:
+                                                                            size.iScreen(0.5)),
                                                                     Row(
                                                                       children: [
                                                                         Text(
                                                                           "Departamento: ",
                                                                           style: GoogleFonts.lexendDeca(
-                                                                              fontSize: size.iScreen(
-                                                                                  1.8),
-                                                                              color: Colors
-                                                                                  .grey,
-                                                                              fontWeight:
-                                                                                  FontWeight.normal),
+                                                                              fontSize: size.iScreen(1.8),
+                                                                              color: Colors.grey,
+                                                                              fontWeight: FontWeight.normal),
                                                                         ),
                                                                         Container(
-                                                                          width: size
-                                                                              .wScreen(
-                                                                                  60),
+                                                                          width:
+                                                                              size.wScreen(60),
                                                                           child:
                                                                               Text(
-                                                                            visitante["bitNombre_dpt"].isEmpty ||
-                                                                                    visitante["bitNombre_dpt"] != null
+                                                                            visitante["bitNombre_dpt"].isEmpty || visitante["bitNombre_dpt"] != null
                                                                                 ? "${visitante["bitNombre_dpt"]}"
                                                                                 : '--- --- --- --- ---',
                                                                             style: GoogleFonts.lexendDeca(
-                                                                                fontSize:
-                                                                                    size.iScreen(1.8),
+                                                                                fontSize: size.iScreen(1.8),
                                                                                 color: Colors.black87,
                                                                                 fontWeight: FontWeight.bold),
                                                                           ),
@@ -2511,34 +2508,27 @@ late TimeOfDay timerInicio;
                                                                       ],
                                                                     ),
                                                                     SizedBox(
-                                                                        height: size
-                                                                            .iScreen(
-                                                                                0.5)),
+                                                                        height:
+                                                                            size.iScreen(0.5)),
                                                                     Row(
                                                                       children: [
                                                                         Text(
                                                                           "Número: ",
                                                                           style: GoogleFonts.lexendDeca(
-                                                                              fontSize: size.iScreen(
-                                                                                  1.8),
-                                                                              color: Colors
-                                                                                  .grey,
-                                                                              fontWeight:
-                                                                                  FontWeight.normal),
+                                                                              fontSize: size.iScreen(1.8),
+                                                                              color: Colors.grey,
+                                                                              fontWeight: FontWeight.normal),
                                                                         ),
                                                                         Container(
-                                                                          width: size
-                                                                              .wScreen(
-                                                                                  70),
+                                                                          width:
+                                                                              size.wScreen(70),
                                                                           child:
                                                                               Text(
-                                                                            visitante["bitNumero_dpt"].isEmpty ||
-                                                                                    visitante["bitNumero_dpt"] != null
+                                                                            visitante["bitNumero_dpt"].isEmpty || visitante["bitNumero_dpt"] != null
                                                                                 ? "${visitante["bitNumero_dpt"]}"
                                                                                 : '--- --- --- --- ---',
                                                                             style: GoogleFonts.lexendDeca(
-                                                                                fontSize:
-                                                                                    size.iScreen(1.8),
+                                                                                fontSize: size.iScreen(1.8),
                                                                                 color: Colors.black87,
                                                                                 fontWeight: FontWeight.bold),
                                                                           ),
@@ -2546,34 +2536,27 @@ late TimeOfDay timerInicio;
                                                                       ],
                                                                     ),
                                                                     SizedBox(
-                                                                        height: size
-                                                                            .iScreen(
-                                                                                0.5)),
+                                                                        height:
+                                                                            size.iScreen(0.5)),
                                                                     Row(
                                                                       children: [
                                                                         Text(
                                                                           "Ubicación: ",
                                                                           style: GoogleFonts.lexendDeca(
-                                                                              fontSize: size.iScreen(
-                                                                                  1.8),
-                                                                              color: Colors
-                                                                                  .grey,
-                                                                              fontWeight:
-                                                                                  FontWeight.normal),
+                                                                              fontSize: size.iScreen(1.8),
+                                                                              color: Colors.grey,
+                                                                              fontWeight: FontWeight.normal),
                                                                         ),
                                                                         Container(
-                                                                          width: size
-                                                                              .wScreen(
-                                                                                  70),
+                                                                          width:
+                                                                              size.wScreen(70),
                                                                           child:
                                                                               Text(
-                                                                            visitante["bitCliUbicacion"].isEmpty ||
-                                                                                    visitante["bitCliUbicacion"] != null
+                                                                            visitante["bitCliUbicacion"].isEmpty || visitante["bitCliUbicacion"] != null
                                                                                 ? "${visitante["bitCliUbicacion"]}"
                                                                                 : '',
                                                                             style: GoogleFonts.lexendDeca(
-                                                                                fontSize:
-                                                                                    size.iScreen(1.8),
+                                                                                fontSize: size.iScreen(1.8),
                                                                                 color: Colors.black87,
                                                                                 fontWeight: FontWeight.bold),
                                                                           ),
@@ -2581,9 +2564,8 @@ late TimeOfDay timerInicio;
                                                                       ],
                                                                     ),
                                                                     SizedBox(
-                                                                        height: size
-                                                                            .iScreen(
-                                                                                1.0)),
+                                                                        height:
+                                                                            size.iScreen(1.0)),
                                                                     Row(
                                                                       mainAxisAlignment:
                                                                           MainAxisAlignment
@@ -2591,68 +2573,44 @@ late TimeOfDay timerInicio;
                                                                       children: [
                                                                         Container(
                                                                           padding: EdgeInsets.symmetric(
-                                                                              horizontal: size.iScreen(
-                                                                                  1.0),
-                                                                              vertical:
-                                                                                  size.iScreen(0.5)),
+                                                                              horizontal: size.iScreen(1.0),
+                                                                              vertical: size.iScreen(0.5)),
                                                                           decoration: BoxDecoration(
-                                                                              color: Colors
-                                                                                  .grey
-                                                                                  .shade300,
-                                                                              borderRadius:
-                                                                                  BorderRadius.circular(8.0)),
+                                                                              color: Colors.grey.shade300,
+                                                                              borderRadius: BorderRadius.circular(8.0)),
                                                                           child:
                                                                               Column(
                                                                             children: [
                                                                               Text(
                                                                                 "Ingreso ",
-                                                                                style: GoogleFonts.lexendDeca(
-                                                                                    fontSize: size.iScreen(1.8),
-                                                                                    color: Colors.black87,
-                                                                                    fontWeight: FontWeight.normal),
+                                                                                style: GoogleFonts.lexendDeca(fontSize: size.iScreen(1.8), color: Colors.black87, fontWeight: FontWeight.normal),
                                                                               ),
-                                                                              SizedBox(
-                                                                                  height: size.iScreen(0.5)),
+                                                                              SizedBox(height: size.iScreen(0.5)),
                                                                               Text(
                                                                                 "${fechaLocalIngreso}",
-                                                                                style: GoogleFonts.lexendDeca(
-                                                                                    fontSize: size.iScreen(1.8),
-                                                                                    color: Colors.black87,
-                                                                                    fontWeight: FontWeight.bold),
+                                                                                style: GoogleFonts.lexendDeca(fontSize: size.iScreen(1.8), color: Colors.black87, fontWeight: FontWeight.bold),
                                                                               ),
                                                                             ],
                                                                           ),
                                                                         ),
                                                                         Container(
                                                                           padding: EdgeInsets.symmetric(
-                                                                              horizontal: size.iScreen(
-                                                                                  1.0),
-                                                                              vertical:
-                                                                                  size.iScreen(0.5)),
+                                                                              horizontal: size.iScreen(1.0),
+                                                                              vertical: size.iScreen(0.5)),
                                                                           decoration: BoxDecoration(
-                                                                              color: Colors
-                                                                                  .orange
-                                                                                  .shade200,
-                                                                              borderRadius:
-                                                                                  BorderRadius.circular(8.0)),
+                                                                              color: Colors.orange.shade200,
+                                                                              borderRadius: BorderRadius.circular(8.0)),
                                                                           child:
                                                                               Column(
                                                                             children: [
                                                                               Text(
                                                                                 "Salida ",
-                                                                                style: GoogleFonts.lexendDeca(
-                                                                                    fontSize: size.iScreen(1.8),
-                                                                                    color: Colors.black87,
-                                                                                    fontWeight: FontWeight.normal),
+                                                                                style: GoogleFonts.lexendDeca(fontSize: size.iScreen(1.8), color: Colors.black87, fontWeight: FontWeight.normal),
                                                                               ),
-                                                                              SizedBox(
-                                                                                  height: size.iScreen(0.5)),
+                                                                              SizedBox(height: size.iScreen(0.5)),
                                                                               Text(
                                                                                 "$fechaLocalSalida",
-                                                                                style: GoogleFonts.lexendDeca(
-                                                                                    fontSize: size.iScreen(1.8),
-                                                                                    color: Colors.black87,
-                                                                                    fontWeight: FontWeight.bold),
+                                                                                style: GoogleFonts.lexendDeca(fontSize: size.iScreen(1.8), color: Colors.black87, fontWeight: FontWeight.bold),
                                                                               ),
                                                                             ],
                                                                           ),
@@ -2660,22 +2618,21 @@ late TimeOfDay timerInicio;
                                                                       ],
                                                                     ),
                                                                     SizedBox(
-                                                                        height: size
-                                                                            .iScreen(
-                                                                                1.0)),
+                                                                        height:
+                                                                            size.iScreen(1.0)),
                                                                   ],
                                                                 ),
                                                               ),
                                                             ],
                                                           ),
-                                                                                                              ),
-                                                                                                            ),
-                                                        );
-                                            
+                                                        ),
+                                                      ),
+                                                    );
+
                                                     //********************************//
                                                   },
                                                 ),
-                                            )
+                                              )
                                             : NoData(
                                                 label: 'No existen Datos',
                                               );
@@ -2814,7 +2771,7 @@ late TimeOfDay timerInicio;
   //                                                                           0.0)),
   //               Container(
   //                 width: size.wScreen(100.0),
-  //                 child: 
+  //                 child:
   //                 Row(
   //                   mainAxisAlignment: MainAxisAlignment.spaceAround,
   //                   children: [
@@ -2879,11 +2836,7 @@ late TimeOfDay timerInicio;
   //   );
   // }
 
-
-
-
-void busquedaAvanzadaModal(BuildContext context, Responsive size) {
-   
+  void busquedaAvanzadaModal(BuildContext context, Responsive size) {
     showDialog(
         barrierDismissible: false,
         context: context,
@@ -2892,8 +2845,8 @@ void busquedaAvanzadaModal(BuildContext context, Responsive size) {
             onTap: () => FocusScope.of(context).unfocus(),
             child: AlertDialog(
               shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10.0),
-          ),
+                borderRadius: BorderRadius.circular(10.0),
+              ),
               insetPadding: EdgeInsets.symmetric(
                   horizontal: size.wScreen(5.0), vertical: size.wScreen(3.0)),
               content: Column(
@@ -2902,11 +2855,11 @@ void busquedaAvanzadaModal(BuildContext context, Responsive size) {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                     Text('Búsqueda Avanzada',
-              style: GoogleFonts.lexendDeca(
-                  fontSize: size.iScreen(2.5),
-                  color: Colors.black87,
-                  fontWeight: FontWeight.bold)),
+                      Text('Búsqueda Avanzada',
+                          style: GoogleFonts.lexendDeca(
+                              fontSize: size.iScreen(2.5),
+                              color: Colors.black87,
+                              fontWeight: FontWeight.bold)),
                       IconButton(
                           splashRadius: size.iScreen(3.0),
                           onPressed: () {
@@ -2919,273 +2872,249 @@ void busquedaAvanzadaModal(BuildContext context, Responsive size) {
                           )),
                     ],
                   ),
-
- Container(
-    width: size.wScreen(100),
-    color: Colors.grey.shade100,
-    padding: EdgeInsets.symmetric(horizontal: size.iScreen(0.5),vertical:size.iScreen(0.5)),
-   child: Text('Por Fecha',
-                                style: GoogleFonts.lexendDeca(
-                                    fontSize: size.iScreen(1.8),
-                                    color: Colors.grey,
-                                    fontWeight: FontWeight.normal)),
- ),
- SizedBox(
-                                                                    height: size
-                                                                        .iScreen(
-                                                                            1.0)),
-
+                  Container(
+                    width: size.wScreen(100),
+                    color: Colors.grey.shade100,
+                    padding: EdgeInsets.symmetric(
+                        horizontal: size.iScreen(0.5),
+                        vertical: size.iScreen(0.5)),
+                    child: Text('Por Fecha',
+                        style: GoogleFonts.lexendDeca(
+                            fontSize: size.iScreen(1.8),
+                            color: Colors.grey,
+                            fontWeight: FontWeight.normal)),
+                  ),
+                  SizedBox(height: size.iScreen(1.0)),
                   SizedBox(
                     width: size.wScreen(100),
                     // height: size.hScreen(26),
                     child: Container(
-                  width: size.wScreen(100.0),
-                  child: 
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Column(
+                      width: size.wScreen(100.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          Text('desde',
-                              style: GoogleFonts.lexendDeca(
-                                  fontSize: size.iScreen(1.8),
-                                  color: Colors.grey,
-                                  fontWeight: FontWeight.normal)),
-                             Consumer<BitacoraController>(
-                                            builder: (_, valueFecha, __) {
-                                              return 
-                                              Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.start,
-                                                  children: [
-                                                    SizedBox(
-                                                      width: size.iScreen(1.0),
-                                                    ),
-                                                    GestureDetector(
-                                                      onTap:  () {
-                                                        // if (_action !=
-                                                        //     'MULTA') {
-                                                        //   FocusScope.of(context)
-                                                        //       .requestFocus(
-                                                        //           FocusNode());
-                                                          FocusScope.of(context)
-                                                              .requestFocus(
-                                                                  FocusNode());
-                                                          _selectFechaInicio(
-                                                              context,
-                                                              valueFecha,
-                                                            );
-                                                        // }
-                                                        // _fecha(context, valueFecha);
-                                                      },
-                                                      child: Row(
-                                                        children: [
-                                                          Text(
-                                                        valueFecha.getInputfechaInicio==''?  '-- -- -- -- --':  valueFecha.getInputfechaInicio.toString().substring(0, 10),
-                                                            style: GoogleFonts
-                                                                .lexendDeca(
-                                                              fontSize: size
-                                                                  .iScreen(1.8),
-                                                              color: Colors
-                                                                  .black45,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                            ),
-                                                          ),
-                                                          SizedBox(
-                                                            width: size
-                                                                .iScreen(1.0),
-                                                          ),
-                                                          Consumer<ThemeApp>(
-                                                            builder:
-                                                                (_, value, __) {
-                                                              return Icon(
-                                                                Icons
-                                                                    .date_range_outlined,
-                                                                color: value
-                                                                    .secondaryColor,
-                                                                size: 30,
-                                                              );
-                                                            },
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  ]);
-                                            },
-                                          ),
-                        ],
-                      ),
-                       Column(
-                        
-                        children: [
-                            Text(' / ',
-                              style: GoogleFonts.lexendDeca(
-                                  fontSize: size.iScreen(1.8),
-                                  color: Colors.grey,
-                                  fontWeight: FontWeight.bold)),
-                        ]),
-                       
-                      Column(
-                        children: [
-                          Text('hasta',
-                              style: GoogleFonts.lexendDeca(
-                                  fontSize: size.iScreen(1.8),
-                                  color: Colors.grey,
-                                  fontWeight: FontWeight.normal)),
-                           Consumer<BitacoraController>(
-                                            builder: (_, valueFecha, __) {
-                                              return 
-                                              Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.start,
-                                                  children: [
-                                                    SizedBox(
-                                                      width: size.iScreen(1.0),
-                                                    ),
-                                                    GestureDetector(
-                                                      onTap:  () {
-                                                        // if (_action !=
-                                                        //     'MULTA') {
-                                                        //   FocusScope.of(context)
-                                                        //       .requestFocus(
-                                                        //           FocusNode());
-                                                          FocusScope.of(context)
-                                                              .requestFocus(
-                                                                  FocusNode());
-                                                          _selectFechaFin(
-                                                              context,
-                                                              valueFecha,
-                                                            );
-                                                        // }
-                                                        // _fecha(context, valueFecha);
-                                                      },
-                                                      child: Row(
-                                                        children: [
-                                                          Text(
-                                                        valueFecha.getInputfechaFin==''?  '-- -- -- -- --':  valueFecha.getInputfechaFin.toString().substring(0, 10),
-                                                            style: GoogleFonts
-                                                                .lexendDeca(
-                                                              fontSize: size
-                                                                  .iScreen(1.8),
-                                                              color: Colors
-                                                                  .black45,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                            ),
-                                                          ),
-                                                          SizedBox(
-                                                            width: size
-                                                                .iScreen(1.0),
-                                                          ),
-                                                          Consumer<ThemeApp>(
-                                                            builder:
-                                                                (_, value, __) {
-                                                              return Icon(
-                                                                Icons
-                                                                    .date_range_outlined,
-                                                                color: value
-                                                                    .secondaryColor,
-                                                                size: 30,
-                                                              );
-                                                            },
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  ]);
-                                            },
-                                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-                  ),
-                  SizedBox(
-                                                                    height: size
-                                                                        .iScreen(
-                                                                            1.0)),
-                 
-                   Consumer<BitacoraController>(
-                                    builder: (_, valueBtn, __) {
-                                      return  GestureDetector(
-                                        onTap: valueBtn.getInputfechaFin!=''?() {
-
-                                        if(valueBtn.getingresoSalida==0){
-                          // valueBtn.setListaVisitasBitacoras([]);
-
-                          //       valueBtn.getAllVisitasBitacoras(
-                          //           '', 'false', 'INGRESO');
-                          // valueBtn.setListFilter([]);
-                          // valueBtn.searchParametro('');
-                            valueBtn. filterByDates();
-                         
-
-                      }else{
-                        // valueBtn.setListaVisitasBitacoras([]);
-
-                        //         valueBtn.getAllVisitasBitacoras(
-                        //             '', 'false', 'SALIDA');
-                         valueBtn.setListFilter([]);
-                          valueBtn.searchParametro('');
-
-                      }
-
-                      // print('MOSTRAMOS LA LISTA ACTUAL ${valueBtn.getListaVisitasBitacoras.length}');
-                      //  print('MOSTRAMOS LA LISTA ACTUAL 1 ${valueBtn.getListaVisitasBitacoras[0]}');
-                      //  print('MOSTRAMOS LA LISTA ACTUAL 2 ${valueBtn.getListaVisitasBitacoras[1]}');
-                      //  print('MOSTRAMOS LA LISTA ACTUAL 3${valueBtn.getListaVisitasBitacoras[2]}');
-                      // print('MOSTRAMOS FECHAS : ${valueBtn.getInputfechaInicio}- ${valueBtn.getInputfechaFin}');
-
-                      Navigator.of(context).pop();
-                                        }:null,
-                                        child: ClipRRect(
-                                                        borderRadius: BorderRadius.circular(8.0),
-                                                         child:  Consumer<ThemeApp>(
-                                                                          builder: (_, valueTheme, __) {
-                                        return 
-                                                                           Container(
-                                            alignment: Alignment.center,
-                                            // color:value.getInputfechaInicio!='' && value.getInputHoraInicio!=''
-                                            // && value.getInputfechaFin!='' && value.getInputHoraFin!=''
-                                            //  ?valueTheme.getPrimaryTextColor : Colors.grey.shade500  ,
-                                            // width: size.iScreen(9.0),
-                                            color:valueBtn.getInputfechaFin!=''?valueTheme.primaryColor:Colors.grey,
-                                            width: size.iScreen(9.0),
-                                            padding: EdgeInsets.only(
-                                              top: size.iScreen(0.5),
-                                              bottom: size.iScreen(0.5),
-                                              left: size.iScreen(0.5),
-                                              right: size.iScreen(0.5),
-                                            ),
-                                            child: Text('Agregar',
-                                                style: GoogleFonts.lexendDeca(
-                                                    // fontSize: size.iScreen(2.0),
-                                                    fontWeight: FontWeight.normal,
-                                                    color: Colors.white))
-                                            // Icon(
-                                            //   Icons.add,
-                                            //   color: valueTheme.getSecondryTextColor,
-                                            //   size: size.iScreen(2.0),
-                                            // ),
+                          Column(
+                            children: [
+                              Text('desde',
+                                  style: GoogleFonts.lexendDeca(
+                                      fontSize: size.iScreen(1.8),
+                                      color: Colors.grey,
+                                      fontWeight: FontWeight.normal)),
+                              Consumer<BitacoraController>(
+                                builder: (_, valueFecha, __) {
+                                  return Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        SizedBox(
+                                          width: size.iScreen(1.0),
+                                        ),
+                                        GestureDetector(
+                                          onTap: () {
+                                            // if (_action !=
+                                            //     'MULTA') {
+                                            //   FocusScope.of(context)
+                                            //       .requestFocus(
+                                            //           FocusNode());
+                                            FocusScope.of(context)
+                                                .requestFocus(FocusNode());
+                                            _selectFechaInicio(
+                                              context,
+                                              valueFecha,
                                             );
-                                                                          },
-                                                                        ),
-                                                       ),
-                                      );
-                                    }),
-                 
-                
+                                            // }
+                                            // _fecha(context, valueFecha);
+                                          },
+                                          child: Row(
+                                            children: [
+                                              Text(
+                                                valueFecha.getInputfechaInicio ==
+                                                        ''
+                                                    ? '-- -- -- -- --'
+                                                    : valueFecha
+                                                        .getInputfechaInicio
+                                                        .toString()
+                                                        .substring(0, 10),
+                                                style: GoogleFonts.lexendDeca(
+                                                  fontSize: size.iScreen(1.8),
+                                                  color: Colors.black45,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                width: size.iScreen(1.0),
+                                              ),
+                                              Consumer<ThemeApp>(
+                                                builder: (_, value, __) {
+                                                  return Icon(
+                                                    Icons.date_range_outlined,
+                                                    color: value.secondaryColor,
+                                                    size: 30,
+                                                  );
+                                                },
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ]);
+                                },
+                              ),
+                            ],
+                          ),
+                          Column(children: [
+                            Text(' / ',
+                                style: GoogleFonts.lexendDeca(
+                                    fontSize: size.iScreen(1.8),
+                                    color: Colors.grey,
+                                    fontWeight: FontWeight.bold)),
+                          ]),
+                          Column(
+                            children: [
+                              Text('hasta',
+                                  style: GoogleFonts.lexendDeca(
+                                      fontSize: size.iScreen(1.8),
+                                      color: Colors.grey,
+                                      fontWeight: FontWeight.normal)),
+                              Consumer<BitacoraController>(
+                                builder: (_, valueFecha, __) {
+                                  return Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        SizedBox(
+                                          width: size.iScreen(1.0),
+                                        ),
+                                        GestureDetector(
+                                          onTap: () {
+                                            // if (_action !=
+                                            //     'MULTA') {
+                                            //   FocusScope.of(context)
+                                            //       .requestFocus(
+                                            //           FocusNode());
+                                            FocusScope.of(context)
+                                                .requestFocus(FocusNode());
+                                            _selectFechaFin(
+                                              context,
+                                              valueFecha,
+                                            );
+                                            // }
+                                            // _fecha(context, valueFecha);
+                                          },
+                                          child: Row(
+                                            children: [
+                                              Text(
+                                                valueFecha.getInputfechaFin ==
+                                                        ''
+                                                    ? '-- -- -- -- --'
+                                                    : valueFecha
+                                                        .getInputfechaFin
+                                                        .toString()
+                                                        .substring(0, 10),
+                                                style: GoogleFonts.lexendDeca(
+                                                  fontSize: size.iScreen(1.8),
+                                                  color: Colors.black45,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                width: size.iScreen(1.0),
+                                              ),
+                                              Consumer<ThemeApp>(
+                                                builder: (_, value, __) {
+                                                  return Icon(
+                                                    Icons.date_range_outlined,
+                                                    color: value.secondaryColor,
+                                                    size: 30,
+                                                  );
+                                                },
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ]);
+                                },
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: size.iScreen(1.0)),
+                  Consumer<BitacoraController>(builder: (_, valueBtn, __) {
+                    return GestureDetector(
+                      onTap: valueBtn.getInputfechaFin != ''
+                          ? () {
+                              if (valueBtn.getingresoSalida == 0) {
+                                // valueBtn.setListaVisitasBitacoras([]);
+
+                                //       valueBtn.getAllVisitasBitacoras(
+                                //           '', 'false', 'INGRESO');
+                                // valueBtn.setListFilter([]);
+                                // valueBtn.searchParametro('');
+                                valueBtn.filterByDates();
+                              } else {
+                                // valueBtn.setListaVisitasBitacoras([]);
+
+                                //         valueBtn.getAllVisitasBitacoras(
+                                //             '', 'false', 'SALIDA');
+                                valueBtn.setListFilter([]);
+                                valueBtn.searchParametro('');
+                              }
+
+                              // print('MOSTRAMOS LA LISTA ACTUAL ${valueBtn.getListaVisitasBitacoras.length}');
+                              //  print('MOSTRAMOS LA LISTA ACTUAL 1 ${valueBtn.getListaVisitasBitacoras[0]}');
+                              //  print('MOSTRAMOS LA LISTA ACTUAL 2 ${valueBtn.getListaVisitasBitacoras[1]}');
+                              //  print('MOSTRAMOS LA LISTA ACTUAL 3${valueBtn.getListaVisitasBitacoras[2]}');
+                              // print('MOSTRAMOS FECHAS : ${valueBtn.getInputfechaInicio}- ${valueBtn.getInputfechaFin}');
+
+                              Navigator.of(context).pop();
+                            }
+                          : null,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(8.0),
+                        child: Consumer<ThemeApp>(
+                          builder: (_, valueTheme, __) {
+                            return Container(
+                                alignment: Alignment.center,
+                                // color:value.getInputfechaInicio!='' && value.getInputHoraInicio!=''
+                                // && value.getInputfechaFin!='' && value.getInputHoraFin!=''
+                                //  ?valueTheme.getPrimaryTextColor : Colors.grey.shade500  ,
+                                // width: size.iScreen(9.0),
+                                color: valueBtn.getInputfechaFin != ''
+                                    ? valueTheme.primaryColor
+                                    : Colors.grey,
+                                width: size.iScreen(9.0),
+                                padding: EdgeInsets.only(
+                                  top: size.iScreen(0.5),
+                                  bottom: size.iScreen(0.5),
+                                  left: size.iScreen(0.5),
+                                  right: size.iScreen(0.5),
+                                ),
+                                child: Text('Agregar',
+                                    style: GoogleFonts.lexendDeca(
+                                        // fontSize: size.iScreen(2.0),
+                                        fontWeight: FontWeight.normal,
+                                        color: Colors.white))
+                                // Icon(
+                                //   Icons.add,
+                                //   color: valueTheme.getSecondryTextColor,
+                                //   size: size.iScreen(2.0),
+                                // ),
+                                );
+                          },
+                        ),
+                      ),
+                    );
+                  }),
                 ],
               ),
             ),
           );
         });
   }
+
   Future<void> _onRefreshIngreso() async {
     final _controller = context.read<BitacoraController>();
     _controller.resetValuesBitacora();
@@ -3195,8 +3124,8 @@ void busquedaAvanzadaModal(BuildContext context, Responsive size) {
     //  _controller.setListFilter(_controller.getListaVisitantes);
     // _controller.setListFilter(_controller.getListaVisitasBitacoras);
   }
-  
-    Future<void> _onRefreshSalida() async {
+
+  Future<void> _onRefreshSalida() async {
     final _controller = context.read<BitacoraController>();
     _controller.resetValuesBitacora();
 
@@ -3206,15 +3135,12 @@ void busquedaAvanzadaModal(BuildContext context, Responsive size) {
     // _controller.setListFilter(_controller.getListaVisitasBitacoras);
   }
 
-
-
   //================================================= SELECCIONA FECHA INICIO ==================================================//
-  _selectFechaInicio(
-      BuildContext context, BitacoraController _ctr) async {
+  _selectFechaInicio(BuildContext context, BitacoraController _ctr) async {
     DateTime? picked = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
-      firstDate:DateTime(2024),
+      firstDate: DateTime(2024),
       lastDate: DateTime(2050),
       locale: const Locale('es', 'ES'),
     );
@@ -3224,22 +3150,18 @@ void busquedaAvanzadaModal(BuildContext context, Responsive size) {
       mes = (picked.month < 10) ? '0${picked.month}' : '${picked.month}';
       dia = (picked.day < 10) ? '0${picked.day}' : '${picked.day}';
 
-  
       final _fechaInicio =
           '${anio.toString()}-${mes.toString()}-${dia.toString()}';
       _fechaInicioController.text = _fechaInicio;
       _ctr.onInputFechaInicioChange(_fechaInicio);
-   
     }
   }
 
   //================================================= SELECCIONA FECHA FIN ==================================================//
-  _selectFechaFin(
-      BuildContext context, BitacoraController _ctr) async {
+  _selectFechaFin(BuildContext context, BitacoraController _ctr) async {
     DateTime? picked = await showDatePicker(
       context: context,
-     
-      initialDate:DateTime.parse(_ctr.getInputfechaInicio),
+      initialDate: DateTime.parse(_ctr.getInputfechaInicio),
       firstDate: DateTime.parse(_ctr.getInputfechaInicio),
       lastDate: DateTime(2050),
       locale: const Locale('es', 'ES'),
@@ -3255,14 +3177,12 @@ void busquedaAvanzadaModal(BuildContext context, Responsive size) {
             '${anio.toString()}-${mes.toString()}-${dia.toString()}';
         _fechaFinController.text = _fechaFin;
 
-
         _ctr.onInputFechaFinChange(_fechaFin);
-
       });
     }
   }
 
-  void _seleccionaHoraInicio( 
+  void _seleccionaHoraInicio(
       BuildContext context, BitacoraController _ctr) async {
     TimeOfDay? _hora =
         await showTimePicker(context: context, initialTime: timerInicio);
@@ -3282,8 +3202,7 @@ void busquedaAvanzadaModal(BuildContext context, Responsive size) {
     }
   }
 
-  void _seleccionaHoraFin(
-     BuildContext context, BitacoraController _ctr) async {
+  void _seleccionaHoraFin(BuildContext context, BitacoraController _ctr) async {
     TimeOfDay? _hora =
         await showTimePicker(context: context, initialTime: timerFin);
     if (_hora != null) {
@@ -3301,6 +3220,4 @@ void busquedaAvanzadaModal(BuildContext context, Responsive size) {
       });
     }
   }
-
-
 }

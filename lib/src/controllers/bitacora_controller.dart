@@ -59,6 +59,15 @@ class BitacoraController extends ChangeNotifier {
     notifyListeners();
   }
 
+
+  String? _itemTipoIngreso = '';
+  String? get getItemTipoIngreso => _itemTipoIngreso;
+  void setItemTipoIngreso(String? _val) {
+    _itemTipoIngreso = _val;
+    print('TIPO DE Ingreso: $_itemTipoIngreso'); 
+    notifyListeners();
+  }
+
   String? _itemTipoPersona = '';
   String? get getItemTipoPersonal => _itemTipoPersona;
   void setItemTipoPersona(String? _val) {
@@ -1249,8 +1258,8 @@ _listaVisitas.clear();
     await _pickImage((image)  async{
       _visitanteImage = image;
       final file = File(_visitanteImage!.path);
-   final foto= await upLoadImagens(file);
-setUrlVisitante(foto!);
+  //  final foto= await upLoadImagens(file);
+// setUrlVisitante(foto!);
       
      
     });
@@ -1270,8 +1279,8 @@ setUrlVisitante(foto!);
     await _pickImage((image) async{
       _backImage = image;
        final file = File(_backImage!.path);
-   final foto= await upLoadImagens(file);
-setUrlCedulaBack(foto!);
+//    final foto= await upLoadImagens(file);
+// setUrlCedulaBack(foto!);
         // _readTextFromImage(_backImage!,1);
     });
   }
@@ -1281,9 +1290,9 @@ setUrlCedulaBack(foto!);
     await _pickImage((image) async{
       _pasaporteImage = image;
         _readTextFromImage(_pasaporteImage!,2);
-          final file = File(_pasaporteImage!.path);
-   final foto= await upLoadImagens(file);
-setUrlPasaporte(foto!);
+//           final file = File(_pasaporteImage!.path);
+//    final foto= await upLoadImagens(file);
+// setUrlPasaporte(foto!);
     });
   }
 
@@ -1314,8 +1323,70 @@ setUrlPasaporte(foto!);
     }
   }
 
-  void addVisita(Map<String, dynamic> visita) {
-     _listaVisitas.insert(0, visita); 
+  void addVisita(
+    // Map<String, dynamic> visita
+    ) {
+
+
+  // Si todas las validaciones pasan, construye el mapa nuevoRegistro
+  Map<String, dynamic> nuevoRegistro = {
+    "id": getItemPersonaDestinol!['id'] ?? '',
+    "cedula": getResidente['resCliDocumento'] ?? '',
+    "cliente": getResidente['resCliNombre'] ?? '',
+    "numeroDepartamento": getResidente['resDepartamento'][0]['nombre_dpt'] ?? '',
+    "depatamento":getResidente['resDepartamento'][0]['numero']?? '',
+     "tipoPersona":getItemTipoPersonal,
+     "asunto":getItemAsunto,
+    "fotoVisitante": getUrlVisitante,
+    
+    "cedulaVisita": getCedulaVisitantes,
+    "nombreVisita": getNombreVisitantes,
+     "telefonoVisita": getTelefonoVisitantes,
+   
+      "fotoCedulaFront": getUrlCedulaFront, //frontImage?.path ?? '',
+      "fotoCedulaBack":   getUrlCedulaBack,//backImage?.path ?? '',
+   
+    "pasaporteVisita": getPasaporteVisita,
+    "fotoPasaporte": getUrlPasaporte,
+    "bitTipoIngreso":getItemTipoIngreso,
+    //pasaporteImage?.path ?? '',
+    "vehiculo": getOpcionVehiculo,
+    "fotoPlaca":getUrlPlaca,// placaImage?.path ?? '',
+    "cedulaPropietarioVehiculo": getCedulaPropVehiculo,
+    "nombrePropietarioVehiculo": getNombrePropVehiculo,
+    "placa": getPlacaPropVehiculo,
+    "modelo": getModeloPropVehiculo,
+    "observacion": getItemObservacionBitacora,
+  };
+
+
+  print('LA DATA PARA LA LISTA VISITA ============> $nuevoRegistro');
+
+  // Agregar el registro al provider
+  // _controller.addVisita(nuevoRegistro);
+
+if (getDataVehiculo.isEmpty) {
+  setDataVehiculo(
+  {
+"dni":getCedulaPropVehiculo,
+"fullname":getNombrePropVehiculo,
+"carRegistration":getPlacaPropVehiculo,
+"model":getModeloPropVehiculo,
+"fotoPlaca":getUrlPlaca,
+  }
+);
+}
+
+
+
+
+
+
+
+
+
+
+     _listaVisitas.insert(0, nuevoRegistro); 
    
       print('LA INFORMACION DE LA LISTAS VISITAS : $_listaVisitas');
     notifyListeners();
@@ -1515,11 +1586,11 @@ Future _readTextFromImage(XFile image, int tipo) async {
   
   if (tipo == 0) {
     String cedulaInfo = extraerCedula(extractedTexts);
-    cedulaInfo = cedulaInfo.replaceAll('-', '');
-    setCedulaVerificar(cedulaInfo);
-         final file = File(image.path);
-   final foto= await upLoadImagens(file);
-   setUrlCedulaFront(foto!);
+    cedulaInfo = cedulaInfo.replaceAll('-','');
+    setCedulaVerificar(cedulaInfo.trim());
+  //        final file = File(image.path);
+  //  final foto= await upLoadImagens(file);
+  //  setUrlCedulaFront(foto!);
 
 
 
@@ -1527,9 +1598,9 @@ Future _readTextFromImage(XFile image, int tipo) async {
   } else if (tipo == 3) {
     String placaInfo = extraerPlaca(extractedTexts);
     setPlacaVerificar(placaInfo);
-       final file = File(image.path);
-   final foto= await upLoadImagens(file);
-setUrlPlaca(foto!);
+//        final file = File(image.path);
+//    final foto= await upLoadImagens(file);
+// setUrlPlaca(foto!);
   }
 }
 
@@ -3021,6 +3092,244 @@ notifyListeners();
       print('INFO DE LA VISITA :$_infoVisita');
     notifyListeners();
   }
+
+
+
+
+
+    //********************//
+
+Map<String, String?> _urlsVisitas = {};
+
+Map<String, String?> get getUrlsVisitas => _urlsVisitas;
+Future<bool> uploadImagesAndPrintUrls() async {
+  final dataUser = await Auth.instance.getSession();
+
+  // Crear un mapa para asociar los nombres de las imágenes con sus URLs
+  final Map<String, String?> urlsVisitas = {};
+
+  // Función auxiliar para subir una imagen y obtener su URL
+  Future<String?> uploadImage(File imageFile) async {
+    var request = _http.MultipartRequest(
+        'POST', Uri.parse('https://backsigeop.neitor.com/api/multimedias'));
+
+    request.headers.addAll({"x-auth-token": '${dataUser!.token}'});
+    request.files.add(await _http.MultipartFile.fromPath('foto', imageFile.path));
+
+    var response = await request.send();
+    var responsed = await _http.Response.fromStream(response);
+
+    if (responsed.statusCode == 200) {
+      final responseFoto = FotoUrl.fromJson(responsed.body);
+      final url = responseFoto.urls[0].url;
+      return url;
+    } else {
+      return null;
+    }
+  }
+
+  // Verificar y almacenar las imágenes solo si no son null
+  if (_visitanteImage != null) {
+    final visitanteImage = File(_visitanteImage!.path);
+    urlsVisitas['visitanteImage'] = await uploadImage(visitanteImage);
+    setUrlVisitante(urlsVisitas['visitanteImage'] ?? 'No URL');
+  }
+
+  if (_frontImage != null) {
+    final frontImage = File(_frontImage!.path);
+    urlsVisitas['frontImage'] = await uploadImage(frontImage);
+    setUrlCedulaFront(urlsVisitas['frontImage'] ?? 'No URL');
+  }
+
+  if (_backImage != null) {
+    final backImage = File(_backImage!.path);
+    urlsVisitas['backImage'] = await uploadImage(backImage);
+    setUrlCedulaBack(urlsVisitas['backImage'] ?? 'No URL');
+  }
+
+  if (_pasaporteImage != null) {
+    final pasaporteImage = File(_pasaporteImage!.path);
+    urlsVisitas['pasaporteImage'] = await uploadImage(pasaporteImage);
+    setUrlPasaporte(urlsVisitas['pasaporteImage'] ?? 'No URL');
+  }
+
+  if (_placaImage != null) {
+    final placaImage = File(_placaImage!.path);
+    urlsVisitas['placaImage'] = await uploadImage(placaImage);
+    setUrlPlaca(urlsVisitas['placaImage'] ?? 'No URL');
+  }
+
+  // Imprimir todas las URLs recibidas
+  print('****** URLS RECIBIDAS ******');
+  urlsVisitas.forEach((name, url) {
+    print('URL de $name: ${url ?? 'No URL'}');
+  });
+
+  // Validar si todas las URLs son válidas
+  bool allUrlsReceived = urlsVisitas.values.every((url) => url != null);
+
+  return allUrlsReceived;
+}
+
+
+// Future<bool> uploadImagesAndPrintUrls(
+
+// ) async {
+//   final dataUser = await Auth.instance.getSession();
+
+//    File? visitanteImage=File(_visitanteImage!.path);
+//   File? frontImage=File(_frontImage!.path);
+//   File? backImage=File(_backImage!.path);
+//   File? pasaporteImage=File(_pasaporteImage!.path);
+//   File? placaImage=File(_placaImage!.path);
+//   // Crear un mapa para asociar los nombres de las imágenes con sus URLs
+//   // final Map<String, String?> urls = {};
+
+//   // Función auxiliar para subir una imagen y obtener su URL
+//   Future<String?> uploadImage(File imageFile, String imageName) async {
+//     var request = _http.MultipartRequest(
+//         'POST', Uri.parse('https://backsigeop.neitor.com/api/multimedias'));
+
+//     request.headers.addAll({"x-auth-token": '${dataUser!.token}'});
+//     request.files.add(await _http.MultipartFile.fromPath('foto', imageFile.path));
+
+//     var response = await request.send();
+//     var responsed = await _http.Response.fromStream(response);
+
+//     if (responsed.statusCode == 200) {
+//       final responseFoto = FotoUrl.fromJson(responsed.body);
+//       final url = responseFoto.urls[0].url;
+//       return url;
+//     } else {
+//       return null;
+//     }
+//   }
+
+//   // Subir cada imagen y almacenar su URL si la imagen no es null
+//   if (visitanteImage != null) {
+//     _urlsVisitas['visitanteImage'] = await uploadImage(visitanteImage, 'visitanteImage');
+// setUrlVisitante('${_urlsVisitas['visitanteImage']}');
+
+//   } else {
+//     _urlsVisitas['visitanteImage'] = null;
+//   }
+  
+//   if (frontImage != null) {
+//     _urlsVisitas['frontImage'] = await uploadImage(frontImage, 'frontImage');
+//     setUrlCedulaFront('${_urlsVisitas['frontImage']}');
+//   } else {
+//     _urlsVisitas['frontImage'] = null;
+//   }
+  
+//   if (backImage != null) {
+//     _urlsVisitas['backImage'] = await uploadImage(backImage, 'backImage');
+//      setUrlCedulaBack('${_urlsVisitas['backImage']}');
+//   } else {
+//     _urlsVisitas['backImage'] = null;
+//   }
+  
+//   if (pasaporteImage != null) {
+//     _urlsVisitas['pasaporteImage'] = await uploadImage(pasaporteImage, 'pasaporteImage');
+//      setUrlPasaporte('${_urlsVisitas['pasaporteImage']}');
+//   } else {
+//     _urlsVisitas['pasaporteImage'] = null;
+//   }
+  
+//   if (placaImage != null) {
+//     _urlsVisitas['placaImage'] = await uploadImage(placaImage, 'placaImage');
+//      setUrlPlaca('${_urlsVisitas['placaImage']}');
+//   } else {
+//     _urlsVisitas['placaImage'] = null;
+//   }
+
+//   // Imprimir todas las URLs recibidas
+//   print('****** URLS RECIBIDAS ******');
+//   _urlsVisitas.forEach((name, url) {
+//     print('URL de $name: ${url ?? 'No URL'}');
+//   });
+
+//   // Validar si todas las URLs son válidas
+//   bool allUrlsReceived = _urlsVisitas.values.every((url) => url != null);
+
+//   return allUrlsReceived;
+// }
+
+// Future<bool> uploadImagesAndGetsUrlsVisita(
+//   // {
+//   // File? visitanteImage,
+//   // File? frontImage,
+//   // File? backImage,
+//   // File? pasaporteImage,
+//   // File? placaImage,
+// // }
+// ) async {
+//   final dataUser = await Auth.instance.getSession();
+
+//   // Crear un mapa para asociar los nombres de las imágenes con sus URLs
+// _urlsVisitas = {};
+
+//   File? visitanteImage=File(_visitanteImage!.path);
+//   File? frontImage=File(_frontImage!.path);
+//   File? backImage=File(_backImage!.path);
+//   File? pasaporteImage=File(_pasaporteImage!.path);
+//   File? placaImage=File(_placaImage!.path);
+
+
+
+
+//   // Función auxiliar para subir una imagen y obtener su URL
+//   Future<String?> uploadImage(File imageFile, String imageName) async {
+//     var request = _http.MultipartRequest(
+//         'POST', Uri.parse('https://backsigeop.neitor.com/api/multimedias'));
+
+//     request.headers.addAll({"x-auth-token": '${dataUser!.token}'});
+//     request.files.add(await _http.MultipartFile.fromPath('foto', imageFile.path));
+
+//     var response = await request.send();
+//     var responsed = await _http.Response.fromStream(response);
+
+//     if (responsed.statusCode == 200) {
+//       final responseFoto = FotoUrl.fromJson(responsed.body);
+//       final url = responseFoto.urls[0].url;
+//       _urlsVisitas[imageName] = url;
+//       print('URL de $imageName: $url');
+//       return url;
+//     } else {
+//       _urlsVisitas[imageName] = null;
+//       return null;
+//     }
+//   }
+
+//   // Subir cada imagen y almacenar su URL
+//   if (visitanteImage != null) await uploadImage(visitanteImage, 'visitanteImage');
+//   if (frontImage != null) await uploadImage(frontImage, 'frontImage');
+//   if (backImage != null) await uploadImage(backImage, 'backImage');
+//   if (pasaporteImage != null) await uploadImage(pasaporteImage, 'pasaporteImage');
+//   if (placaImage != null) await uploadImage(placaImage, 'placaImage');
+
+//   // Imprimir todas las URLs recibidas
+//   print('****** URLS RECIBIDAS ******');
+//   _urlsVisitas.forEach((name, url) {
+//     print('URL de $name: ${url ?? 'No URL'}');
+//   });
+
+//   // Validar si todas las URLs son válidas
+//   bool allUrlsReceived = _urlsVisitas.values.every((url) => url != null);
+
+//   return allUrlsReceived;
+// }
+
+
+
+
+    //********************//
+
+
+
+
+
+
+
 
 
 }

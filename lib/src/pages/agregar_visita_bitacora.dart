@@ -496,6 +496,88 @@ class _AgregarVicitaBitaoraState extends State<AgregarVicitaBitaora> {
                       width: size.wScreen(100.0),
 
                       // color: Colors.blue,
+                      child: Text('Tipo de Ingreso:',
+                          style: GoogleFonts.lexendDeca(
+                              fontSize: size.iScreen(1.8),
+                              fontWeight: FontWeight.normal,
+                              color: Colors.grey)),
+                    ),
+
+                    //***********************************************/
+                    SizedBox(
+                      height: size.iScreen(0.0),
+                    ),
+                    //***********************************************/
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Container(
+                            // color: Colors.red,
+                            padding: EdgeInsets.only(
+                              top: size.iScreen(1.0),
+                              right: size.iScreen(0.5),
+                            ),
+                            child: Consumer<BitacoraController>(
+                              builder: (_, ingreso, __) {
+                                return (ingreso.getItemTipoIngreso == '' ||
+                                        ingreso.getItemTipoIngreso == null)
+                                    ? Text(
+                                        'Seleccione tipo de ingreso',
+                                        style: GoogleFonts.lexendDeca(
+                                            fontSize: size.iScreen(1.8),
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.grey),
+                                      )
+                                    : Text(
+                                        '${ingreso.getItemTipoIngreso}',
+                                        style: GoogleFonts.lexendDeca(
+                                          fontSize: size.iScreen(1.8),
+                                          fontWeight: FontWeight.normal,
+                                          // color: Colors.grey
+                                        ),
+                                      );
+                              },
+                            ),
+                          ),
+                        ),
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(8),
+                          child: GestureDetector(onTap: () {
+                            _modalSeleccionaTipoIngreso(
+                                size, bitacoraController);
+                          }, child: Consumer<ThemeApp>(
+                            builder: (_, valueTheme, __) {
+                              return Container(
+                                alignment: Alignment.center,
+                                color: valueTheme.primaryColor,
+                                width: size.iScreen(3.5),
+                                padding: EdgeInsets.only(
+                                  top: size.iScreen(0.5),
+                                  bottom: size.iScreen(0.5),
+                                  left: size.iScreen(0.5),
+                                  right: size.iScreen(0.5),
+                                ),
+                                child: Icon(
+                                  Icons.add,
+                                  color: valueTheme.secondaryColor,
+                                  size: size.iScreen(2.0),
+                                ),
+                              );
+                            },
+                          )),
+                        ),
+                      ],
+                    ),
+                     //***********************************************/
+                    SizedBox(
+                      height: size.iScreen(1.0),
+                    ),
+                   
+                    //***********************************************/
+                      Container(
+                      width: size.wScreen(100.0),
+
+                      // color: Colors.blue,
                       child: Text('Tipo Persona:',
                           style: GoogleFonts.lexendDeca(
                               fontSize: size.iScreen(1.8),
@@ -1205,37 +1287,39 @@ return //value.getCedulaOK==true && value.getDataCedula.isEmpty
                                                 ],
                                               )
                                              : 
-                                             valueIsFoto.getUrlVisitante.isNotEmpty
-                                             ?
-                                             FadeInImage(
-                                                            placeholder:
-                                                                const AssetImage(
-                                                                      'assets/imgs/loader.gif'),
-                                                            image: NetworkImage(
-                                                              '${valueIsFoto.getUrlVisitante}',
-                                                            ),
-                                                          )
-                                                          : Image.asset('assets/imgs/loader.gif'),),
+                                            //  valueIsFoto.getUrlVisitante.isNotEmpty
+                                            //  ?
+                                            //  FadeInImage(
+                                            //                 placeholder:
+                                            //                     const AssetImage(
+                                            //                           'assets/imgs/loader.gif'),
+                                            //                 image: NetworkImage(
+                                            //                   '${valueIsFoto.getUrlVisitante}',
+                                            //                 ),
+                                            //               )
+                                            //               : Image.asset('assets/imgs/loader.gif'),),
                                              
-                                              // Image.file(File(valueIsFoto.visitanteImage!.path),),),
+                                              Image.file(File(valueIsFoto.visitanteImage!.path),),),
                                           
                                              Positioned(
                                               top: 8.0,
                                               right: 2.0,
                                               child: 
-                                               valueIsFoto.getUrlVisitante.isNotEmpty?
+                                              //  valueIsFoto.getUrlVisitante.isNotEmpty?
+                                               valueIsFoto.visitanteImage != null?
                                               GestureDetector(
                                                 onTap: () async {
-                                                   ProgressDialog.show(context);
-                                              final response = await eliminaUrlServer(valueIsFoto.getUrlVisitante);
-                                                ProgressDialog.dissmiss(context);
-                                                    if (response) {
-                                                       valueIsFoto.removeVisitanteImage();
-                                                       valueIsFoto.setUrlVisitante('');
-                                                         NotificatiosnService.showSnackBarDanger('Foto eliminada correctamente');
-                                                    } else {
-                                                       NotificatiosnService.showSnackBarError('Error al eliminar foto !! ');
-                                                    }
+                                              //      ProgressDialog.show(context);
+                                              // final response = await eliminaUrlServer(valueIsFoto.getUrlVisitante);
+                                              //   ProgressDialog.dissmiss(context);
+                                              //       if (response) {
+                                              //          valueIsFoto.removeVisitanteImage();
+                                              //          valueIsFoto.setUrlVisitante('');
+                                              //            NotificatiosnService.showSnackBarDanger('Foto eliminada correctamente');
+                                              //       } else {
+                                              //          NotificatiosnService.showSnackBarError('Error al eliminar foto !! ');
+                                              //       }
+                                                valueIsFoto.removeVisitanteImage();
                                                 
                                                 },
                                                 child: Icon(Icons.close_outlined,size: size.iScreen(4.0),color: Colors.redAccent,)): Container())
@@ -1284,39 +1368,40 @@ return //value.getCedulaOK==true && value.getDataCedula.isEmpty
                                                 ],
                                               ))
                                              : 
-                                             valueDoc.getUrlPasaporte.isNotEmpty
-                                             ?
-                                             FadeInImage(
-                                                            placeholder:
-                                                                const AssetImage(
-                                                                      'assets/imgs/loader.gif'),
-                                                            image: NetworkImage(
-                                                              '${valueDoc.getUrlPasaporte}',
-                                                            ),
-                                                          )
-                                                          : Image.asset('assets/imgs/loader.gif'),),
+                                            //  valueDoc.getUrlPasaporte.isNotEmpty
+                                            //  ?
+                                            //  FadeInImage(
+                                            //                 placeholder:
+                                            //                     const AssetImage(
+                                            //                           'assets/imgs/loader.gif'),
+                                            //                 image: NetworkImage(
+                                            //                   '${valueDoc.getUrlPasaporte}',
+                                            //                 ),
+                                            //               )
+                                            //               : Image.asset('assets/imgs/loader.gif'),),
                                              
-                                            //  Image.file(File(valueDoc.pasaporteImage!.path)),),
+                                             Image.file(File(valueDoc.pasaporteImage!.path)),),
                                           
                                              Positioned(
                                               top: 8.0,
                                               right: 2.0,
                                               child: 
-                                               valueDoc.getUrlPasaporte.isNotEmpty?
+                                              //  valueDoc.getUrlPasaporte.isNotEmpty?
+                                              valueDoc.pasaporteImage!=null?
                                               GestureDetector(
                                                 onTap: ()async{
-                                                  ProgressDialog.show(context);
-                                              final response = await eliminaUrlServer(valueDoc.getUrlPasaporte);
-                                                ProgressDialog.dissmiss(context);
-                                                    if (response) {
+                                              //     ProgressDialog.show(context);
+                                              // final response = await eliminaUrlServer(valueDoc.getUrlPasaporte);
+                                              //   ProgressDialog.dissmiss(context);
+                                              //       if (response) {
                                                       
-                                                        valueDoc.removePasaporteImage();
-                                                       valueDoc.setUrlPasaporte('');
-                                                         NotificatiosnService.showSnackBarDanger('Foto eliminada correctamente');
-                                                    } else {
-                                                       NotificatiosnService.showSnackBarError('Error al eliminar foto !! ');
-                                                    }
-                                                  // valueDoc.removePasaporteImage();
+                                              //           valueDoc.removePasaporteImage();
+                                              //          valueDoc.setUrlPasaporte('');
+                                              //            NotificatiosnService.showSnackBarDanger('Foto eliminada correctamente');
+                                              //       } else {
+                                              //          NotificatiosnService.showSnackBarError('Error al eliminar foto !! ');
+                                              //       }
+                                                  valueDoc.removePasaporteImage();
                                                 },
                                                 child: Icon(Icons.close_outlined,size: size.iScreen(4.0),color: Colors.redAccent,)): Container())
                             ],
@@ -1441,37 +1526,42 @@ return //value.getCedulaOK==true && value.getDataCedula.isEmpty
                                                 ],
                                               ))
                                              : 
-                                              valueDoc.getUrlCedulaFront.isNotEmpty
-                                             ?
-                                             FadeInImage(
-                                                            placeholder:
-                                                                const AssetImage(
-                                                                      'assets/imgs/loader.gif'),
-                                                            image: NetworkImage(
-                                                              '${valueDoc.getUrlCedulaFront}',
-                                                            ),
-                                                          )
-                                                          : Image.asset('assets/imgs/loader.gif'),),
-                                              // Image.file(File(valueDoc.frontImage!.path)),),
+                                            //   valueDoc.getUrlCedulaFront.isNotEmpty
+                                            //  ?
+                                            // //  FadeInImage(
+                                            // //                 placeholder:
+                                            // //                     const AssetImage(
+                                            // //                           'assets/imgs/loader.gif'),
+                                            // //                 image: NetworkImage(
+                                            // //                   '${valueDoc.getUrlCedulaFront}',
+                                            // //                 ),
+                                            // //               )
+                                            // //               : Image.asset('assets/imgs/loader.gif'),),
+
+                                              // valueDoc.getUrlCedulaFront.isNotEmpty
+                                            //  ?
+                                             Image.file(File(valueDoc.frontImage!.path))),
                                           
                                              Positioned(
                                               top: 8.0,
                                               right: 2.0,
                                               child: 
-                                               valueDoc.getUrlCedulaFront.isNotEmpty?
+                                              //  valueDoc.getUrlCedulaFront.isNotEmpty?
+                                              valueDoc.frontImage!=null?
                                               GestureDetector(
                                                 onTap: ()async {
-                                                  ProgressDialog.show(context);
-                                              final response = await eliminaUrlServer(valueDoc.getUrlCedulaFront);
-                                                ProgressDialog.dissmiss(context);
-                                                    if (response) {
+                                              //     ProgressDialog.show(context);
+                                              // final response = await eliminaUrlServer(valueDoc.getUrlCedulaFront);
+                                              //   ProgressDialog.dissmiss(context);
+                                              //       if (response) {
                                                       
-                                                        valueDoc.removeFrontImage();
-                                                       valueDoc.setUrlCedulaFront('');
-                                                         NotificatiosnService.showSnackBarDanger('Foto eliminada correctamente');
-                                                    } else {
-                                                       NotificatiosnService.showSnackBarError('Error al eliminar foto !! ');
-                                                    }
+                                              //           valueDoc.removeFrontImage();
+                                              //          valueDoc.setUrlCedulaFront('');
+                                              //            NotificatiosnService.showSnackBarDanger('Foto eliminada correctamente');
+                                              //       } else {
+                                              //          NotificatiosnService.showSnackBarError('Error al eliminar foto !! ');
+                                              //       }
+                                               valueDoc.removeFrontImage();
                                                  
                                                 },
                                                 child: Icon(Icons.close_outlined,size: size.iScreen(4.0),color: Colors.redAccent,)): Container())
@@ -1507,38 +1597,40 @@ return //value.getCedulaOK==true && value.getDataCedula.isEmpty
                                                 ],
                                               ))
                                              : 
-                                                 valueDoc.getUrlCedulaBack.isNotEmpty
-                                             ?
-                                             FadeInImage(
-                                                            placeholder:
-                                                                const AssetImage(
-                                                                      'assets/imgs/loader.gif'),
-                                                            image: NetworkImage(
-                                                              '${valueDoc.getUrlCedulaBack}',
-                                                            ),
-                                                          )
-                                                          : Image.asset('assets/imgs/loader.gif'),),
-                                            //  Image.file(File(valueDoc.backImage!.path)),),
+                                            //      valueDoc.getUrlCedulaBack.isNotEmpty
+                                            //  ?
+                                            //  FadeInImage(
+                                            //                 placeholder:
+                                            //                     const AssetImage(
+                                            //                           'assets/imgs/loader.gif'),
+                                            //                 image: NetworkImage(
+                                            //                   '${valueDoc.getUrlCedulaBack}',
+                                            //                 ),
+                                            //               )
+                                            //               : Image.asset('assets/imgs/loader.gif'),),
+                                             Image.file(File(valueDoc.backImage!.path)),),
                                           
                                              Positioned(
                                               top: 8.0,
                                               right: 2.0,
                                               child: 
-                                               valueDoc.getUrlCedulaBack.isNotEmpty?
+                                              //  valueDoc.getUrlCedulaBack.isNotEmpty?
+                                               valueDoc.backImage!=null?
                                               GestureDetector(
                                                 onTap: () async{
                                                   
-                                                       ProgressDialog.show(context);
-                                              final response = await eliminaUrlServer(valueDoc.getUrlCedulaBack);
-                                                ProgressDialog.dissmiss(context);
-                                                    if (response) {
+                                              //          ProgressDialog.show(context);
+                                              // final response = await eliminaUrlServer(valueDoc.getUrlCedulaBack);
+                                              //   ProgressDialog.dissmiss(context);
+                                              //       if (response) {
                                                       
-                                                        valueDoc.removeBackImage();
-                                                       valueDoc.setUrlCedulaBack('');
-                                                         NotificatiosnService.showSnackBarDanger('Foto eliminada correctamente');
-                                                    } else {
-                                                       NotificatiosnService.showSnackBarError('Error al eliminar foto !! ');
-                                                    }
+                                              //           valueDoc.removeBackImage();
+                                              //          valueDoc.setUrlCedulaBack('');
+                                              //            NotificatiosnService.showSnackBarDanger('Foto eliminada correctamente');
+                                              //       } else {
+                                              //          NotificatiosnService.showSnackBarError('Error al eliminar foto !! ');
+                                              //       }
+                                               valueDoc.removeBackImage();
                                                 },
                                                 child: Icon(Icons.close_outlined,size: size.iScreen(4.0),color: Colors.redAccent,)): Container())
                             ],
@@ -2263,8 +2355,12 @@ Column( children: [
                             width: size.iScreen(40.0),
                              height: size.iScreen(15.0),
                            
-                            child: valueVehiculo.getUrlPlaca.isEmpty
-                                         ?  GestureDetector(
+                            child: 
+                            // valueVehiculo.getUrlPlaca.isEmpty
+                            valueVehiculo.placaImage!=null
+
+                                         ?  Image.file(File(valueVehiculo.placaImage!.path))
+                                         : GestureDetector(
                                            onTap:  valueVehiculo.isPicking ? null :() {
                         valueVehiculo.pickPlacaImage();
                       },
@@ -2282,44 +2378,46 @@ Column( children: [
                                       ),
                                             ],
                                           ))
-                                         : 
-                                          valueVehiculo.getUrlPlaca.isNotEmpty
-                                             ?
-                                             FadeInImage(
-                                                            placeholder:
-                                                                const AssetImage(
-                                                                      'assets/imgs/loader.gif'),
-                                                            image: NetworkImage(
-                                                              '${valueVehiculo.getUrlPlaca}',
-                                                            ),
-                                                          )
-                                                          : Image.asset('assets/imgs/loader.gif'),),
                                          
-                                        //  Image.file(File(valueVehiculo.placaImage!.path)),),
+                                          // valueVehiculo.getUrlPlaca.isNotEmpty
+                                          //    ?
+                                          //    FadeInImage(
+                                          //                   placeholder:
+                                          //                       const AssetImage(
+                                          //                             'assets/imgs/loader.gif'),
+                                          //                   image: NetworkImage(
+                                          //                     '${valueVehiculo.getUrlPlaca}',
+                                          //                   ),
+                                          //                 )
+                                          //                 : Image.asset('assets/imgs/loader.gif'),),
+                                         
+                                        //  Image.file(File(valueVehiculo.placaImage!.path)),
+                                         ),
                                       
                                          Positioned(
                                           top: 8.0,
                                           right: 2.0,
                                           child: 
-                                           valueVehiculo.getUrlPlaca.isNotEmpty ?
+                                          //  valueVehiculo.getUrlPlaca.isNotEmpty ?
+                                          valueVehiculo.placaImage!=null?
                                           GestureDetector(
                                             onTap: () async{
                                              
 
-                                               ProgressDialog.show(context);
-                                              final response = await eliminaUrlServer(valueVehiculo.getUrlPlaca);
-                                                ProgressDialog.dissmiss(context);
-                                                    if (response) {
+                                              //  ProgressDialog.show(context);
+                                              // final response = await eliminaUrlServer(valueVehiculo.getUrlPlaca);
+                                              //   ProgressDialog.dissmiss(context);
+                                              //       if (response) {
                                                       
-                                                        valueVehiculo.removePlacaImage();
-                                                       valueVehiculo.setUrlPlaca('');
-                                                         NotificatiosnService.showSnackBarDanger('Foto eliminada correctamente');
-                                                    } else {
-                                                       NotificatiosnService.showSnackBarError('Error al eliminar foto !! ');
-                                                    }
+                                              //           valueVehiculo.removePlacaImage();
+                                              //          valueVehiculo.setUrlPlaca('');
+                                              //            NotificatiosnService.showSnackBarDanger('Foto eliminada correctamente');
+                                              //       } else {
+                                              //          NotificatiosnService.showSnackBarError('Error al eliminar foto !! ');
+                                              //       }
 
 
-
+                                               valueVehiculo.removePlacaImage();
                                             },
                                             child: Icon(Icons.close_outlined,size: size.iScreen(4.0),color: Colors.redAccent,)): Container())
                         ],
@@ -2569,10 +2667,10 @@ void _onSubmit(BuildContext context, BitacoraController _controller) async {
   final isValid = _controller.validateFormRegistro();
   if (!isValid) return;
 
-  if (_controller.getItemObservacionBitacora == '' || _controller.getItemObservacionBitacora == null) {
-    NotificatiosnService.showSnackBarDanger('Agregue Observación');
-    return;
-  }
+  // if (_controller.getItemObservacionBitacora == '' || _controller.getItemObservacionBitacora == null) {
+  //   NotificatiosnService.showSnackBarDanger('Agregue Observación');
+  //   return;
+  // }
   if (_controller.getItemTipoPersonal == '' || _controller.getItemTipoPersonal == null) {
     NotificatiosnService.showSnackBarDanger('Seleccione tipo de Persona');
     return;
@@ -2629,11 +2727,19 @@ if (_controller.getItemTipoDocumento == 'CEDULA') {
     NotificatiosnService.showSnackBarDanger('Ingrese Nombres del Visitante');
     return;
   }
-  if (_controller.getUrlCedulaFront.isEmpty) {
+  // if (_controller.getUrlCedulaFront.isEmpty) {
+  //   NotificatiosnService.showSnackBarDanger('Agregue foto parte frontal de la Cédula');
+  //   return;
+  // }
+  // if (_controller.getUrlCedulaBack.isEmpty) { // Cambiado a getUrlCedulaBack
+  //   NotificatiosnService.showSnackBarDanger('Agregue foto parte posterior de la Cédula');
+  //   return;
+  // }
+  if (_controller.frontImage==null) {
     NotificatiosnService.showSnackBarDanger('Agregue foto parte frontal de la Cédula');
     return;
   }
-  if (_controller.getUrlCedulaBack.isEmpty) { // Cambiado a getUrlCedulaBack
+  if (_controller.backImage==null) { // Cambiado a getUrlCedulaBack
     NotificatiosnService.showSnackBarDanger('Agregue foto parte posterior de la Cédula');
     return;
   }
@@ -2649,7 +2755,11 @@ if (_controller.getItemTipoDocumento == 'PASAPORTE') {
     NotificatiosnService.showSnackBarDanger('Ingrese Nombres del Visitante');
     return;
   }
-  if (_controller.getUrlPasaporte.isEmpty) {
+  // if (_controller.getUrlPasaporte.isEmpty) {
+  //   NotificatiosnService.showSnackBarDanger('Agregue foto del Pasaporte');
+  //   return;
+  // }
+  if (_controller.pasaporteImage==null) {
     NotificatiosnService.showSnackBarDanger('Agregue foto del Pasaporte');
     return;
   }
@@ -2670,75 +2780,197 @@ if (_controller.getItemTipoDocumento == 'PASAPORTE') {
       NotificatiosnService.showSnackBarDanger('Ingrese placa del Vehículo');
       return;
     }
-    if (_controller.getUrlPlaca.isEmpty) {
+    // if (_controller.getUrlPlaca.isEmpty) {
+    //   NotificatiosnService.showSnackBarDanger('Agregue foto de placa del Vehículo');
+    //   return;
+    // }
+    if (_controller.placaImage==null) {
       NotificatiosnService.showSnackBarDanger('Agregue foto de placa del Vehículo');
       return;
     }
   }
 
-  // Si todas las validaciones pasan, construye el mapa nuevoRegistro
-  Map<String, dynamic> nuevoRegistro = {
-    "id": _controller.getItemPersonaDestinol!['id'] ?? '',
-    "cedula": _controller.getResidente['resCliDocumento'] ?? '',
-    "cliente": _controller.getResidente['resCliNombre'] ?? '',
-    "numeroDepartamento": _controller.getResidente['resDepartamento'][0]['nombre_dpt'] ?? '',
-    "depatamento":_controller.getResidente['resDepartamento'][0]['numero']?? '',
-     "tipoPersona":_controller.getItemTipoPersonal,
-     "asunto":_controller.getItemAsunto,
-    "fotoVisitante": _controller.getUrlVisitante,
+
+ //************************************************OBTENEMOS LOS URLS LOCAL IMAGE********************************************************/
+    print('****** URLS LOCAL ******');
+     print('****** URLS LOCAL VISITANTE ${_controller.visitanteImage?.path} ******');
+      print('****** URLS LOCAL FRONTAL ${_controller.frontImage?.path}******');
+       print('****** URLS LOCAL POSTERIOR ${_controller.backImage?.path}******');
+              print('****** URLS LOCAL PASAPORTE ${_controller.pasaporteImage?.path}******');
+        print('****** URLS LOCAL PLACA ${_controller.placaImage?.path}******');
+
+         ProgressDialog.show(context);
+        
+
+          final response = await _controller.uploadImagesAndPrintUrls();
+       
+            ProgressDialog.dissmiss(context);
+
+              if (response ==true) {
+                 print('****** LOS URLS OBTENIDOS:  ${_controller.getUrlsVisitas} ');
+
+
+                // ********************************************************************************************************/
+//   // Si todas las validaciones pasan, construye el mapa nuevoRegistro
+//   Map<String, dynamic> nuevoRegistro = {
+//     "id": _controller.getItemPersonaDestinol!['id'] ?? '',
+//     "cedula": _controller.getResidente['resCliDocumento'] ?? '',
+//     "cliente": _controller.getResidente['resCliNombre'] ?? '',
+//     "numeroDepartamento": _controller.getResidente['resDepartamento'][0]['nombre_dpt'] ?? '',
+//     "depatamento":_controller.getResidente['resDepartamento'][0]['numero']?? '',
+//      "tipoPersona":_controller.getItemTipoPersonal,
+//      "asunto":_controller.getItemAsunto,
+//     "fotoVisitante": _controller.getUrlVisitante,
     
-    "cedulaVisita": _controller.getCedulaVisitantes,
-    "nombreVisita": _controller.getNombreVisitantes,
-     "telefonoVisita": _controller.getTelefonoVisitantes,
+//     "cedulaVisita": _controller.getCedulaVisitantes,
+//     "nombreVisita": _controller.getNombreVisitantes,
+//      "telefonoVisita": _controller.getTelefonoVisitantes,
    
-      "fotoCedulaFront": _controller.getUrlCedulaFront, //_controller.frontImage?.path ?? '',
-      "fotoCedulaBack":   _controller.getUrlCedulaBack,//_controller.backImage?.path ?? '',
+//       "fotoCedulaFront": _controller.getUrlCedulaFront, //_controller.frontImage?.path ?? '',
+//       "fotoCedulaBack":   _controller.getUrlCedulaBack,//_controller.backImage?.path ?? '',
    
-    "pasaporteVisita": _controller.getPasaporteVisita,
-    "fotoPasaporte": _controller.getUrlPasaporte,
+//     "pasaporteVisita": _controller.getPasaporteVisita,
+//     "fotoPasaporte": _controller.getUrlPasaporte,
     
-    //_controller.pasaporteImage?.path ?? '',
-    "vehiculo": _controller.getOpcionVehiculo,
-    "fotoPlaca":_controller.getUrlPlaca,// _controller.placaImage?.path ?? '',
-    "cedulaPropietarioVehiculo": _controller.getCedulaPropVehiculo,
-    "nombrePropietarioVehiculo": _controller.getNombrePropVehiculo,
-    "placa": _controller.getPlacaPropVehiculo,
-    "modelo": _controller.getModeloPropVehiculo,
-    "observacion": _controller.getItemObservacionBitacora,
-  };
+//     //_controller.pasaporteImage?.path ?? '',
+//     "vehiculo": _controller.getOpcionVehiculo,
+//     "fotoPlaca":_controller.getUrlPlaca,// _controller.placaImage?.path ?? '',
+//     "cedulaPropietarioVehiculo": _controller.getCedulaPropVehiculo,
+//     "nombrePropietarioVehiculo": _controller.getNombrePropVehiculo,
+//     "placa": _controller.getPlacaPropVehiculo,
+//     "modelo": _controller.getModeloPropVehiculo,
+//     "observacion": _controller.getItemObservacionBitacora,
+//   };
 
 
-  print('LA DATA PARA LA LISTA VISITA ============> $nuevoRegistro');
+//   print('LA DATA PARA LA LISTA VISITA ============> $nuevoRegistro');
 
-  // Agregar el registro al provider
-  _controller.addVisita(nuevoRegistro);
+//   // Agregar el registro al provider
+  _controller.addVisita();
 
-if (_controller.getDataVehiculo.isEmpty) {
-  _controller.setDataVehiculo(
-  {
-"dni":_controller.getCedulaPropVehiculo,
-"fullname":_controller.getNombrePropVehiculo,
-"carRegistration":_controller.getPlacaPropVehiculo,
-"model":_controller.getModeloPropVehiculo,
-"fotoPlaca":_controller.getUrlPlaca,
+// if (_controller.getDataVehiculo.isEmpty) {
+//   _controller.setDataVehiculo(
+//   {
+// "dni":_controller.getCedulaPropVehiculo,
+// "fullname":_controller.getNombrePropVehiculo,
+// "carRegistration":_controller.getPlacaPropVehiculo,
+// "model":_controller.getModeloPropVehiculo,
+// "fotoPlaca":_controller.getUrlPlaca,
+//   }
+// );
+// }
+
+  // // Luego de guardar, podrías limpiar los datos si es necesario
+  // _controller.clearData();
+
+  // // Navegar de vuelta
+  // Navigator.pop(context);
+
+
+
+
+
+ 
+
+              }else {
+                   NotificatiosnService.showSnackBarDanger('Ocurrió un error al guardar imágenes');
+
+              }
+
+
+
+
+
+
+  //********************************************************************************************************/
+
+}
+
+
+
+
+  //====== MUESTRA MODAL DE TIPO DE PERSONA =======//
+  void _modalSeleccionaTipoIngreso(
+      Responsive size, BitacoraController _control) {
+    final _data = [
+      'RECEPCION',
+      'PARQUEADERO',
+    ];
+    showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (BuildContext context) {
+          return GestureDetector(
+            onTap: () => FocusScope.of(context).unfocus(),
+            child: AlertDialog(
+               shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
+              insetPadding: EdgeInsets.symmetric(
+                  horizontal: size.wScreen(5.0), vertical: size.wScreen(3.0)),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(' TIPO DE INGRESO',
+                          style: GoogleFonts.lexendDeca(
+                            fontSize: size.iScreen(2.0),
+                            fontWeight: FontWeight.bold,
+                            // color: Colors.white,
+                          )),
+                      IconButton(
+                          splashRadius: size.iScreen(3.0),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          icon: Icon(
+                            Icons.close,
+                            color: Colors.red,
+                            size: size.iScreen(3.5),
+                          )),
+                    ],
+                  ),
+                  Container(
+                    width: size.wScreen(100),
+                    height: size.hScreen(24),
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      physics: const BouncingScrollPhysics(),
+                      itemCount: _data.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return GestureDetector(
+                          onTap: () {
+                            _control.setItemTipoIngreso(_data[index]);
+                            Navigator.pop(context);
+                          },
+                          child: Container(
+                            color: Colors.grey[100],
+                            margin: EdgeInsets.symmetric(
+                                vertical: size.iScreen(0.3)),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: size.iScreen(1.0),
+                                vertical: size.iScreen(1.0)),
+                            child: Text(
+                              _data[index],
+                              style: GoogleFonts.lexendDeca(
+                                fontSize: size.iScreen(1.8),
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black54,
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
   }
-);
-}
-
-
-
-
-
-
-  // Luego de guardar, podrías limpiar los datos si es necesario
-  _controller.clearData();
-
-  // Navegar de vuelta
-  Navigator.pop(context);
-
-}
-
-
 
 
   //====== MUESTRA MODAL DE TIPO DE PERSONA =======//
