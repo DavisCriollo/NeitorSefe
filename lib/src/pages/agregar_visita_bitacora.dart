@@ -508,69 +508,165 @@ class _AgregarVicitaBitaoraState extends State<AgregarVicitaBitaora> {
                       height: size.iScreen(0.0),
                     ),
                     //***********************************************/
+                    // Row(
+                    //   children: [
+                    //     Expanded(
+                    //       child: Container(
+                    //         // color: Colors.red,
+                    //         padding: EdgeInsets.only(
+                    //           top: size.iScreen(1.0),
+                    //           right: size.iScreen(0.5),
+                    //         ),
+                    //         child: Consumer<BitacoraController>(
+                    //           builder: (_, ingreso, __) {
+                    //             return (ingreso.getItemTipoIngreso == '' ||
+                    //                     ingreso.getItemTipoIngreso == null)
+                    //                 ? Text(
+                    //                     'Seleccione tipo de ingreso',
+                    //                     style: GoogleFonts.lexendDeca(
+                    //                         fontSize: size.iScreen(1.8),
+                    //                         fontWeight: FontWeight.bold,
+                    //                         color: Colors.grey),
+                    //                   )
+                    //                 : Text(
+                    //                     '${ingreso.getItemTipoIngreso}',
+                    //                     style: GoogleFonts.lexendDeca(
+                    //                       fontSize: size.iScreen(1.8),
+                    //                       fontWeight: FontWeight.normal,
+                    //                       // color: Colors.grey
+                    //                     ),
+                    //                   );
+                    //           },
+                    //         ),
+                    //       ),
+                    //     ),
+                    //     ClipRRect(
+                    //       borderRadius: BorderRadius.circular(8),
+                    //       child: GestureDetector(onTap: () {
+                    //         _modalSeleccionaTipoIngreso(
+                    //             size, bitacoraController);
+                    //       }, child: Consumer<ThemeApp>(
+                    //         builder: (_, valueTheme, __) {
+                    //           return Container(
+                    //             alignment: Alignment.center,
+                    //             color: valueTheme.primaryColor,
+                    //             width: size.iScreen(3.5),
+                    //             padding: EdgeInsets.only(
+                    //               top: size.iScreen(0.5),
+                    //               bottom: size.iScreen(0.5),
+                    //               left: size.iScreen(0.5),
+                    //               right: size.iScreen(0.5),
+                    //             ),
+                    //             child: Icon(
+                    //               Icons.add,
+                    //               color: valueTheme.secondaryColor,
+                    //               size: size.iScreen(2.0),
+                    //             ),
+                    //           );
+                    //         },
+                    //       )),
+                    //     ),
+                    //   ],
+                    // ),
+                   
                     Row(
                       children: [
-                        Expanded(
-                          child: Container(
-                            // color: Colors.red,
-                            padding: EdgeInsets.only(
-                              top: size.iScreen(1.0),
-                              right: size.iScreen(0.5),
-                            ),
-                            child: Consumer<BitacoraController>(
-                              builder: (_, ingreso, __) {
-                                return (ingreso.getItemTipoIngreso == '' ||
-                                        ingreso.getItemTipoIngreso == null)
-                                    ? Text(
-                                        'Seleccione tipo de ingreso',
-                                        style: GoogleFonts.lexendDeca(
-                                            fontSize: size.iScreen(1.8),
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.grey),
-                                      )
-                                    : Text(
-                                        '${ingreso.getItemTipoIngreso}',
-                                        style: GoogleFonts.lexendDeca(
-                                          fontSize: size.iScreen(1.8),
-                                          fontWeight: FontWeight.normal,
-                                          // color: Colors.grey
+                            Container(
+                              // width: size.wScreen(30.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                children: [
+                                  Consumer<BitacoraController>(
+                                    builder: (_, valueRadioIngreso, __) {
+                                      return Container(
+                                        // color: Colors.red,
+                                        width: size.wScreen(95.0),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Row(
+                                              children: [
+                                                SizedBox(
+                                                  // width: size.wScreen(20.0),
+                                                  child: Text('RECEPCION',
+                                                      style: GoogleFonts.lexendDeca(
+                                                         fontSize: size.iScreen(1.8),
+                                                          fontWeight:
+                                                              FontWeight.normal,
+                                                          // color: Colors.grey
+                                                          ),
+                                                      textAlign: TextAlign.center),
+                                                ),
+                                                   Radio<int>(
+                                              activeColor:
+                                                  Colors.orange.shade700,
+                                              value: 0,
+                                              groupValue: valueRadioIngreso
+                                                  .radioValueTipoIngreso,
+                                              onChanged:
+                                                  (int? value) {
+                                                          if (value != null) {
+                                                            valueRadioIngreso
+                                                                .setRadioTipoIngreso(
+                                                                    value);
+                                                          }
+                                                        }
+                                                    
+                                            ),
+                                              ],
+                                            ),
+                                         
+                                            Row(
+                                              children: [
+                                                SizedBox(
+                                                  // width: size.wScreen(20.0),
+                                                  child: Text('PARQUEADERO',
+                                                      style: GoogleFonts.lexendDeca(
+                                                         fontSize: size.iScreen(1.8),
+                                                          fontWeight:
+                                                              FontWeight.normal,
+                                                          // color: Colors.grey
+                                                          ),
+                                                      textAlign: TextAlign.center),
+                                                ),
+                                                   Radio<int>(
+                                              activeColor:
+                                                  Colors.orange.shade700,
+                                              value: 1,
+                                              groupValue: valueRadioIngreso
+                                                  .radioValueTipoIngreso,
+                                              onChanged:
+                                                
+                                                    valueRadioIngreso.getDataVehiculo.isEmpty?   (int? value) {
+                                                          if (value != null) {
+                                                            valueRadioIngreso
+                                                                .setRadioTipoIngreso(
+                                                                    value);
+                                                          }
+                                                        }:null
+                                                      
+                                            ),
+                                              ],
+                                            ),
+                                         
+                                          ],
                                         ),
                                       );
-                              },
+                                    },
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                        ),
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(8),
-                          child: GestureDetector(onTap: () {
-                            _modalSeleccionaTipoIngreso(
-                                size, bitacoraController);
-                          }, child: Consumer<ThemeApp>(
-                            builder: (_, valueTheme, __) {
-                              return Container(
-                                alignment: Alignment.center,
-                                color: valueTheme.primaryColor,
-                                width: size.iScreen(3.5),
-                                padding: EdgeInsets.only(
-                                  top: size.iScreen(0.5),
-                                  bottom: size.iScreen(0.5),
-                                  left: size.iScreen(0.5),
-                                  right: size.iScreen(0.5),
-                                ),
-                                child: Icon(
-                                  Icons.add,
-                                  color: valueTheme.secondaryColor,
-                                  size: size.iScreen(2.0),
-                                ),
-                              );
-                            },
-                          )),
-                        ),
+                          
                       ],
                     ),
+                   
+                   
+                   
                      //***********************************************/
                     SizedBox(
-                      height: size.iScreen(1.0),
+                      height: size.iScreen(0.0),
                     ),
                    
                     //***********************************************/
@@ -2347,7 +2443,8 @@ Column( children: [
                     Consumer<BitacoraController>(builder: (_, valueVehiculo, __) {  
                       return 
                       valueVehiculo.radioValueVehiculo==0
-                       ?Stack(
+                       ?
+                       Stack(
                         children: [
                           Container(
                             margin: EdgeInsets.symmetric(vertical: size.iScreen(1.0)),
@@ -2356,11 +2453,20 @@ Column( children: [
                              height: size.iScreen(15.0),
                            
                             child: 
-                            // valueVehiculo.getUrlPlaca.isEmpty
+                            // valueVehiculo.getUrlPlaca.isNotEmpty
                             valueVehiculo.placaImage!=null
 
                                          ?  Image.file(File(valueVehiculo.placaImage!.path))
-                                         : GestureDetector(
+                                         : valueVehiculo.getUrlPlaca.isNotEmpty?
+                                         FadeInImage(
+                                                            placeholder:
+                                                                const AssetImage(
+                                                                      'assets/imgs/loader.gif'),
+                                                            image: NetworkImage(
+                                                              '${valueVehiculo.getUrlPlaca}',
+                                                            ),
+                                                          )
+                                         :GestureDetector(
                                            onTap:  valueVehiculo.isPicking ? null :() {
                         valueVehiculo.pickPlacaImage();
                       },
@@ -2679,6 +2785,11 @@ void _onSubmit(BuildContext context, BitacoraController _controller) async {
     NotificatiosnService.showSnackBarDanger('Seleccione tipo de Documento');
     return;
   } 
+  // if (_controller.getItemTipoIngreso == '' || _controller.getItemTipoIngreso == null) {
+  //   NotificatiosnService.showSnackBarDanger('Seleccione tipo de Ingreso');
+  //   return;
+  // } 
+  
 
   // if (_controller.getItemTipoDocumento == 'CEDULA') {
   //   print('EL TIPO ES: ${_controller.getItemTipoDocumento}' );
@@ -2784,7 +2895,7 @@ if (_controller.getItemTipoDocumento == 'PASAPORTE') {
     //   NotificatiosnService.showSnackBarDanger('Agregue foto de placa del Vehículo');
     //   return;
     // }
-    if (_controller.placaImage==null) {
+    if (_controller.placaImage==null && _controller.getUrlPlaca.isEmpty) {
       NotificatiosnService.showSnackBarDanger('Agregue foto de placa del Vehículo');
       return;
     }
@@ -2799,12 +2910,12 @@ if (_controller.getItemTipoDocumento == 'PASAPORTE') {
               print('****** URLS LOCAL PASAPORTE ${_controller.pasaporteImage?.path}******');
         print('****** URLS LOCAL PLACA ${_controller.placaImage?.path}******');
 
-         ProgressDialog.show(context);
+         ProgressDialogUpLoads.show(context);
         
 
           final response = await _controller.uploadImagesAndPrintUrls();
        
-            ProgressDialog.dissmiss(context);
+            ProgressDialogUpLoads.dissmiss(context);
 
               if (response ==true) {
                  print('****** LOS URLS OBTENIDOS:  ${_controller.getUrlsVisitas} ');
@@ -2860,11 +2971,11 @@ if (_controller.getItemTipoDocumento == 'PASAPORTE') {
 // );
 // }
 
-  // // Luego de guardar, podrías limpiar los datos si es necesario
-  // _controller.clearData();
+  // Luego de guardar, podrías limpiar los datos si es necesario
+  _controller.clearData();
 
-  // // Navegar de vuelta
-  // Navigator.pop(context);
+  // Navegar de vuelta
+  Navigator.pop(context);
 
 
 
@@ -2890,87 +3001,87 @@ if (_controller.getItemTipoDocumento == 'PASAPORTE') {
 
 
   //====== MUESTRA MODAL DE TIPO DE PERSONA =======//
-  void _modalSeleccionaTipoIngreso(
-      Responsive size, BitacoraController _control) {
-    final _data = [
-      'RECEPCION',
-      'PARQUEADERO',
-    ];
-    showDialog(
-        barrierDismissible: false,
-        context: context,
-        builder: (BuildContext context) {
-          return GestureDetector(
-            onTap: () => FocusScope.of(context).unfocus(),
-            child: AlertDialog(
-               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8),
-              ),
-              insetPadding: EdgeInsets.symmetric(
-                  horizontal: size.wScreen(5.0), vertical: size.wScreen(3.0)),
-              content: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(' TIPO DE INGRESO',
-                          style: GoogleFonts.lexendDeca(
-                            fontSize: size.iScreen(2.0),
-                            fontWeight: FontWeight.bold,
-                            // color: Colors.white,
-                          )),
-                      IconButton(
-                          splashRadius: size.iScreen(3.0),
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          icon: Icon(
-                            Icons.close,
-                            color: Colors.red,
-                            size: size.iScreen(3.5),
-                          )),
-                    ],
-                  ),
-                  Container(
-                    width: size.wScreen(100),
-                    height: size.hScreen(24),
-                    child: ListView.builder(
-                      shrinkWrap: true,
-                      physics: const BouncingScrollPhysics(),
-                      itemCount: _data.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return GestureDetector(
-                          onTap: () {
-                            _control.setItemTipoIngreso(_data[index]);
-                            Navigator.pop(context);
-                          },
-                          child: Container(
-                            color: Colors.grey[100],
-                            margin: EdgeInsets.symmetric(
-                                vertical: size.iScreen(0.3)),
-                            padding: EdgeInsets.symmetric(
-                                horizontal: size.iScreen(1.0),
-                                vertical: size.iScreen(1.0)),
-                            child: Text(
-                              _data[index],
-                              style: GoogleFonts.lexendDeca(
-                                fontSize: size.iScreen(1.8),
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black54,
-                              ),
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          );
-        });
-  }
+  // void _modalSeleccionaTipoIngreso(
+  //     Responsive size, BitacoraController _control) {
+  //   final _data = [
+  //     'RECEPCION',
+  //     'PARQUEADERO',
+  //   ];
+  //   showDialog(
+  //       barrierDismissible: false,
+  //       context: context,
+  //       builder: (BuildContext context) {
+  //         return GestureDetector(
+  //           onTap: () => FocusScope.of(context).unfocus(),
+  //           child: AlertDialog(
+  //              shape: RoundedRectangleBorder(
+  //               borderRadius: BorderRadius.circular(8),
+  //             ),
+  //             insetPadding: EdgeInsets.symmetric(
+  //                 horizontal: size.wScreen(5.0), vertical: size.wScreen(3.0)),
+  //             content: Column(
+  //               mainAxisSize: MainAxisSize.min,
+  //               children: [
+  //                 Row(
+  //                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //                   children: [
+  //                     Text(' TIPO DE INGRESO',
+  //                         style: GoogleFonts.lexendDeca(
+  //                           fontSize: size.iScreen(2.0),
+  //                           fontWeight: FontWeight.bold,
+  //                           // color: Colors.white,
+  //                         )),
+  //                     IconButton(
+  //                         splashRadius: size.iScreen(3.0),
+  //                         onPressed: () {
+  //                           Navigator.pop(context);
+  //                         },
+  //                         icon: Icon(
+  //                           Icons.close,
+  //                           color: Colors.red,
+  //                           size: size.iScreen(3.5),
+  //                         )),
+  //                   ],
+  //                 ),
+  //                 Container(
+  //                   width: size.wScreen(100),
+  //                   height: size.hScreen(24),
+  //                   child: ListView.builder(
+  //                     shrinkWrap: true,
+  //                     physics: const BouncingScrollPhysics(),
+  //                     itemCount: _data.length,
+  //                     itemBuilder: (BuildContext context, int index) {
+  //                       return GestureDetector(
+  //                         onTap: () {
+  //                           _control.setItemTipoIngreso(_data[index]);
+  //                           Navigator.pop(context);
+  //                         },
+  //                         child: Container(
+  //                           color: Colors.grey[100],
+  //                           margin: EdgeInsets.symmetric(
+  //                               vertical: size.iScreen(0.3)),
+  //                           padding: EdgeInsets.symmetric(
+  //                               horizontal: size.iScreen(1.0),
+  //                               vertical: size.iScreen(1.0)),
+  //                           child: Text(
+  //                             _data[index],
+  //                             style: GoogleFonts.lexendDeca(
+  //                               fontSize: size.iScreen(1.8),
+  //                               fontWeight: FontWeight.bold,
+  //                               color: Colors.black54,
+  //                             ),
+  //                           ),
+  //                         ),
+  //                       );
+  //                     },
+  //                   ),
+  //                 ),
+  //               ],
+  //             ),
+  //           ),
+  //         );
+  //       });
+  // }
 
 
   //====== MUESTRA MODAL DE TIPO DE PERSONA =======//

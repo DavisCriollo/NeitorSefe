@@ -60,13 +60,13 @@ class BitacoraController extends ChangeNotifier {
   }
 
 
-  String? _itemTipoIngreso = '';
-  String? get getItemTipoIngreso => _itemTipoIngreso;
-  void setItemTipoIngreso(String? _val) {
-    _itemTipoIngreso = _val;
-    print('TIPO DE Ingreso: $_itemTipoIngreso'); 
-    notifyListeners();
-  }
+  // String? _itemTipoIngreso = '';
+  // String? get getItemTipoIngreso => _itemTipoIngreso;
+  // void setItemTipoIngreso(String? _val) {
+  //   _itemTipoIngreso = _val;
+  //   print('TIPO DE Ingreso: $_itemTipoIngreso'); 
+  //   notifyListeners();
+  // }
 
   String? _itemTipoPersona = '';
   String? get getItemTipoPersonal => _itemTipoPersona;
@@ -1116,7 +1116,35 @@ _modeloVehiculoProp='';
 
 
 
- //  =================  RADIO BOTTON REGULADOR  ==================//
+ //  =================  RADIO BOTTON TIPO INGRESO  ==================//
+ int _radioValueTipoIngreso = 1;
+ String _opcionTipoIngreso = 'PARQUEADERO';
+  int get radioValueTipoIngreso => _radioValueTipoIngreso;
+String get getOpcionTipoIngreso => _opcionTipoIngreso;
+
+  void setRadioTipoIngreso(int value) {
+    _radioValueTipoIngreso = value;
+    switch (_radioValueTipoIngreso) {
+      case 0:
+      _opcionTipoIngreso = 'RECEPCION';
+       
+        break;
+      case 1:
+        _opcionTipoIngreso = 'PARQUEADERO';
+       
+        break;
+     
+      default:
+        _opcionTipoIngreso = 'PARQUEADERO';
+    
+    }    
+    print('radio botton # : $_radioValueTipoIngreso');
+        print('radio botton _opcionTipoIngreso # : $_opcionTipoIngreso');
+
+    notifyListeners();
+  }
+
+ //  =================  RADIO BOTTON TIPO VEHCULO  ==================//
  int _radioValueVehiculo = 1;
  String _opcionVehiculo = 'NO';
   int get radioValueVehiculo => _radioValueVehiculo;
@@ -1143,7 +1171,6 @@ String get getOpcionVehiculo => _opcionVehiculo;
 
     notifyListeners();
   }
-
   //*************************** LISTA DE VISITAS AL CREAR UNA BITACORA  *************************************/
 String _imageCedulaFront='';
 String _imageCedulaBack='';
@@ -1257,7 +1284,7 @@ _listaVisitas.clear();
  Future<void> pickVisitanteImage() async {
     await _pickImage((image)  async{
       _visitanteImage = image;
-      final file = File(_visitanteImage!.path);
+      // final file = File(_visitanteImage!.path);
   //  final foto= await upLoadImagens(file);
 // setUrlVisitante(foto!);
       
@@ -1313,7 +1340,7 @@ _listaVisitas.clear();
     notifyListeners();
 
     try {
-      final XFile? pickedImage = await _picker.pickImage(source: ImageSource.camera);
+      final XFile? pickedImage = await _picker.pickImage(source: ImageSource.camera,imageQuality:70);
       if (pickedImage != null) {
         setImage(pickedImage);
       }
@@ -1348,7 +1375,7 @@ _listaVisitas.clear();
    
     "pasaporteVisita": getPasaporteVisita,
     "fotoPasaporte": getUrlPasaporte,
-    "bitTipoIngreso":getItemTipoIngreso,
+    "bitTipoIngreso":getOpcionTipoIngreso,
     //pasaporteImage?.path ?? '',
     "vehiculo": getOpcionVehiculo,
     "fotoPlaca":getUrlPlaca,// placaImage?.path ?? '',
@@ -1372,7 +1399,7 @@ if (getDataVehiculo.isEmpty) {
 "fullname":getNombrePropVehiculo,
 "carRegistration":getPlacaPropVehiculo,
 "model":getModeloPropVehiculo,
-"fotoPlaca":getUrlPlaca,
+"fotoPlaca":'',
   }
 );
 }
@@ -2124,6 +2151,16 @@ print('_dataVihiculo --================== > : ${_dataVihiculo}');
 notifyListeners();
 }
 
+void setDataVehiculoAddFoto(String _data){
+
+_dataVihiculo['fotoPlaca']=_data;
+print('_dataVihiculo --================== > : ${_dataVihiculo}');
+notifyListeners();
+}
+
+
+
+
 
 //============INFO DE VISITANTE============//
 String _cedulaVisitantes='';
@@ -2779,7 +2816,8 @@ final List<Map<String, dynamic>> _listaVisitasTemp=[];
             "bitFotoPersona":  e['fotoVisitante'],
             "bitFotoVehiculo":  e['fotoPlaca'],
             "bitObservacion":  e['observacion'],
-
+            "bitTipoIngreso":  e['bitTipoIngreso'],
+            
             "bitUser": infoUser!.usuario, //login
             "bitEstado": "INGRESO" //default
         
@@ -2867,10 +2905,10 @@ if (response != null) {
     // Dependiendo del tipo, asignar la lista correspondiente
     if (tipo == 'INGRESO') {
       setListaVisitasBitacoras(ingresoList);
-      print('Ingreso List Sorted: $ingresoList');
+      // print('Ingreso List Sorted: $ingresoList');
     } else if (tipo == 'SALIDA') {
       setListaVisitasBitacoras(salidaList);
-      print('Salida List Sorted: $salidaList');
+      // print('Salida List Sorted: $salidaList');
     }
 
     // Notificar cambios y devolver respuesta si es necesario
@@ -2891,7 +2929,7 @@ void setInfoVisitante(Map<String,dynamic> _info){
 _infoVisitante={};
 _infoVisitante=_info;
 
-print('LA DATA PARA SALIDA VISITANTE: $_infoVisitante');
+// print('LA DATA PARA SALIDA VISITANTE: $_infoVisitante');
 
 
   notifyListeners();
@@ -3089,7 +3127,7 @@ notifyListeners();
   void setInfoVisita( Map<String,dynamic> _info) {
    _infoVisita = {};
     _infoVisita=_info;
-      print('INFO DE LA VISITA :$_infoVisita');
+      // print('INFO DE LA VISITA :$_infoVisita');
     notifyListeners();
   }
 

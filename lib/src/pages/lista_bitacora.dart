@@ -888,6 +888,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:nseguridad/src/controllers/home_ctrl.dart';
 import 'package:nseguridad/src/pages/info_detalle_visita.dart';
+import 'package:nseguridad/src/pages/views_pdf.dart';
 import 'package:nseguridad/src/theme/themes_app.dart';
 import 'package:provider/provider.dart';
 import 'package:nseguridad/src/controllers/bitacora_controller.dart';
@@ -1867,7 +1868,7 @@ class _ListaBitacoraState extends State<ListaBitacora> {
                                                         //==================================//
 
                                                         GestureDetector(
-                                                      onTap: () {
+                                                      onDoubleTap: () {
                                                         providers.setInfoVisita(
                                                             visitante);
                                                         Navigator.of(context).push(
@@ -1897,6 +1898,40 @@ class _ListaBitacoraState extends State<ListaBitacora> {
                                                               size.wScreen(100),
                                                           child: Column(
                                                             children: [
+                                                                                 //***********************************************/
+                                            SizedBox(
+                                              height: size.iScreen(1.0),
+                                            ),
+                                            //*****************************************/
+                                             Container(
+                                              width: size.wScreen(100.0),
+                                              child: Row(
+                                                children: [
+                                                  Text('Tipo de Ingreso: ',
+                                                      style: GoogleFonts.lexendDeca(
+                                                          fontSize: size.iScreen(1.8),
+                                                          fontWeight: FontWeight.normal,
+                                                          color: Colors.grey)),
+                                                            Container(
+                                              // width: size.wScreen(100.0),
+                                              child: Text(
+                                                  '${visitante['bitTipoIngreso']}',
+                                                  style: GoogleFonts.lexendDeca(
+                                                      fontSize: size.iScreen(1.8),
+                                                      fontWeight: FontWeight.bold,
+                                                      // color: Colors.grey
+                                                      )),
+                                            ),
+                                                ],
+                                              ),
+                                            ),
+              
+                                          
+                                          
+                                            SizedBox(
+                                              height: size.iScreen(1.0),
+                                            ),
+
                                                               Row(
                                                                 children: [
                                                                   // Aquí puedes añadir una imagen de la foto si la tienes
@@ -1978,18 +2013,44 @@ class _ListaBitacoraState extends State<ListaBitacora> {
                                                                                   style: GoogleFonts.lexendDeca(fontSize: size.iScreen(1.8), color: Colors.black87, fontWeight: FontWeight.bold),
                                                                                 ),
                                                                                 Spacer(),
-                                                                                Container(
-                                                                                  decoration: BoxDecoration(
-                                                                                    color: Colors.white, // Fondo blanco
-                                                                                    borderRadius: BorderRadius.circular(8),
-                                                                                    border: Border.all(color: Colors.red, width: 2), // Borde rojo
-                                                                                  ),
-                                                                                  width: size.iScreen(5.0),
-                                                                                  height: size.iScreen(4.0),
-                                                                                  child: Center(
-                                                                                    child: FaIcon(
-                                                                                      FontAwesomeIcons.filePdf,
-                                                                                      color: Colors.red, // Ícono rojo
+                                                                                GestureDetector(
+                                                                                  onTap: () {
+                                                                                    //  Navigator.pop(context);
+                            //====================//
+
+  // print('${visitante["bitId"]}&rucempresa=${_user.getUsuarioInfo!.rucempresa}');
+
+
+
+
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ViewsPDFs(
+                                      infoPdf:
+                                          //  'https://backsigeop.neitor.com/api/reportes/personaPuestoServicio?perId=309&rucempresa=IIIVIP&nombre=ADMINISTRADOR&usuario=admin&mes=4',
+
+    'https://backsigeop.neitor.com/api/reportes/visitas_realizadas?bitId=${visitante["bitId"]}&rucempresa=${_user.getUsuarioInfo!.rucempresa}',
+//  'https://backsigeop.neitor.com/api/reportes/visitas_realizadas?bitId=7&rucempresa=PRUEBA',
+
+
+
+                                      labelPdf: 'Visita.pdf')));
+                                     
+                                                                                  },
+                                                                                  child: Container(
+                                                                                    decoration: BoxDecoration(
+                                                                                      color: Colors.white, // Fondo blanco
+                                                                                      borderRadius: BorderRadius.circular(8),
+                                                                                      border: Border.all(color: Colors.red, width: 2), // Borde rojo
+                                                                                    ),
+                                                                                    width: size.iScreen(5.0),
+                                                                                    height: size.iScreen(4.0),
+                                                                                    child: Center(
+                                                                                      child: FaIcon(
+                                                                                        FontAwesomeIcons.filePdf,
+                                                                                        color: Colors.red, // Ícono rojo
+                                                                                      ),
                                                                                     ),
                                                                                   ),
                                                                                 )
@@ -2292,6 +2353,40 @@ class _ListaBitacoraState extends State<ListaBitacora> {
                                                               size.wScreen(100),
                                                           child: Column(
                                                             children: [
+                                                                                 //***********************************************/
+                                            SizedBox(
+                                              height: size.iScreen(1.0),
+                                            ),
+                                            //*****************************************/
+                                             Container(
+                                              width: size.wScreen(100.0),
+                                              child: Row(
+                                                children: [
+                                                  Text('Tipo de Ingreso: ',
+                                                      style: GoogleFonts.lexendDeca(
+                                                          fontSize: size.iScreen(1.8),
+                                                          fontWeight: FontWeight.normal,
+                                                          color: Colors.grey)),
+                                                            Container(
+                                              // width: size.wScreen(100.0),
+                                              child: Text(
+                                                  '${visitante['bitTipoIngreso']}',
+                                                  style: GoogleFonts.lexendDeca(
+                                                      fontSize: size.iScreen(1.8),
+                                                      fontWeight: FontWeight.bold,
+                                                      // color: Colors.grey
+                                                      )),
+                                            ),
+                                                ],
+                                              ),
+                                            ),
+              
+                                          
+                                          
+                                            SizedBox(
+                                              height: size.iScreen(1.0),
+                                            ),
+
                                                               Row(
                                                                 children: [
                                                                   // Aquí puedes añadir una imagen de la foto si la tienes

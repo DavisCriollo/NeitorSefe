@@ -174,17 +174,77 @@ abstract class ProgressDialogMini {
   }
 }
 
-// abstract class DialogToasNoContext {
-//   static show(BuildContext context, String messaje) {
-//     Fluttertoast.showToast(
-//         msg: '$messaje',
-//         toastLength: Toast.LENGTH_SHORT,
-//         gravity: ToastGravity.CENTER,
-//         timeInSecForIosWeb: 1,
-//         backgroundColor: Colors.red,
-//         textColor: Colors.white,
-//         fontSize: 16.0);
+// abstract class ProgressDialogUpLoads {
+//   static show(BuildContext context, {String? mensaje}) {
+//     showCupertinoModalPopup(
+//       context: context,
+//       builder: (_) {
+//         return WillPopScope(
+//           child: Container(
+//             color: Colors.white.withOpacity(0.9),
+//             child: Center(
+//               child: Column(
+//                 mainAxisSize: MainAxisSize.min,
+//                 mainAxisAlignment: MainAxisAlignment.center,
+//                 children: [
+//                   CircularProgressIndicator(),
+//                   SizedBox(height: 16.0), // Espacio entre el indicador y el texto
+//                   Text(
+//                     mensaje ?? 'Espere por favor...',
+//                     style: TextStyle(
+//                       fontSize: 16.0,
+//                       fontWeight: FontWeight.w600,
+//                       color: Colors.black,
+//                     ),
+//                   ),
+//                 ],
+//               ),
+//             ),
+//           ),
+//           onWillPop: () async => false,
+//         );
+//       },
+//     );
+//   }
+
+//   static dissmiss(BuildContext context) {
+//     Navigator.pop(context);
 //   }
 // }
+abstract class ProgressDialogUpLoads {
+  static show(BuildContext context, {String mensaje = 'Procesando, espere por favor...'}) {
+    showCupertinoModalPopup(
+      context: context,
+      builder: (_) {
+        return WillPopScope(
+          child: Scaffold(
+            backgroundColor: Colors.black.withOpacity(0.7),// Asegúrate de que el fondo sea transparente
+            body: Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CircularProgressIndicator(),
+                  SizedBox(height: 16.0), // Espacio entre el indicador y el texto
+                  Text(
+                    mensaje,
+                    style: TextStyle(
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          onWillPop: () async => false,
+        );
+      },
+    );
+  }
 
-
+  static dissmiss(BuildContext context) {
+    Navigator.pop(context);
+  }
+}

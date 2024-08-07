@@ -995,11 +995,21 @@ class ViewsPDFs extends StatelessWidget {
           ),
           color: Colors.grey[300],
           child: 
-          SfPdfViewer.network(
-            infoPdf,
-            canShowScrollHead: true, 
-            canShowScrollStatus: true
-          ),
+          // SfPdfViewer.network(
+          //   infoPdf,
+          //   canShowScrollHead: true, 
+          //   canShowScrollStatus: true
+          // ),
+          infoPdf.isEmpty
+          ? SfPdfViewer.network(
+              infoPdf ,
+              canShowScrollHead: true,
+              canShowScrollStatus: true,
+            )
+          : Center(
+              child: Text('No se puede cargar el PDF'),
+            ),
+    
           
         ),
       ),

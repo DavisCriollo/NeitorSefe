@@ -1502,6 +1502,9 @@ print('LOS URL DE LA LISTA DE VICITANTES >>>>>> $urlList');
                                 if (bitacoraController.getDataVehiculo.isNotEmpty) {
               
                                    print('LA FOTO DE LA PLACA ES ${bitacoraController.getDataVehiculo}');
+                                   bitacoraController.setDataVehiculoAddFoto(bitacoraController.listaVisitas[0]['fotoPlaca']);
+                                    bitacoraController.setUrlPlaca(bitacoraController.listaVisitas[0]['fotoPlaca']);
+                                    // print('LA FOTO fotoPlaca ${bitacoraController.getDataVehiculo['fotoPlaca']}');
                                   // bitacoraController.setUrlPlaca(bitacoraController.getDataVehiculo['fotoPlaca']);
                                 }else{
                                   bitacoraController.setUrlPlaca('');
@@ -1621,6 +1624,35 @@ print('LOS URL DE LA LISTA DE VICITANTES >>>>>> $urlList');
                                               height: size.iScreen(1.0),
                                             ),
                                             //*****************************************/
+                                             Container(
+                                              width: size.wScreen(100.0),
+                                              child: Row(
+                                                children: [
+                                                  Text('Tipo de Ingreso: ',
+                                                      style: GoogleFonts.lexendDeca(
+                                                          fontSize: size.iScreen(1.8),
+                                                          fontWeight: FontWeight.normal,
+                                                          color: Colors.grey)),
+                                                            Container(
+                                              // width: size.wScreen(100.0),
+                                              child: Text(
+                                                  '${registro['bitTipoIngreso']}',
+                                                  style: GoogleFonts.lexendDeca(
+                                                      fontSize: size.iScreen(1.8),
+                                                      fontWeight: FontWeight.bold,
+                                                      // color: Colors.grey
+                                                      )),
+                                            ),
+                                                ],
+                                              ),
+                                            ),
+              
+                                          
+                                          
+                                            SizedBox(
+                                              height: size.iScreen(0.5),
+                                            ),
+                                                 
               
                                             Container(
                                               width: size.wScreen(100.0),
