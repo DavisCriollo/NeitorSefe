@@ -1015,6 +1015,7 @@ print('DESPUES DE LLENAR LA VARIABLE COORDENADAS DE ALERTA : $coordenadasItem');
         Column(
           mainAxisAlignment: MainAxisAlignment
               .start, // Distribuye los contenedores uniformemente
+              
           children: [
             Container(
               // color: Colors.blue,
@@ -1148,7 +1149,7 @@ print('DESPUES DE LLENAR LA VARIABLE COORDENADAS DE ALERTA : $coordenadasItem');
                             //           const CupertinoActivityIndicator(),
                             //       // Image.asset(
                             //       //     'assets/imgs/loader.gif'),
-
+        
                             //       errorWidget: (context, url, error) =>
                             //           const Icon(Icons.error),
                             //     ),
@@ -1179,7 +1180,7 @@ print('DESPUES DE LLENAR LA VARIABLE COORDENADAS DE ALERTA : $coordenadasItem');
                                   const CupertinoActivityIndicator(),
                               // Image.asset(
                               //     'assets/imgs/loader.gif'),
-
+        
                               errorWidget: (context, url, error) =>
                                   // const Icon(Icons.error),
                                   Image.asset('assets/imgs/no-image.jpg'),
@@ -1209,16 +1210,16 @@ print('DESPUES DE LLENAR LA VARIABLE COORDENADAS DE ALERTA : $coordenadasItem');
             //   height: size.iScreen(0.5),
             //   width: size.wScreen(80),
             // ),
-
+        
             // btnAlerta(size),
-
+        
             //  Container(
             // color: Colors.grey,
             // height: size.iScreen(0.2),
             // width: size.wScreen(80),
             // ),
             // Container(
-
+        
             //   color: Colors.grey.shade300,
             //   padding: EdgeInsets.symmetric(
             //       vertical: size.iScreen(0.5),
@@ -1241,7 +1242,7 @@ print('DESPUES DE LLENAR LA VARIABLE COORDENADAS DE ALERTA : $coordenadasItem');
             //   height: size.iScreen(0.5),
             //   width: size.wScreen(80),
             // ),
-
+        
             Flexible(
               flex: 3, // Proporción de flexibilidad del segundo contenedor
               child: Container(
@@ -1258,14 +1259,14 @@ print('DESPUES DE LLENAR LA VARIABLE COORDENADAS DE ALERTA : $coordenadasItem');
                       //**************** MENU BOTONES ***********//
                       // menuPrincipalCircular(size, context, ctrlTheme)
                       //****************  BOTON INICAR TURNO  ***********//
-
+        
                       SingleChildScrollView(
                     physics: BouncingScrollPhysics(),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         btnTurnoPrincipal(size, ctrlTheme),
-//***********************************************//
+        //***********************************************//
                         // infoMantenimiento(size) //////   AQUI MOSTRAR BANNER IINIFORMATIVO
                         Container(
                           margin: EdgeInsets.symmetric(

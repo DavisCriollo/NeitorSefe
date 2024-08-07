@@ -3210,157 +3210,65 @@ Future<bool> uploadImagesAndPrintUrls() async {
 }
 
 
-// Future<bool> uploadImagesAndPrintUrls(
 
-// ) async {
-//   final dataUser = await Auth.instance.getSession();
 
-//    File? visitanteImage=File(_visitanteImage!.path);
-//   File? frontImage=File(_frontImage!.path);
-//   File? backImage=File(_backImage!.path);
-//   File? pasaporteImage=File(_pasaporteImage!.path);
-//   File? placaImage=File(_placaImage!.path);
-//   // Crear un mapa para asociar los nombres de las imágenes con sus URLs
-//   // final Map<String, String?> urls = {};
+    //************BUSCA LAS LISTA DE LOS ESTUDIANTES VOLTA********//
+//     List _listaAlumnos=[];
+//     List get getListaAlumnos=>_listaAlumnos;
+//    void setListaAlumnos(List _list){
+//      _listaAlumnos=[];
+//       for (var item in _list) {
+//         _listaAlumnos.add(item);
+//       }
+      
 
-//   // Función auxiliar para subir una imagen y obtener su URL
-//   Future<String?> uploadImage(File imageFile, String imageName) async {
-//     var request = _http.MultipartRequest(
-//         'POST', Uri.parse('https://backsigeop.neitor.com/api/multimedias'));
 
-//     request.headers.addAll({"x-auth-token": '${dataUser!.token}'});
-//     request.files.add(await _http.MultipartFile.fromPath('foto', imageFile.path));
+//       print('LA LISTA DE LOS ESTUDIANTES: $_listaAlumnos ');
 
-//     var response = await request.send();
-//     var responsed = await _http.Response.fromStream(response);
+// notifyListeners();
+//    }
 
-//     if (responsed.statusCode == 200) {
-//       final responseFoto = FotoUrl.fromJson(responsed.body);
-//       final url = responseFoto.urls[0].url;
-//       return url;
-//     } else {
+// Future getALLEstudiantes() async {
+//     // final dataUser = await Auth.instance.getSession();
+//     final response = await _api.getAllEstudiantesPruebaVolta(
+//       // search: search,
+//       // tipo:_itemTipoPersona ,
+//       // token: '${dataUser!.token}',
+//     );
+
+//     if (response != null) {
+     
+//       setListaAlumnos(response['data']);
+   
+//       notifyListeners();
+//       return response;
+//     }
+//     if (response == null) {
+    
+//       notifyListeners();
 //       return null;
 //     }
-//   }
 
-//   // Subir cada imagen y almacenar su URL si la imagen no es null
-//   if (visitanteImage != null) {
-//     _urlsVisitas['visitanteImage'] = await uploadImage(visitanteImage, 'visitanteImage');
-// setUrlVisitante('${_urlsVisitas['visitanteImage']}');
-
-//   } else {
-//     _urlsVisitas['visitanteImage'] = null;
-//   }
+//     return null;
   
-//   if (frontImage != null) {
-//     _urlsVisitas['frontImage'] = await uploadImage(frontImage, 'frontImage');
-//     setUrlCedulaFront('${_urlsVisitas['frontImage']}');
-//   } else {
-//     _urlsVisitas['frontImage'] = null;
-//   }
-  
-//   if (backImage != null) {
-//     _urlsVisitas['backImage'] = await uploadImage(backImage, 'backImage');
-//      setUrlCedulaBack('${_urlsVisitas['backImage']}');
-//   } else {
-//     _urlsVisitas['backImage'] = null;
-//   }
-  
-//   if (pasaporteImage != null) {
-//     _urlsVisitas['pasaporteImage'] = await uploadImage(pasaporteImage, 'pasaporteImage');
-//      setUrlPasaporte('${_urlsVisitas['pasaporteImage']}');
-//   } else {
-//     _urlsVisitas['pasaporteImage'] = null;
-//   }
-  
-//   if (placaImage != null) {
-//     _urlsVisitas['placaImage'] = await uploadImage(placaImage, 'placaImage');
-//      setUrlPlaca('${_urlsVisitas['placaImage']}');
-//   } else {
-//     _urlsVisitas['placaImage'] = null;
 //   }
 
-//   // Imprimir todas las URLs recibidas
-//   print('****** URLS RECIBIDAS ******');
-//   _urlsVisitas.forEach((name, url) {
-//     print('URL de $name: ${url ?? 'No URL'}');
-//   });
 
-//   // Validar si todas las URLs son válidas
-//   bool allUrlsReceived = _urlsVisitas.values.every((url) => url != null);
+//   // Map<String, Map<String, String>> get grades => _grades;
 
-//   return allUrlsReceived;
-// }
-
-// Future<bool> uploadImagesAndGetsUrlsVisita(
-//   // {
-//   // File? visitanteImage,
-//   // File? frontImage,
-//   // File? backImage,
-//   // File? pasaporteImage,
-//   // File? placaImage,
-// // }
-// ) async {
-//   final dataUser = await Auth.instance.getSession();
-
-//   // Crear un mapa para asociar los nombres de las imágenes con sus URLs
-// _urlsVisitas = {};
-
-//   File? visitanteImage=File(_visitanteImage!.path);
-//   File? frontImage=File(_frontImage!.path);
-//   File? backImage=File(_backImage!.path);
-//   File? pasaporteImage=File(_pasaporteImage!.path);
-//   File? placaImage=File(_placaImage!.path);
-
-
-
-
-//   // Función auxiliar para subir una imagen y obtener su URL
-//   Future<String?> uploadImage(File imageFile, String imageName) async {
-//     var request = _http.MultipartRequest(
-//         'POST', Uri.parse('https://backsigeop.neitor.com/api/multimedias'));
-
-//     request.headers.addAll({"x-auth-token": '${dataUser!.token}'});
-//     request.files.add(await _http.MultipartFile.fromPath('foto', imageFile.path));
-
-//     var response = await request.send();
-//     var responsed = await _http.Response.fromStream(response);
-
-//     if (responsed.statusCode == 200) {
-//       final responseFoto = FotoUrl.fromJson(responsed.body);
-//       final url = responseFoto.urls[0].url;
-//       _urlsVisitas[imageName] = url;
-//       print('URL de $imageName: $url');
-//       return url;
-//     } else {
-//       _urlsVisitas[imageName] = null;
-//       return null;
+//   void updateGrade(int id, String grade1, String grade2, String grade3) {
+//     final index = _listaAlumnos.indexWhere((grade) => grade["id"] == id);
+//     if (index != -1) {
+//       _listaAlumnos[index] = {
+//         ..._listaAlumnos[index],
+//         "grade1": grade1,
+//         "grade2": grade2,
+//         "grade3": grade3,
+//       };
+//       notifyListeners();
 //     }
 //   }
-
-//   // Subir cada imagen y almacenar su URL
-//   if (visitanteImage != null) await uploadImage(visitanteImage, 'visitanteImage');
-//   if (frontImage != null) await uploadImage(frontImage, 'frontImage');
-//   if (backImage != null) await uploadImage(backImage, 'backImage');
-//   if (pasaporteImage != null) await uploadImage(pasaporteImage, 'pasaporteImage');
-//   if (placaImage != null) await uploadImage(placaImage, 'placaImage');
-
-//   // Imprimir todas las URLs recibidas
-//   print('****** URLS RECIBIDAS ******');
-//   _urlsVisitas.forEach((name, url) {
-//     print('URL de $name: ${url ?? 'No URL'}');
-//   });
-
-//   // Validar si todas las URLs son válidas
-//   bool allUrlsReceived = _urlsVisitas.values.every((url) => url != null);
-
-//   return allUrlsReceived;
-// }
-
-
-
-
-    //********************//
+      //********************//
 
 
 

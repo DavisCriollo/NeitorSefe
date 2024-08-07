@@ -3617,5 +3617,43 @@ _path='$_dirURL/bitacora/cliente_residente?search=$search&notificacion=$notifica
   }
 
 
+//*******************************//
+
+  //=====================================GET ALL ESTUDIANTES VOLTA=====================================//
+  Future getAllEstudiantesPruebaVolta(
+    // {
+    
+    // String? token,
+    // String? search,
+    // String? tipo,
+  ) async{   
+   try {
+      final dataResp = await _http.post(
+        
+          Uri.parse('https://api.ueavolta.edu.ec/api/grades/search'));
+          // body: {"usuario": usuario, "password": password, "empresa": empresa});
+      final respo = jsonDecode(dataResp.body);
+      print('LA  API :${respo}');
+       print('LA  API :${respo.runtimeType}');
+      //   print('EL code  API :${dataResp.statusCode}');
+
+      if (dataResp.statusCode == 404 || dataResp.statusCode == 500) {
+      //  snaks.NotificatiosnService.showSnackBarDanger("${respo["msg"]}");
+        return null;
+      }
+      if (dataResp.statusCode == 200) {
+       
+        return respo;
+      }
+      
+    } catch (e) {
+      print('-ERROR -> $e');
+    }
+  
+  }
+
+
+
+
 
 }

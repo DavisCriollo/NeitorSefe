@@ -246,7 +246,9 @@ class _ListaResidentesState extends State<ListaResidentes> {
             ),
             width: size.wScreen(100.0),
             height: size.hScreen(100.0),
-            child: Consumer<ResidentesController>(
+            child:
+            
+             Consumer<ResidentesController>(
               builder: (_, provider, __) {
                 if (provider.getErrorTodosLosResidentes == null) {
                   return Center(
@@ -311,6 +313,8 @@ class _ListaResidentesState extends State<ListaResidentes> {
               },
             ),
           ),
+          
+          
           Positioned(
             top: 0,
             child: Container(

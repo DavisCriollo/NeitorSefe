@@ -214,7 +214,7 @@ final Map<String, Widget Function(BuildContext)> appRoutes = {
 
 
 
-  // 'prueba': (_) =>  Prueba(),
+  'prueba': (_) =>  ViewsPDFs(),
 
 
 

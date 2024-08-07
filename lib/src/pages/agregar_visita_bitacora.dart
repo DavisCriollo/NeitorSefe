@@ -976,10 +976,14 @@ Consumer<BitacoraController>(builder: (_, valueDoc, __) {
             IconButton(
               icon: Icon(Icons.search), // Icono del botón de búsqueda
               onPressed: valueDoc.getCedulas.isNotEmpty?() async{
+                            
+                            // if () {
+                              
+                            // } else {
+                            // }
+                            
                             ProgressDialog.show(context);
-         
-
-          final response = await valueDoc.getCedulaVisitante(valueDoc.getCedulas);
+                   final response = await valueDoc.getCedulaVisitante(valueDoc.getCedulas);
                             ProgressDialog.dissmiss(context);
                             if (response!=null) {
                                NotificatiosnService.showSnackBarSuccsses('Datos Correctos');
@@ -990,6 +994,8 @@ Consumer<BitacoraController>(builder: (_, valueDoc, __) {
                                valueDoc.setCedulaOk(true);
                                 // NotificatiosnService.showSnackBarDanger('No Incorrectos');
                             }
+
+
                         }:null
             ),
             SizedBox(width: 8.0), // Espaciado entre el campo de texto y el botón

@@ -2027,15 +2027,8 @@ class _ListaBitacoraState extends State<ListaBitacora> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => ViewsPDFs(
-                                      infoPdf:
-                                          //  'https://backsigeop.neitor.com/api/reportes/personaPuestoServicio?perId=309&rucempresa=IIIVIP&nombre=ADMINISTRADOR&usuario=admin&mes=4',
-
-    'https://backsigeop.neitor.com/api/reportes/visitas_realizadas?bitId=${visitante["bitId"]}&rucempresa=${_user.getUsuarioInfo!.rucempresa}',
-//  'https://backsigeop.neitor.com/api/reportes/visitas_realizadas?bitId=7&rucempresa=PRUEBA',
-
-
-
-                                      labelPdf: 'Visita.pdf')));
+                                      infoPdf:'https://backsafe.neitor.com/api/reportes/visitas_realizadas?bitId=${visitante["bitId"]}&rucempresa=${_user.getUsuarioInfo!.rucempresa}',
+                                       labelPdf: 'Visita.pdf')));
                                      
                                                                                   },
                                                                                   child: Container(
@@ -2468,18 +2461,32 @@ class _ListaBitacoraState extends State<ListaBitacora> {
                                                                                   style: GoogleFonts.lexendDeca(fontSize: size.iScreen(1.8), color: Colors.black87, fontWeight: FontWeight.bold),
                                                                                 ),
                                                                                 Spacer(),
-                                                                                Container(
-                                                                                  decoration: BoxDecoration(
-                                                                                    color: Colors.white, // Fondo blanco
-                                                                                    borderRadius: BorderRadius.circular(8),
-                                                                                    border: Border.all(color: Colors.red, width: 2), // Borde rojo
-                                                                                  ),
-                                                                                  width: size.iScreen(5.0),
-                                                                                  height: size.iScreen(4.0),
-                                                                                  child: Center(
-                                                                                    child: FaIcon(
-                                                                                      FontAwesomeIcons.filePdf,
-                                                                                      color: Colors.red, // Ícono rojo
+                                                                                GestureDetector(
+                                                                                  onTap: () {
+
+
+                                                                                    
+
+                                                                                    Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ViewsPDFs(
+                                      infoPdf:'https://backsafe.neitor.com/api/reportes/visitas_realizadas?bitId=${visitante["bitId"]}&rucempresa=${_user.getUsuarioInfo!.rucempresa}',
+                                       labelPdf: 'Visita.pdf')));
+                                                                                  },
+                                                                                  child: Container(
+                                                                                    decoration: BoxDecoration(
+                                                                                      color: Colors.white, // Fondo blanco
+                                                                                      borderRadius: BorderRadius.circular(8),
+                                                                                      border: Border.all(color: Colors.red, width: 2), // Borde rojo
+                                                                                    ),
+                                                                                    width: size.iScreen(5.0),
+                                                                                    height: size.iScreen(4.0),
+                                                                                    child: Center(
+                                                                                      child: FaIcon(
+                                                                                        FontAwesomeIcons.filePdf,
+                                                                                        color: Colors.red, // Ícono rojo
+                                                                                      ),
                                                                                     ),
                                                                                   ),
                                                                                 )

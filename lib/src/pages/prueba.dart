@@ -1548,12 +1548,15 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:nseguridad/src/controllers/bitacora_controller.dart';
+
 import 'package:nseguridad/src/utils/responsive.dart';
 
 // import 'package:open_file/open_file.dart';
 import 'package:open_file_safe/open_file_safe.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 // class ViewsPDFs extends StatefulWidget {
@@ -1654,9 +1657,43 @@ import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 //   }
 // }
 
-
+//*************************  VISTAS PDF *****************************//
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+// class ViewsPDFs extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       title: 'PDF Viewer',
+//       home: Scaffold(
+//         appBar: AppBar(
+//           title: Text('PDF Viewer'),
+//         ),
+//         body: Center(
+//           child: ElevatedButton(
+//             onPressed: () {
+//               _launchPDF('https://barajasvictor.wordpress.com/wp-content/uploads/2014/07/ejercicios-de-factorizacic3b3n-a.pdf');
+//             },
+//             child: Text('Abrir PDF'),
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+
+//  // Función para abrir el PDF usando url_launcher
+//   _launchPDF(String url) async {
+//     Uri uri = Uri.parse(url);
+//     if (await canLaunchUrl(uri)) {
+//       await launchUrl(uri);
+//     } else {
+//       throw 'No se pudo abrir el PDF $url';
+//     }
+//   }
+// }
+
+//*************************  VISTAS PDF *****************************//
 
 class ViewsPDFs extends StatelessWidget {
   @override
@@ -1670,9 +1707,16 @@ class ViewsPDFs extends StatelessWidget {
         body: Center(
           child: ElevatedButton(
             onPressed: () {
-              _launchPDF('https://barajasvictor.wordpress.com/wp-content/uploads/2014/07/ejercicios-de-factorizacic3b3n-a.pdf');
+
+                final _ctrl=context.read<BitacoraController>();
+              //     _ctrl.getALLEstudiantes();
+              // Navigator.of(context).push(
+              //                             MaterialPageRoute(
+              //                                 builder: (context) =>
+              //                                     ListaNotas(
+              //                                        )));
             },
-            child: Text('Abrir PDF'),
+            child: Text('VER LISTA'),
           ),
         ),
       ),

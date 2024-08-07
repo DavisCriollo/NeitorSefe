@@ -1000,15 +1000,12 @@ class ViewsPDFs extends StatelessWidget {
           //   canShowScrollHead: true, 
           //   canShowScrollStatus: true
           // ),
-          infoPdf.isEmpty
-          ? SfPdfViewer.network(
+         SfPdfViewer.network(
               infoPdf ,
               canShowScrollHead: true,
               canShowScrollStatus: true,
             )
-          : Center(
-              child: Text('No se puede cargar el PDF'),
-            ),
+          
     
           
         ),
