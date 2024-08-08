@@ -3023,7 +3023,7 @@ _infoVisitante=_info;
   "bitFotoPersona": _infoVisitante["bitFotoPersona"],
   "bitFotoVehiculo": _infoVisitante["bitFotoVehiculo"],
   "bitObservacion": _infoVisitante["bitObservacion"],
-
+  "bitTipoIngreso" :_infoVisitante["bitTipoIngreso"],
  
   "bitEstadoIngreso": _infoVisitante["bitEstadoIngreso"],
   "bitEstadoSalida": _infoVisitante["bitEstadoSalida"],
