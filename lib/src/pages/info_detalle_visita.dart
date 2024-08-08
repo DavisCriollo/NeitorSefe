@@ -36,7 +36,8 @@ class InfoVisita extends StatelessWidget {
           // style: Theme.of(context).textTheme.headline2,
         ),
       ),
-      body: Container(
+      body: 
+      Container(
         margin: EdgeInsets.only(top: size.iScreen(0.0)),
         padding: EdgeInsets.symmetric(horizontal: size.iScreen(1.0)),
         width: size.wScreen(100.0),
@@ -185,8 +186,11 @@ class InfoVisita extends StatelessWidget {
                     // _ctrlBitacora.getInfoVisita['bitFotoCedulaFrontal']!=''
                     //   ?
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
+                       _ctrlBitacora.getInfoVisita['bitFotoPersona'] !=
+                                      ''
+                                  ?
                         GestureDetector(
                           onTap:
                               _ctrlBitacora.getInfoVisita['bitFotoPersona'] !=
@@ -221,18 +225,33 @@ class InfoVisita extends StatelessWidget {
                                       Hero(
                                           tag:
                                               '${_ctrlBitacora.getInfoVisita['bitFotoPersona']}',
-                                          child: FadeInImage(
-                                            placeholder: const AssetImage(
-                                                'assets/imgs/loader.gif'),
-                                            image: NetworkImage(
-                                              '${_ctrlBitacora.getInfoVisita['bitFotoPersona']}',
-                                            ),
-                                          ),
+                                          child: 
+                                          // FadeInImage(
+                                          //   placeholder: const AssetImage(
+                                          //       'assets/imgs/loader.gif'),
+                                          //   image: NetworkImage(
+                                          //     '${_ctrlBitacora.getInfoVisita['bitFotoPersona']}',
+                                          //   ),
+                                          // ),
+                                          
+                                          FadeInImage(
+  placeholder: const AssetImage('assets/imgs/loader.gif'),
+  image: NetworkImage(
+    _ctrlBitacora.getInfoVisita['bitFotoPersona'] ?? '',
+  ),
+  imageErrorBuilder: (context, error, stackTrace) {
+    return Image.asset('assets/imgs/no-image.png'); // Imagen por defecto en caso de error
+  },
+)
+
                                         )
-                                      : Image.asset('assets/imgs/no-image.png',
-                                          fit: BoxFit.cover)),
-                        ),
-                        Column(
+                                      : 
+                                      Image.asset('assets/imgs/no-image.png',fit: BoxFit.cover)),
+                        ):Container(),
+                        // :Container(),
+                       _ctrlBitacora.getInfoVisita['bitFotoCedulaFrontal'] !=
+                                      ''
+                                  ?  Column(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             GestureDetector(
@@ -269,13 +288,24 @@ class InfoVisita extends StatelessWidget {
                                           ? Hero(
                                              tag:
                                               '${_ctrlBitacora.getInfoVisita['bitFotoCedulaFrontal']}',
-                                            child: FadeInImage(
-                                                placeholder: const AssetImage(
-                                                    'assets/imgs/loader.gif'),
-                                                image: NetworkImage(
-                                                  '${_ctrlBitacora.getInfoVisita['bitFotoCedulaFrontal']}',
-                                                ),
-                                              ),
+                                            child: 
+                                             FadeInImage(
+  placeholder: const AssetImage('assets/imgs/loader.gif'),
+  image: NetworkImage(
+    _ctrlBitacora.getInfoVisita['bitFotoCedulaFrontal'] ?? '',
+  ),
+  imageErrorBuilder: (context, error, stackTrace) {
+    return Image.asset('assets/imgs/no-image.png'); // Imagen por defecto en caso de error
+  },
+)
+                                            // FadeInImage(
+                                            //     placeholder: const AssetImage(
+                                            //         'assets/imgs/loader.gif'),
+                                            //     image: NetworkImage(
+                                            //       '${_ctrlBitacora.getInfoVisita['bitFotoCedulaFrontal']}',
+                                            //     ),
+                                            //   ),
+
                                           )
                                           : Image.asset(
                                               'assets/imgs/no-image.png',
@@ -313,13 +343,24 @@ class InfoVisita extends StatelessWidget {
                                           ? Hero(
                                             tag:
                                               '${_ctrlBitacora.getInfoVisita['bitFotoCedulaReverso']}',
-                                            child: FadeInImage(
-                                                placeholder: const AssetImage(
-                                                    'assets/imgs/loader.gif'),
-                                                image: NetworkImage(
-                                                  '${_ctrlBitacora.getInfoVisita['bitFotoCedulaReverso']}',
-                                                ),
-                                              ),
+                                            child: 
+                                            // FadeInImage(
+                                            //     placeholder: const AssetImage(
+                                            //         'assets/imgs/loader.gif'),
+                                            //     image: NetworkImage(
+                                            //       '${_ctrlBitacora.getInfoVisita['bitFotoCedulaReverso']}',
+                                            //     ),
+                                            //   ),
+                                             FadeInImage(
+  placeholder: const AssetImage('assets/imgs/loader.gif'),
+  image: NetworkImage(
+    _ctrlBitacora.getInfoVisita['bitFotoCedulaReverso'] ?? '',
+  ),
+  imageErrorBuilder: (context, error, stackTrace) {
+    return Image.asset('assets/imgs/no-image.png'); // Imagen por defecto en caso de error
+  },
+)
+
                                           )
                                           : Image.asset(
                                               'assets/imgs/no-image.png',
@@ -328,7 +369,7 @@ class InfoVisita extends StatelessWidget {
                                   ),
                             ),
                           ],
-                        ),
+                        ):Container(),
                       ],
                     ),
                     // : Container(),
@@ -368,13 +409,24 @@ class InfoVisita extends StatelessWidget {
                                             // Image.file(File(_ctrlBitacora.getInfoVisita['fotoVisitante']))
                                             Hero(tag:
                                                 '${_ctrlBitacora.getInfoVisita['fotoVisitante']}',
-                                              child: FadeInImage(
-                                                  placeholder: const AssetImage(
-                                                      'assets/imgs/loader.gif'),
-                                                  image: NetworkImage(
-                                                    '${_ctrlBitacora.getInfoVisita['fotoVisitante']}',
-                                                  ),
-                                                ),
+                                              child: 
+                                              // FadeInImage(
+                                              //     placeholder: const AssetImage(
+                                              //         'assets/imgs/loader.gif'),
+                                              //     image: NetworkImage(
+                                              //       '${_ctrlBitacora.getInfoVisita['fotoVisitante']}',
+                                              //     ),
+                                              //   ),
+                                              FadeInImage(
+  placeholder: const AssetImage('assets/imgs/loader.gif'),
+  image: NetworkImage(
+    _ctrlBitacora.getInfoVisita['fotoVisitante'] ?? '',
+  ),
+  imageErrorBuilder: (context, error, stackTrace) {
+    return Image.asset('assets/imgs/no-image.png'); // Imagen por defecto en caso de error
+  },
+)
+
                                             )
                                             : Image.asset(
                                                 'assets/imgs/no-image.png',
@@ -412,13 +464,24 @@ class InfoVisita extends StatelessWidget {
                                                 null
                                             ? Hero(
                                                tag: '${_ctrlBitacora.getInfoVisita['fotoPasaporte']}',
-                                              child: FadeInImage(
-                                                  placeholder: const AssetImage(
-                                                      'assets/imgs/loader.gif'),
-                                                  image: NetworkImage(
-                                                    '${_ctrlBitacora.getInfoVisita['fotoPasaporte']}',
-                                                  ),
-                                                ),
+                                              child: 
+                                              // FadeInImage(
+                                              //     placeholder: const AssetImage(
+                                              //         'assets/imgs/loader.gif'),
+                                              //     image: NetworkImage(
+                                              //       '${_ctrlBitacora.getInfoVisita['fotoPasaporte']}',
+                                              //     ),
+                                              //   ),
+                                               FadeInImage(
+  placeholder: const AssetImage('assets/imgs/loader.gif'),
+  image: NetworkImage(
+    _ctrlBitacora.getInfoVisita['fotoPasaporte'] ?? '',
+  ),
+  imageErrorBuilder: (context, error, stackTrace) {
+    return Image.asset('assets/imgs/no-image.png'); // Imagen por defecto en caso de error
+  },
+)
+
                                             )
                                             : Image.asset(
                                                 'assets/imgs/no-image.png',
@@ -508,6 +571,9 @@ class InfoVisita extends StatelessWidget {
                         : Container(),
 
                     //***********************************************/
+                   _ctrlBitacora.getInfoVisita['bitFotoVehiculo'] !=
+                                      ''
+                                  ?
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
@@ -543,19 +609,31 @@ class InfoVisita extends StatelessWidget {
                                             ''
                                         ? Hero(
                                            tag: '${_ctrlBitacora.getInfoVisita['bitFotoVehiculo']}',
-                                          child: FadeInImage(
-                                              placeholder: const AssetImage(
-                                                  'assets/imgs/loader.gif'),
-                                              image: NetworkImage(
-                                                '${_ctrlBitacora.getInfoVisita['bitFotoVehiculo']}',
-                                              ),
-                                            ),
+                                          child:
+                                          //  FadeInImage(
+                                          //     placeholder: const AssetImage(
+                                          //         'assets/imgs/loader.gif'),
+                                          //     image: NetworkImage(
+                                          //       '${_ctrlBitacora.getInfoVisita['bitFotoVehiculo']}',
+                                          //     ),
+                                          //   ),
+                                          FadeInImage(
+  placeholder: const AssetImage('assets/imgs/loader.gif'),
+  image: NetworkImage(
+    _ctrlBitacora.getInfoVisita['bitFotoVehiculo'] ?? '',
+  ),
+  imageErrorBuilder: (context, error, stackTrace) {
+    return Image.asset('assets/imgs/no-image.png'); // Imagen por defecto en caso de error
+  },
+)
+
+
                                         )
                                         : Image.asset(
                                             'assets/imgs/no-image.png',
                                             fit: BoxFit.cover))),
                       ],
-                    ),
+                    ):Container(),
                     //***********************************************/
 
                     _ctrlBitacora.getInfoVisita['bitInformacionVehiculo']
@@ -837,6 +915,9 @@ class InfoVisita extends StatelessWidget {
           ]),
         ),
       ),
+    
+    
+    
     );
   }
 }

@@ -2879,63 +2879,115 @@ List<dynamic> _listaVisitasBitacoras = [];
     
     notifyListeners();
   }
-  Future<dynamic> getAllVisitasBitacoras(
+//   Future<dynamic> getAllVisitasBitacoras(
+//     String? search,
+//     String? notificacion,
+//     //  String? _estado,
+//      String? tipo
+//   ) async {
+//     final dataUser = await Auth.instance.getSession();
+    
+//     final response = await _api.getAllBitacorasVisitas(
+//       search: search,
+     
+//       token: '${dataUser!.token}',
+//     );
+// if (response != null) {
+
+//   List<Map<String, dynamic>> ingresoList = [];
+//   List<Map<String, dynamic>> salidaList = [];
+
+//   if (response != null) {
+//     for (var item in response) {
+//       // Preguntar el tipo de dato (INGRESO o SALIDA)
+//       if (tipo == 'INGRESO') {
+//         // Verificar si el tipo es 'INGRESO' y bitFechaSalida es null
+//         if (item['bitEstado'] == 'INGRESO' && item['bitFechaSalida'] == null) {
+//           ingresoList.add(item);
+//         }
+//       } else if (tipo == 'SALIDA') {
+//         // Verificar si el tipo es 'SALIDA' y bitFechaSalida no es null
+//         if (item['bitEstado'] == 'SALIDA' && item['bitFechaSalida'] != null) {
+//           salidaList.add(item);
+//         }
+//       }
+//     }
+
+//     // Ordenar la lista por bitFechaIngreso
+//     ingresoList.sort((a, b) => DateTime.parse(a['bitFechaIngreso']).compareTo(DateTime.parse(b['bitFechaIngreso'])));
+//     salidaList.sort((a, b) => DateTime.parse(a['bitFechaIngreso']).compareTo(DateTime.parse(b['bitFechaIngreso'])));
+
+//     // Dependiendo del tipo, asignar la lista correspondiente
+//     if (tipo == 'INGRESO') {
+//       setListaVisitasBitacoras(ingresoList);
+//       // print('Ingreso List Sorted: $ingresoList');
+//     } else if (tipo == 'SALIDA') {
+//       setListaVisitasBitacoras(salidaList);
+//       // print('Salida List Sorted: $salidaList');
+//     }
+
+//     // Notificar cambios y devolver respuesta si es necesario
+// }
+//     if (response == null) {
+    
+//       notifyListeners();
+//       return null;
+//     }
+//     return null;
+//   }
+//   }
+Future<dynamic> getAllVisitasBitacoras(
     String? search,
     String? notificacion,
-    //  String? _estado,
-     String? tipo
+    String? tipo
   ) async {
     final dataUser = await Auth.instance.getSession();
     
     final response = await _api.getAllBitacorasVisitas(
       search: search,
-     
       token: '${dataUser!.token}',
     );
-if (response != null) {
 
-  List<Map<String, dynamic>> ingresoList = [];
-  List<Map<String, dynamic>> salidaList = [];
+    if (response != null) {
+      List<Map<String, dynamic>> ingresoList = [];
+      List<Map<String, dynamic>> salidaList = [];
 
-  if (response != null) {
-    for (var item in response) {
-      // Preguntar el tipo de dato (INGRESO o SALIDA)
-      if (tipo == 'INGRESO') {
-        // Verificar si el tipo es 'INGRESO' y bitFechaSalida es null
-        if (item['bitEstado'] == 'INGRESO' && item['bitFechaSalida'] == null) {
-          ingresoList.add(item);
-        }
-      } else if (tipo == 'SALIDA') {
-        // Verificar si el tipo es 'SALIDA' y bitFechaSalida no es null
-        if (item['bitEstado'] == 'SALIDA' && item['bitFechaSalida'] != null) {
-          salidaList.add(item);
+      for (var item in response) {
+        // Preguntar el tipo de dato (INGRESO o SALIDA)
+        if (tipo == 'INGRESO') {
+          // Verificar si el tipo es 'INGRESO' y bitFechaSalida es null
+          if (item['bitEstado'] == 'INGRESO' && item['bitFechaSalida'] == null) {
+            ingresoList.add(item);
+          }
+        } else if (tipo == 'SALIDA') {
+          // Verificar si el tipo es 'SALIDA' y bitFechaSalida no es null
+          if (item['bitEstado'] == 'SALIDA' && item['bitFechaSalida'] != null) {
+            salidaList.add(item);
+          }
         }
       }
-    }
 
-    // Ordenar la lista por bitFechaIngreso
-    ingresoList.sort((a, b) => DateTime.parse(a['bitFechaIngreso']).compareTo(DateTime.parse(b['bitFechaIngreso'])));
-    salidaList.sort((a, b) => DateTime.parse(a['bitFechaIngreso']).compareTo(DateTime.parse(b['bitFechaIngreso'])));
+      // Ordenar la lista por bitFechaIngreso en orden descendente
+      ingresoList.sort((a, b) => DateTime.parse(b['bitFechaIngreso']).compareTo(DateTime.parse(a['bitFechaIngreso'])));
+      salidaList.sort((a, b) => DateTime.parse(b['bitFechaIngreso']).compareTo(DateTime.parse(a['bitFechaIngreso'])));
 
-    // Dependiendo del tipo, asignar la lista correspondiente
-    if (tipo == 'INGRESO') {
-      setListaVisitasBitacoras(ingresoList);
-      // print('Ingreso List Sorted: $ingresoList');
-    } else if (tipo == 'SALIDA') {
-      setListaVisitasBitacoras(salidaList);
-      // print('Salida List Sorted: $salidaList');
-    }
+      // Dependiendo del tipo, asignar la lista correspondiente
+      if (tipo == 'INGRESO') {
+        setListaVisitasBitacoras(ingresoList);
+        // print('Ingreso List Sorted: $ingresoList');
+      } else if (tipo == 'SALIDA') {
+        setListaVisitasBitacoras(salidaList);
+        // print('Salida List Sorted: $salidaList');
+      }
 
-    // Notificar cambios y devolver respuesta si es necesario
-}
-    if (response == null) {
-    
       notifyListeners();
       return null;
     }
+
+    notifyListeners();
     return null;
   }
-  }
+
 //*********************//
 Map<String,dynamic> _infoVisitante={};
 Map<String,dynamic> get getInfoVisitante=>_infoVisitante;

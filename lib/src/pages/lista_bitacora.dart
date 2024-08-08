@@ -2027,7 +2027,7 @@ class _ListaBitacoraState extends State<ListaBitacora> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => ViewsPDFs(
-                                      infoPdf:'https://backsafe.neitor.com/api/reportes/visitas_realizadas?bitId=${visitante["bitId"]}&rucempresa=${_user.getUsuarioInfo!.rucempresa}',
+                                      infoPdf:'https://backsafe.neitor.com/api/reportes/bitacora_individual?bitId=${visitante["bitId"]}&rucempresa=${_user.getUsuarioInfo!.rucempresa}',
                                        labelPdf: 'Visita.pdf')));
                                      
                                                                                   },
@@ -2471,7 +2471,7 @@ class _ListaBitacoraState extends State<ListaBitacora> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => ViewsPDFs(
-                                      infoPdf:'https://backsafe.neitor.com/api/reportes/visitas_realizadas?bitId=${visitante["bitId"]}&rucempresa=${_user.getUsuarioInfo!.rucempresa}',
+                                      infoPdf:'https://backsafe.neitor.com/api/reportes/bitacora_individual?bitId=${visitante["bitId"]}&rucempresa=${_user.getUsuarioInfo!.rucempresa}',
                                        labelPdf: 'Visita.pdf')));
                                                                                   },
                                                                                   child: Container(
