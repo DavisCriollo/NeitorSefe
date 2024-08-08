@@ -339,216 +339,414 @@ print('DESPUES DE LLENAR LA VARIABLE COORDENADAS DE ALERTA : $coordenadasItem');
 
     final Responsive size = Responsive.of(context);
     return 
-    UpgradeAlert(
-      upgrader: Upgrader(
-        onUpdate: () {
-          print('SE REALIZA LA ACCION DE ACTUALIZAR');
-          isUpdate();
-          return true;
-        },
-        canDismissDialog: true,
-        durationUntilAlertAgain: Duration(minutes: 1),
-        showIgnore: false,
-        showLater: false,
-        languageCode: 'es',
-        dialogStyle: Platform.isIOS
-            ? UpgradeDialogStyle.cupertino
-            : UpgradeDialogStyle.material,
-      ),
-      child: 
+    // UpgradeAlert(
+    //   upgrader: Upgrader(
+    //     onUpdate: () {
+    //       print('SE REALIZA LA ACCION DE ACTUALIZAR');
+    //       isUpdate();
+    //       return true;
+    //     },
+    //     canDismissDialog: true,
+    //     durationUntilAlertAgain: Duration(minutes: 1),
+    //     showIgnore: false,
+    //     showLater: false,
+    //     languageCode: 'es',
+    //     dialogStyle: Platform.isIOS
+    //         ? UpgradeDialogStyle.cupertino
+    //         : UpgradeDialogStyle.material,
+    //   ),
+    //   child: 
      
       
-      Scaffold(
-        // backgroundColor: Colors.white,
-        appBar: AppBar(
-          flexibleSpace: Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: <Color>[
-                  ctrlTheme.primaryColor,
-                  ctrlTheme.secondaryColor,
-                ],
-              ),
-            ),
-          ),
-          // backgroundColor: ctrlTheme.primaryColor,
-          centerTitle: false,
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              //               IconButton(
-              //               splashRadius: 20.0,
-              //               onPressed: ()  {
-              //                 // Navigator.of(context).push(
-              //                 //                           MaterialPageRoute(
-              //                 //                               builder: (context) =>
-              //                 //                                   AcercaDePage(
+    //   Scaffold(
+    //     // backgroundColor: Colors.white,
+    //     appBar: AppBar(
+    //       flexibleSpace: Container(
+    //         decoration: BoxDecoration(
+    //           gradient: LinearGradient(
+    //             begin: Alignment.topLeft,
+    //             end: Alignment.bottomRight,
+    //             colors: <Color>[
+    //               ctrlTheme.primaryColor,
+    //               ctrlTheme.secondaryColor,
+    //             ],
+    //           ),
+    //         ),
+    //       ),
+    //       // backgroundColor: ctrlTheme.primaryColor,
+    //       centerTitle: false,
+    //       title: Row(
+    //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    //         children: [
+    //           //               IconButton(
+    //           //               splashRadius: 20.0,
+    //           //               onPressed: ()  {
+    //           //                 // Navigator.of(context).push(
+    //           //                 //                           MaterialPageRoute(
+    //           //                 //                               builder: (context) =>
+    //           //                 //                                   AcercaDePage(
 
-              //                 //                                     )));
+    //           //                 //                                     )));
 
-              //               },
-              //               icon: Icon(Icons.contact_support_outlined,size: size.iScreen(3.5),)),
+    //           //               },
+    //           //               icon: Icon(Icons.contact_support_outlined,size: size.iScreen(3.5),)),
 
-              // SizedBox(width: size.iScreen(2.0),),
+    //           // SizedBox(width: size.iScreen(2.0),),
 
-              GestureDetector(
-                onTap: () {
-                  // Navigator.of(context)
-                  //     .push(MaterialPageRoute(builder: (context) => Perfil()));
-                },
-                child: Container(
-                  margin: EdgeInsets.only(
-                      bottom: size.iScreen(4.0),
-                      top: size.iScreen(4.0),
-                      right: size.iScreen(2.0)),
-                  width: size.iScreen(5.0),
-                  height: size.iScreen(5.0),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(
-                        100.0), // 50.0 es un radio grande para hacer la imagen completamente redonda
-                    child: CachedNetworkImage(
-                      imageUrl: '${ctrlHome.getUsuarioInfo!.logo}',
-                      fit: BoxFit.fill,
-                      placeholder: (context, url) =>
-                          const CupertinoActivityIndicator(),
-                      // Image.asset(
-                      //     'assets/imgs/loader.gif'),
+    //           GestureDetector(
+    //             onTap: () {
+    //               // Navigator.of(context)
+    //               //     .push(MaterialPageRoute(builder: (context) => Perfil()));
+    //             },
+    //             child: Container(
+    //               margin: EdgeInsets.only(
+    //                   bottom: size.iScreen(4.0),
+    //                   top: size.iScreen(4.0),
+    //                   right: size.iScreen(2.0)),
+    //               width: size.iScreen(5.0),
+    //               height: size.iScreen(5.0),
+    //               child: ClipRRect(
+    //                 borderRadius: BorderRadius.circular(
+    //                     100.0), // 50.0 es un radio grande para hacer la imagen completamente redonda
+    //                 child: CachedNetworkImage(
+    //                   imageUrl: '${ctrlHome.getUsuarioInfo!.logo}',
+    //                   fit: BoxFit.fill,
+    //                   placeholder: (context, url) =>
+    //                       const CupertinoActivityIndicator(),
+    //                   // Image.asset(
+    //                   //     'assets/imgs/loader.gif'),
 
-                      errorWidget: (context, url, error) =>
-                          const Icon(Icons.error),
-                    ),
-                    //Image.asset('assets/imgs/no-image.jpg'),
-                  ),
-                ),
-              ),
-              Container(
-                // width: size.wScreen(55.0),
-                child: Expanded(
-                  child: Text('${ctrlHome.getUsuarioInfo!.rucempresa}',
-                      style: GoogleFonts.roboto(
-                          fontSize: size.iScreen(3.0),
-                          // color: Colors.black87,
-                          fontWeight: FontWeight.normal)),
-                ),
-              ),
+    //                   errorWidget: (context, url, error) =>
+    //                       const Icon(Icons.error),
+    //                 ),
+    //                 //Image.asset('assets/imgs/no-image.jpg'),
+    //               ),
+    //             ),
+    //           ),
+    //           Container(
+    //             // width: size.wScreen(55.0),
+    //             child: Expanded(
+    //               child: Text('${ctrlHome.getUsuarioInfo!.rucempresa}',
+    //                   style: GoogleFonts.roboto(
+    //                       fontSize: size.iScreen(3.0),
+    //                       // color: Colors.black87,
+    //                       fontWeight: FontWeight.normal)),
+    //             ),
+    //           ),
+    //         ],
+    //       ),
+    //       actions: [
+    //         // IconButton(
+    //         //     splashRadius: 20.0,
+    //         //     onPressed: () async {
+    //         //       await salirApp();
+    //         //     },
+    //         //     icon: Icon(Icons.logout)),
+
+    //         (widget.tipo!.contains('GUARDIA') ||
+    //                 widget.tipo!.contains('SUPERVISOR') ||
+    //                 widget.user!.usuario == 'talentohumano')
+    //             ? Consumer<HomeController>(
+    //                 builder: (_, valueNot1, __) {
+    //                   return Container(
+    //                       margin: EdgeInsets.symmetric(
+    //                           horizontal: size.iScreen(1.0)),
+    //                       // color: Colors.green,
+    //                       width: size.iScreen(5.0),
+    //                       height: size.iScreen(5.0),
+    //                       child: GestureDetector(
+    //                         onTap: (valueNot1.getBotonTurno)
+    //                             ? () {
+    //                                 valueNot1.buscaNotificacionesPush('');
+    //                                 Navigator.of(context).push(
+    //                                     MaterialPageRoute(
+    //                                         builder: (context) =>
+    //                                             ListaNotificacionesPush(
+    //                                               session: widget.user,
+    //                                             )));
+    //                               }
+    //                             : () {
+    //                                 print('SIN TURNO');
+    //                               },
+    //                         child: Badge(
+    //                           position:
+    //                               const BadgePosition(top: 5.0, start: -0.0),
+    //                           badgeContent: Text(
+    //                               (valueNot1.getNumNotificaciones > 9)
+    //                                   ? '9+'
+    //                                   : (valueNot1.getNumNotificaciones == 0)
+    //                                       ? ''
+    //                                       : '${valueNot1.getNumNotificaciones}',
+    //                               style: GoogleFonts.roboto(
+    //                                 // fontSize: size.iScreen(2.5),
+    //                                 color: Colors.white,
+    //                                 fontWeight: FontWeight.bold,
+    //                               )),
+    //                           child: Icon(Icons.assignment_outlined),
+    //                           badgeColor: (valueNot1.getNumNotificaciones == 0)
+    //                               ? Colors.transparent
+    //                               :
+    //                               // appBarColor,
+    //                               Colors.orange,
+    //                           elevation:
+    //                               (valueNot1.getNumNotificaciones == 0) ? 0 : 5,
+    //                         ),
+    //                       ));
+    //                 },
+    //               )
+    //             : Container(),
+
+    //         Consumer<HomeController>(
+    //           builder: (_, valueNot2, __) {
+    //             return Container(
+    //                 margin: EdgeInsets.symmetric(horizontal: size.iScreen(1.0)),
+    //                 // color: Colors.blue,
+    //                 width: size.iScreen(5.0),
+    //                 height: size.iScreen(5.0),
+    //                 child: GestureDetector(
+    //                   onTap: (valueNot2.getBotonTurno)
+    //                       ? () {
+    //                           Provider.of<HomeController>(context,
+    //                                   listen: false)
+    //                               .buscaNotificacionesPush2('');
+    //                           Navigator.of(context)
+    //                               .push(MaterialPageRoute(
+    //                                   builder: (context) =>
+    //                                       // const ListaConsignasGuardiasPage()
+    //                                       ListaNotificaciones2Push(
+    //                                           user: widget.user)))
+    //                               .then((value) =>
+    //                                   valueNot2.buscaNotificacionesPush2(''));
+    //                         }
+    //                       : () {
+    //                           print('SIN TURNO');
+    //                         },
+    //                   child: Badge(
+    //                     position: const BadgePosition(top: 5.0, start: 25.0),
+    //                     badgeContent: Text(
+    //                       (valueNot2.getNumNotificaciones2 > 9)
+    //                           ? '9+'
+    //                           : (valueNot2.getNumNotificaciones2 == 0)
+    //                               ? ''
+    //                               : '${valueNot2.getNumNotificaciones2}',
+    //                       style: GoogleFonts.roboto(
+    //                         // fontSize: size.iScreen(2.5),
+    //                         color: Colors.white,
+    //                         fontWeight: FontWeight.bold,
+    //                       ),
+    //                     ),
+    //                     child: const Icon(Icons.notifications_active_outlined),
+    //                     badgeColor: (valueNot2.getNumNotificaciones2 == 0)
+    //                         ? Colors.transparent
+    //                         :
+    //                         // appBarColor,
+    //                         Colors.red.shade900,
+    //                     elevation:
+    //                         (valueNot2.getNumNotificaciones2 == 0) ? 0 : 5,
+    //                   ),
+    //                 ));
+    //           },
+    //         ),
+    //       ],
+    //     ),
+    UpgradeAlert(
+  upgrader: Upgrader(
+    onUpdate: () {
+      print('SE REALIZA LA ACCION DE ACTUALIZAR');
+      isUpdate();
+      return true;
+    },
+    canDismissDialog: true,
+    durationUntilAlertAgain: Duration(minutes: 1),
+    showIgnore: false,
+    showLater: false,
+    languageCode: 'es',
+    dialogStyle: Platform.isIOS
+        ? UpgradeDialogStyle.cupertino
+        : UpgradeDialogStyle.material,
+  ),
+  child: Scaffold(
+    // backgroundColor: Colors.white,
+    appBar: AppBar(
+      flexibleSpace: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: <Color>[
+              ctrlTheme.primaryColor,
+              ctrlTheme.secondaryColor,
             ],
           ),
-          actions: [
-            // IconButton(
-            //     splashRadius: 20.0,
-            //     onPressed: () async {
-            //       await salirApp();
-            //     },
-            //     icon: Icon(Icons.logout)),
-
-            (widget.tipo!.contains('GUARDIA') ||
-                    widget.tipo!.contains('SUPERVISOR') ||
-                    widget.user!.usuario == 'talentohumano')
-                ? Consumer<HomeController>(
-                    builder: (_, valueNot1, __) {
-                      return Container(
-                          margin: EdgeInsets.symmetric(
-                              horizontal: size.iScreen(1.0)),
-                          // color: Colors.green,
-                          width: size.iScreen(5.0),
-                          height: size.iScreen(5.0),
-                          child: GestureDetector(
-                            onTap: (valueNot1.getBotonTurno)
-                                ? () {
-                                    valueNot1.buscaNotificacionesPush('');
-                                    Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                ListaNotificacionesPush(
-                                                  session: widget.user,
-                                                )));
-                                  }
-                                : () {
-                                    print('SIN TURNO');
-                                  },
-                            child: Badge(
-                              position:
-                                  const BadgePosition(top: 5.0, start: -0.0),
-                              badgeContent: Text(
-                                  (valueNot1.getNumNotificaciones > 9)
-                                      ? '9+'
-                                      : (valueNot1.getNumNotificaciones == 0)
-                                          ? ''
-                                          : '${valueNot1.getNumNotificaciones}',
-                                  style: GoogleFonts.roboto(
-                                    // fontSize: size.iScreen(2.5),
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                  )),
-                              child: Icon(Icons.assignment_outlined),
-                              badgeColor: (valueNot1.getNumNotificaciones == 0)
-                                  ? Colors.transparent
-                                  :
-                                  // appBarColor,
-                                  Colors.orange,
-                              elevation:
-                                  (valueNot1.getNumNotificaciones == 0) ? 0 : 5,
-                            ),
-                          ));
-                    },
-                  )
-                : Container(),
-
-            Consumer<HomeController>(
-              builder: (_, valueNot2, __) {
-                return Container(
-                    margin: EdgeInsets.symmetric(horizontal: size.iScreen(1.0)),
-                    // color: Colors.blue,
-                    width: size.iScreen(5.0),
-                    height: size.iScreen(5.0),
-                    child: GestureDetector(
-                      onTap: (valueNot2.getBotonTurno)
-                          ? () {
-                              Provider.of<HomeController>(context,
-                                      listen: false)
-                                  .buscaNotificacionesPush2('');
-                              Navigator.of(context)
-                                  .push(MaterialPageRoute(
-                                      builder: (context) =>
-                                          // const ListaConsignasGuardiasPage()
-                                          ListaNotificaciones2Push(
-                                              user: widget.user)))
-                                  .then((value) =>
-                                      valueNot2.buscaNotificacionesPush2(''));
-                            }
-                          : () {
-                              print('SIN TURNO');
-                            },
-                      child: Badge(
-                        position: const BadgePosition(top: 5.0, start: 25.0),
-                        badgeContent: Text(
-                          (valueNot2.getNumNotificaciones2 > 9)
-                              ? '9+'
-                              : (valueNot2.getNumNotificaciones2 == 0)
-                                  ? ''
-                                  : '${valueNot2.getNumNotificaciones2}',
-                          style: GoogleFonts.roboto(
-                            // fontSize: size.iScreen(2.5),
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        child: const Icon(Icons.notifications_active_outlined),
-                        badgeColor: (valueNot2.getNumNotificaciones2 == 0)
-                            ? Colors.transparent
-                            :
-                            // appBarColor,
-                            Colors.red.shade900,
-                        elevation:
-                            (valueNot2.getNumNotificaciones2 == 0) ? 0 : 5,
-                      ),
-                    ));
-              },
-            ),
-          ],
         ),
+      ),
+      // backgroundColor: ctrlTheme.primaryColor,
+      centerTitle: false,
+      title: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          // Un-comment and customize if needed
+          // GestureDetector(
+          //   onTap: () {
+          //     Navigator.of(context)
+          //         .push(MaterialPageRoute(builder: (context) => Perfil()));
+          //   },
+          //   child: Container(
+          //     margin: EdgeInsets.only(
+          //         bottom: size.iScreen(4.0),
+          //         top: size.iScreen(4.0),
+          //         right: size.iScreen(2.0)),
+          //     width: size.iScreen(5.0),
+          //     height: size.iScreen(5.0),
+          //     child: ClipRRect(
+          //       borderRadius: BorderRadius.circular(
+          //           100.0), // 50.0 es un radio grande para hacer la imagen completamente redonda
+          //       child: CachedNetworkImage(
+          //         imageUrl: '${ctrlHome.getUsuarioInfo!.logo}',
+          //         fit: BoxFit.fill,
+          //         placeholder: (context, url) =>
+          //             const CupertinoActivityIndicator(),
+          //         errorWidget: (context, url, error) =>
+          //             const Icon(Icons.error),
+          //       ),
+          //     ),
+          //   ),
+          // ),
+
+          GestureDetector(
+            onTap: () {
+              // Navigator.of(context)
+              //     .push(MaterialPageRoute(builder: (context) => Perfil()));
+            },
+            child: Container(
+              margin: EdgeInsets.only(
+                  bottom: size.iScreen(4.0),
+                  top: size.iScreen(4.0),
+                  right: size.iScreen(2.0)),
+              width: size.iScreen(5.0),
+              height: size.iScreen(5.0),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(
+                    100.0), // 50.0 es un radio grande para hacer la imagen completamente redonda
+                child: CachedNetworkImage(
+                  imageUrl: '${ctrlHome.getUsuarioInfo!.logo}',
+                  fit: BoxFit.fill,
+                  placeholder: (context, url) =>
+                      const CupertinoActivityIndicator(),
+                  errorWidget: (context, url, error) =>
+                      const Icon(Icons.error),
+                ),
+              ),
+            ),
+          ),
+          Container(
+            child: Expanded(
+              child: Text('${ctrlHome.getUsuarioInfo!.rucempresa}',
+                  style: GoogleFonts.roboto(
+                      fontSize: size.iScreen(3.0),
+                      fontWeight: FontWeight.normal)),
+            ),
+          ),
+        ],
+      ),
+      actions: [
+        (widget.tipo!.contains('GUARDIA') ||
+                widget.tipo!.contains('SUPERVISOR') ||
+                widget.user!.usuario == 'talentohumano')
+            ? Consumer<HomeController>(
+                builder: (_, valueNot1, __) {
+                  return Container(
+                      margin: EdgeInsets.symmetric(
+                          horizontal: size.iScreen(1.0)),
+                      width: size.iScreen(5.0),
+                      height: size.iScreen(5.0),
+                      child: GestureDetector(
+                        onTap: (valueNot1.getBotonTurno)
+                            ? () {
+                                valueNot1.buscaNotificacionesPush('');
+                                Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            ListaNotificacionesPush(
+                                              session: widget.user,
+                                            )));
+                              }
+                            : () {
+                                print('SIN TURNO');
+                              },
+                        child: Badge(
+                          position:
+                              const BadgePosition(top: 5.0, start: -0.0),
+                          badgeContent: Text(
+                              (valueNot1.getNumNotificaciones > 9)
+                                  ? '9+'
+                                  : (valueNot1.getNumNotificaciones == 0)
+                                      ? ''
+                                      : '${valueNot1.getNumNotificaciones}',
+                              style: GoogleFonts.roboto(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              )),
+                          child: Icon(Icons.assignment_outlined),
+                          badgeColor: (valueNot1.getNumNotificaciones == 0)
+                              ? Colors.transparent
+                              : Colors.orange,
+                          elevation: (valueNot1.getNumNotificaciones == 0) ? 0 : 5,
+                        ),
+                      ));
+                },
+              )
+            : Container(),
+        Consumer<HomeController>(
+          builder: (_, valueNot2, __) {
+            return Container(
+                margin: EdgeInsets.symmetric(horizontal: size.iScreen(1.0)),
+                width: size.iScreen(5.0),
+                height: size.iScreen(5.0),
+                child: GestureDetector(
+                  onTap: (valueNot2.getBotonTurno)
+                      ? () {
+                          Provider.of<HomeController>(context,
+                                  listen: false)
+                              .buscaNotificacionesPush2('');
+                          Navigator.of(context)
+                              .push(MaterialPageRoute(
+                                  builder: (context) =>
+                                      ListaNotificaciones2Push(
+                                          user: widget.user)))
+                              .then((value) =>
+                                  valueNot2.buscaNotificacionesPush2(''));
+                        }
+                      : () {
+                          print('SIN TURNO');
+                        },
+                  child: Badge(
+                    position: const BadgePosition(top: 5.0, start: 25.0),
+                    badgeContent: Text(
+                      (valueNot2.getNumNotificaciones2 > 9)
+                          ? '9+'
+                          : (valueNot2.getNumNotificaciones2 == 0)
+                              ? ''
+                              : '${valueNot2.getNumNotificaciones2}',
+                      style: GoogleFonts.roboto(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    child: const Icon(Icons.notifications_active_outlined),
+                    badgeColor: (valueNot2.getNumNotificaciones2 == 0)
+                        ? Colors.transparent
+                        : Colors.red.shade900,
+                    elevation:
+                        (valueNot2.getNumNotificaciones2 == 0) ? 0 : 5,
+                  ),
+                ));
+          },
+        ),
+      ],
+    ),
+  
+
         body: Container(
           // color: Colors.grey,
           width: size.wScreen(100.0), height: size.hScreen(100.0),
