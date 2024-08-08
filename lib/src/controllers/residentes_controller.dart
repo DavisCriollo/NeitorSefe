@@ -93,7 +93,7 @@ class ResidentesController extends ChangeNotifier {
     _listaTodosLosResidentes = [];
     _listaTodosLosResidentes = data;
 
-    print('TENEMOS DATA:${_listaTodosLosResidentes}');
+    // print('TENEMOS DATA:${_listaTodosLosResidentes}');
     _listaTodosLosResidentes.sort((a, b) {
   if (a['resEstado'] == 'INACTIVA' && b['resEstado'] != 'INACTIVA') {
     return 1; // Mueve a 'a' al final
@@ -666,7 +666,7 @@ List _listaVisitasResidente = [];
     _listaVisitasResidente=[];
     _listaVisitasResidente.addAll(_info);
 
-print('LA LISTA visitantes a residente: $_listaVisitasResidente'); 
+// print('LA LISTA visitantes a residente: $_listaVisitasResidente'); 
 
 
     notifyListeners();

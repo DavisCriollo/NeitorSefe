@@ -3450,8 +3450,14 @@ _listaTurnos =listaIds!
       if (dataResp.statusCode == 200) {
         
         
-        // print('LA CEDULA :${respo} ');
-        return respo;
+        print('LA CEDULA :${respo} ');
+        print('LA respo-perDocNumero : ${respo['perDocNumero']} ');
+        if (respo['perDocNumero'].isEmpty) {
+          return null;
+        } 
+          return respo;
+       
+        
 
 
 

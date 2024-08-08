@@ -81,6 +81,38 @@ class InfoVisita extends StatelessWidget {
                       height: size.iScreen(1.0),
                     ),
                     //*****************************************/
+                      SizedBox(
+                                              height: size.iScreen(1.0),
+                                            ),
+                                            //*****************************************/
+                                             Container(
+                                              width: size.wScreen(100.0),
+                                              child: Row(
+                                                children: [
+                                                  Text('Tipo de Ingreso: ',
+                                                      style: GoogleFonts.lexendDeca(
+                                                          fontSize: size.iScreen(1.8),
+                                                          fontWeight: FontWeight.normal,
+                                                          color: Colors.grey)),
+                                                            Container(
+                                              // width: size.wScreen(100.0),
+                                              child: Text(
+                                                  '${_ctrlBitacora.getInfoVisita['bitTipoIngreso']}',
+                                                  style: GoogleFonts.lexendDeca(
+                                                      fontSize: size.iScreen(1.8),
+                                                      fontWeight: FontWeight.bold,
+                                                      // color: Colors.grey
+                                                      )),
+                                            ),
+                                                ],
+                                              ),
+                                            ),
+              
+                                          
+                                          
+                                            SizedBox(
+                                              height: size.iScreen(0.5),
+                                            ),
 
                     Container(
                       width: size.wScreen(100.0),

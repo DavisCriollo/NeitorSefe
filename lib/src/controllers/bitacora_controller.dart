@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 
 
+
 import 'package:flutter/material.dart';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
 // import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
@@ -12,6 +13,7 @@ import 'package:nseguridad/src/api/api_provider.dart';
 import 'package:nseguridad/src/api/authentication_client.dart';
 import 'package:nseguridad/src/models/crea_fotos.dart';
 import 'package:nseguridad/src/models/foto_url.dart';
+import 'package:nseguridad/src/service/notifications_service.dart';
 import 'package:nseguridad/src/service/socket_service.dart';
 import 'package:nseguridad/src/utils/foto_url.dart';
 import 'package:provider/provider.dart';
@@ -1291,10 +1293,10 @@ _listaVisitas.clear();
      
     });
   }
-  Future<void> pickFrontImage() async {
+  Future<void> pickFrontImage(BuildContext context) async {
     await _pickImage((image) async{
       _frontImage = image;
-      _readTextFromImage(_frontImage!,0);
+      _readTextFromImage(_frontImage!,0,context);
 //         final file = File(_visitanteImage!.path);
 //    final foto= await upLoadImagens(file);
 // setUrlCedulaFront(foto!);
@@ -1313,20 +1315,20 @@ _listaVisitas.clear();
   }
 
 
-  Future<void> pickPasaporteImage() async {
+  Future<void> pickPasaporteImage(BuildContext context) async {
     await _pickImage((image) async{
       _pasaporteImage = image;
-        _readTextFromImage(_pasaporteImage!,2);
+        _readTextFromImage(_pasaporteImage!,2,context);
 //           final file = File(_pasaporteImage!.path);
 //    final foto= await upLoadImagens(file);
 // setUrlPasaporte(foto!);
     });
   }
 
-  Future<void> pickPlacaImage() async {
+  Future<void> pickPlacaImage(BuildContext context) async {
     await _pickImage((image)async {
       _placaImage = image;
-        _readTextFromImage(_placaImage!,3);
+        _readTextFromImage(_placaImage!,3,context);
   //         final file = File(_visitanteImage!.path);
   //  final foto= await upLoadImagens(file);
   //  setUrlPlaca(foto!);
@@ -1554,8 +1556,9 @@ void setCedulaVerificar( String cedulas )
 _cedulas=cedulas;
  print('LA LA CEDULA ESCANEADA----> : ${_cedulas}');
  setTextCedula(_cedulas);
-
+// _isValidate=false;
 // getCedulaVisitante(_cedulas);
+
   notifyListeners();
 }
 
@@ -1570,7 +1573,8 @@ _placas=_placa;
 
 
   setTextPlaca(_placas);
-// getCedulaVisitante(_cedulas);
+getCedulaVisitas(_cedulas);
+_isValidate=1;
   notifyListeners();
 }
 
@@ -1598,7 +1602,7 @@ _placas=_placa;
   
 // }
 
-Future _readTextFromImage(XFile image, int tipo) async {
+Future _readTextFromImage(XFile image, int tipo,BuildContext? context) async {
  
   final File imageFile = File(image.path);
   final textRecognizer = TextRecognizer(script: TextRecognitionScript.latin);
@@ -1608,13 +1612,22 @@ Future _readTextFromImage(XFile image, int tipo) async {
   textRecognizer.close();
 
   List<String> extractedTexts = text.split('\n');
-    print('LA IMAGEN ESCANEADA TIPO----> : ${extractedTexts.runtimeType}');
-       print('LA IMAGEN ESCANEADA JSON----> : ${extractedTexts}');
+    // print('LA IMAGEN ESCANEADA TIPO----> : ${extractedTexts.runtimeType}');
+    //    print('LA IMAGEN ESCANEADA JSON----> : ${extractedTexts}');
   
-  if (tipo == 0) {
-    String cedulaInfo = extraerCedula(extractedTexts);
+  if (tipo == 0 || tipo == 2) {
+    final exist= verificarCedulaVisita() ;
+    if (exist==true) {
+ NotificatiosnService.showSnackBarDanger('Visitanta ya registrado');
+      
+    } else {
+         String cedulaInfo = extraerCedula(extractedTexts);
     cedulaInfo = cedulaInfo.replaceAll('-','');
     setCedulaVerificar(cedulaInfo.trim());
+    setIsValidate(1);
+    getCedulaVisitas(_cedulas);
+    }
+   
   //        final file = File(image.path);
   //  final foto= await upLoadImagens(file);
   //  setUrlCedulaFront(foto!);
@@ -1625,6 +1638,8 @@ Future _readTextFromImage(XFile image, int tipo) async {
   } else if (tipo == 3) {
     String placaInfo = extraerPlaca(extractedTexts);
     setPlacaVerificar(placaInfo);
+    setIsValidatePlaca(1);
+    getVehiculoPlavaVisitante(placaInfo);
 //        final file = File(image.path);
 //    final foto= await upLoadImagens(file);
 // setUrlPlaca(foto!);
@@ -1982,14 +1997,11 @@ _dataCedula=_data;
  _nombreVisitantes='${_dataCedula['perApellidos']} ${_dataCedula['perNombres']}';
  _telefonoVisitantes=_dataCedula['perTelefono'].isNotEmpty?_dataCedula['perTelefono'][0]:"";
 }else {
-  _cedulaVisitantes='';
-
-
+ _cedulaVisitantes='';
 _nombreVisitantes='';
-
- _telefonoVisitantes='';
-
+_telefonoVisitantes='';
 _dataCedula={};
+_isValidate==1 ;
 
 }
 
@@ -2002,7 +2014,7 @@ notifyListeners();
 }
 
 
-Future<dynamic> getCedulaVisitante(
+Future<dynamic> getCedulaVisitas(
     String? search,
    
   ) async {
@@ -2015,21 +2027,24 @@ Future<dynamic> getCedulaVisitante(
 
     if (response != null) {
      
-
-     
-
-      setDataCedula(response);
+  setDataCedula(response);
    
-
+        _isValidate=2;
+        _cedulaOk= false;
+                             
+                              
       notifyListeners();
       return response;
     }
     if (response == null) {
-    
+      _dataCedula={};
+      setTextCedulaIngresoVisita(_cedulas);
+      _cedulaOk= false;
+       _isValidate=0;
       notifyListeners();
       return null;
     }
-    return null;
+   
   }
 
 
@@ -2064,7 +2079,7 @@ Future<dynamic> getVehiculoPlavaVisitante(
      
 
      
-
+ _isValidatePlaca=2;
       setDataPlaca(response);
    
 
@@ -2072,7 +2087,7 @@ Future<dynamic> getVehiculoPlavaVisitante(
       return response;
     }
     if (response == null) {
-    
+     _isValidatePlaca=0;
       notifyListeners();
       return null;
     }
@@ -3271,9 +3286,47 @@ Future<bool> uploadImagesAndPrintUrls() async {
       //********************//
 
 
+bool verificarCedulaVisita() {
+  // Itera sobre cada ítem en la lista
+  for (var item in _listaVisitas) {
+    // Verifica si la cédulaBuscada coincide con la propiedad cedulaVisita
+    if (item['cedulaVisita'] == _cedulas) {
+      return true; // La cédula se encontró
+    }
+  }
+  return false; // La cédula no se encontró
+}
+
+
+int? _isValidate=0;
+
+int? get getIsValidate=>_isValidate;
+
+
+void setIsValidate(int? _state){
+_isValidate=_state;
+  notifyListeners();
+}
+void resetIsValidate(){
+_isValidate=0;
+  notifyListeners();
+}
 
 
 
+int? _isValidatePlaca=0;
+
+int? get getIsValidatePlaca=>_isValidatePlaca;
+
+
+void setIsValidatePlaca(int? _state){
+_isValidatePlaca=_state;
+  notifyListeners();
+}
+void resetIsValidatePlaca(){
+_isValidatePlaca=0;
+  notifyListeners();
+}
 
 
 

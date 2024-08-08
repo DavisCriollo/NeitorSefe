@@ -975,25 +975,36 @@ Consumer<BitacoraController>(builder: (_, valueDoc, __) {
             ),
             IconButton(
               icon: Icon(Icons.search), // Icono del botón de búsqueda
-              onPressed: valueDoc.getCedulas.isNotEmpty?() async{
+              onPressed: valueDoc.getCedulas.isNotEmpty?
+              () async{
+
+                 bool existeCedula = valueDoc.verificarCedulaVisita();
+                // print('LA CEDULA ES: ${valueDoc.listaVisitas[0]['cedulaVisita']}');
+                print('LA CEDULA ES: ${existeCedula}');
+
                             
-                            // if () {
-                              
-                            // } else {
-                            // }
-                            
-                            ProgressDialog.show(context);
-                   final response = await valueDoc.getCedulaVisitante(valueDoc.getCedulas);
+                            if (existeCedula) {
+                              NotificatiosnService.showSnackBarDanger('Visitantante ya registrado');
+                            } else {
+                              valueDoc.setIsValidate(1);
+                               ProgressDialog.show(context);
+                            final response = await valueDoc.getCedulaVisitas(valueDoc.getCedulas);
                             ProgressDialog.dissmiss(context);
                             if (response!=null) {
+                               valueDoc.setIsValidate(2);
                                NotificatiosnService.showSnackBarSuccsses('Datos Correctos');
                                valueDoc.setCedulaOk(false);
                             } else {
                               valueDoc.setDataCedula({});
                               valueDoc.setTextCedulaIngresoVisita(valueDoc.getCedulas);
                                valueDoc.setCedulaOk(true);
+                                valueDoc.setIsValidate(1);
                                 // NotificatiosnService.showSnackBarDanger('No Incorrectos');
                             }
+
+                            }
+                            
+                           
 
 
                         }:null
@@ -1008,7 +1019,41 @@ Consumer<BitacoraController>(builder: (_, valueDoc, __) {
 
                       
                        }),
+Consumer<BitacoraController>( builder: (_, value, __) { 
 
+  return 
+  value.getIsValidate==1
+  ?
+  Column(
+    mainAxisSize: MainAxisSize.min,
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+ SizedBox(
+  height: size.iScreen(1.0),
+),
+
+ Text(
+        'Validando Documento, por favor espere ...  ',
+        style: GoogleFonts.lexendDeca(
+          fontSize: size.iScreen(1.8),
+          fontWeight: FontWeight.normal,
+          color: Colors.grey,
+        ),
+      ),
+      SizedBox(height: size.iScreen(1.0)), // Espacio entre el texto y el indicador
+      CircularProgressIndicator(
+        color: ctrlTheme.secondaryColor,
+        strokeWidth : 3.0), 
+                  ]):Container();
+ },),
+
+   
+
+                           //***********************************************/
+                    SizedBox(
+                      height: size.iScreen(0.5),
+                    ),
+                    //*****************************************/
 
             //         //*****************************************/
 
@@ -1020,13 +1065,13 @@ Consumer<BitacoraController>(builder: (_, valueDoc, __) {
 
                            Consumer<BitacoraController>(builder: (_, valuesNomCed, __) { 
                               return 
-                            valuesNomCed.getCedulaOK==false &&valuesNomCed.getDataCedula.isNotEmpty
-                               ?
-                               Column(
+                            // valuesNomCed.getCedulaOK==false &&valuesNomCed.getDataCedula.isNotEmpty
+                            // valuesNomCed.getIsValidate==false && valuesNomCed.getDataCedula.isNotEmpty
+                          valuesNomCed.getIsValidate==2 
+                         
+                                                ? Column(
                           children: [
-                  
-                   
-                        //***********************************************/
+                   //***********************************************/
                     SizedBox(
                       height: size.iScreen(1.0),
                     ),
@@ -1096,39 +1141,7 @@ Consumer<BitacoraController>(builder: (_, valueDoc, __) {
                    
                       ],
                     ),
-                    //        //***********************************************/
-                    // SizedBox(
-                    //   height: size.iScreen(1.0),
-                    // ),
-                    // //*****************************************/
-
-                    // Container(
-                    //   width: size.wScreen(100.0),
-
-                    //   // color: Colors.blue,
-                    //   child: Text('Sexo:',
-                    //       style: GoogleFonts.lexendDeca(
-                    //           fontSize: size.iScreen(1.8),
-                    //           fontWeight: FontWeight.normal,
-                    //           color: Colors.grey)),
-                    // ),
-                    //        //***********************************************/
-                    // SizedBox(
-                    //   height: size.iScreen(0.5),
-                    // ),
-                    //*****************************************/
-                    // Container(
-                    //   width: size.wScreen(100.0),
-
-                    //   // color: Colors.blue,
-                    //   child: Text(valuesNomCed.getExtractedDataCedulaA.isNotEmpty?' ${valuesNomCed.getExtractedDataCedulaA['SEXO']}':'--- --- --- ---',
-                    //       style: GoogleFonts.lexendDeca(
-                    //           fontSize: size.iScreen(1.8),
-                    //           fontWeight: FontWeight.normal,
-                    //           // color: Colors.grey
-                    //           ),
-                    //          ),
-                    // ),
+                    
                           ],
                         ):Container();
   
@@ -1138,7 +1151,9 @@ Consumer<BitacoraController>(builder: (_, valueDoc, __) {
 
  Consumer<BitacoraController>(builder: (_, value, __) { 
 return //value.getCedulaOK==true && value.getDataCedula.isEmpty 
- value.getCedulaOK==true && value.getDataCedula.isEmpty
+//  value.getCedulaOK==true && value.getDataCedula.isEmpty
+//  value.getIsValidate==1 
+ value.getIsValidate==0 
 ?Column( children: [
   Container(
     padding: EdgeInsets.symmetric(vertical: size.iScreen(0.5)),
@@ -1453,7 +1468,7 @@ return //value.getCedulaOK==true && value.getDataCedula.isEmpty
                                 child: valueDoc.pasaporteImage == null
                                              ?  GestureDetector(
                                                onTap:  valueDoc.isPicking ? null :() {
-                            valueDoc.pickPasaporteImage();
+                            valueDoc.pickPasaporteImage(context);
                           },
                                               child: Column(
                                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -1504,6 +1519,9 @@ return //value.getCedulaOK==true && value.getDataCedula.isEmpty
                                               //          NotificatiosnService.showSnackBarError('Error al eliminar foto !! ');
                                               //       }
                                                   valueDoc.removePasaporteImage();
+                                                   valueDoc.setDataCedula({});
+                                              //  valueDoc.removeFrontImage();
+                                                  valueDoc.resetIsValidate();
                                                 },
                                                 child: Icon(Icons.close_outlined,size: size.iScreen(4.0),color: Colors.redAccent,)): Container())
                             ],
@@ -1567,7 +1585,7 @@ return //value.getCedulaOK==true && value.getDataCedula.isEmpty
                                              ?  GestureDetector(
                                                onTap:  valueDoc.isPicking ? null :() async{
 
-                            valueDoc.pickFrontImage();
+                            valueDoc.pickFrontImage(context);
 
                           //   // if (valueDoc.frontImage == null) {
                           //         if (valueDoc.getCedulas.isNotEmpty) {
@@ -1663,7 +1681,9 @@ return //value.getCedulaOK==true && value.getDataCedula.isEmpty
                                               //       } else {
                                               //          NotificatiosnService.showSnackBarError('Error al eliminar foto !! ');
                                               //       }
+                                                valueDoc.setDataCedula({});
                                                valueDoc.removeFrontImage();
+                                                  valueDoc.resetIsValidate();
                                                  
                                                 },
                                                 child: Icon(Icons.close_outlined,size: size.iScreen(4.0),color: Colors.redAccent,)): Container())
@@ -1920,7 +1940,7 @@ Consumer<BitacoraController>(builder: (_, valuePlaca, __) {
               icon: Icon(Icons.search), // Icono del botón de búsqueda
               onPressed: valuePlaca.getPlacas.isNotEmpty? () async{
                             ProgressDialog.show(context);
-         
+                                valuePlaca.setIsValidatePlaca(1);
 
           final response = await valuePlaca.getVehiculoPlavaVisitante(valuePlaca.getPlacas);
                             ProgressDialog.dissmiss(context);
@@ -1928,10 +1948,12 @@ Consumer<BitacoraController>(builder: (_, valuePlaca, __) {
                                NotificatiosnService.showSnackBarSuccsses('Datos Correctos');
                                valuePlaca.setPlacaOk(false);
                                valuePlaca.setTextPlaca('');
+                               valuePlaca.setIsValidatePlaca(2);
                             } else {
                               valuePlaca.setTextPlacaVehiculoPropietarioVisita(valuePlaca.getPlacas);
                               valuePlaca.setDataPlaca({});
                                valuePlaca.setPlacaOk(true);
+                               valuePlaca.setIsValidatePlaca(1);
                                 // NotificatiosnService.showSnackBarDanger('No Incorrectos');
                             }
                         }:null
@@ -1946,8 +1968,46 @@ Consumer<BitacoraController>(builder: (_, valuePlaca, __) {
 
                       
                        }),
+ //***********************************************/
+                    SizedBox(
+                      height: size.iScreen(0.5),
+                    ),
+                    //*****************************************/
+Consumer<BitacoraController>( builder: (_, values, __) { 
 
+  return 
+  values.getIsValidatePlaca==1
+  ?
+  Column(
+    mainAxisSize: MainAxisSize.min,
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+ SizedBox(
+  height: size.iScreen(1.0),
+),
 
+ Text(
+        'Validando Documento, por favor espere ...  ',
+        style: GoogleFonts.lexendDeca(
+          fontSize: size.iScreen(1.8),
+          fontWeight: FontWeight.normal,
+          color: Colors.grey,
+        ),
+      ),
+      SizedBox(height: size.iScreen(1.0)), // Espacio entre el texto y el indicador
+      CircularProgressIndicator(
+        color: ctrlTheme.secondaryColor,
+        strokeWidth : 3.0), 
+                  ]):Container();
+ },),
+
+   
+
+                           //***********************************************/
+                    SizedBox(
+                      height: size.iScreen(0.5),
+                    ),
+                    //*****************************************/
             //         //*****************************************/
 
 // Consumer<BitacoraController>(builder: (_, valuePlaca, __) {  
@@ -2297,27 +2357,7 @@ Column( children: [
             builder: (context, providers, child) {
               //  _controllerTextCedula.text = providers.getCedulas;
               return
-
-            //     TextFormField(
-            //       controller: providers.getControllerCedula,
-            //       // initialValue:providers.getCedulas,
-            //       decoration: const InputDecoration(
-            //         border: InputBorder.none, // Remover el borde por defecto
-            //         contentPadding: EdgeInsets.symmetric(vertical: 10.0), // Ajustar el padding vertical
-            //       ),
-            //       textAlign: TextAlign.center,
-            //       style: TextStyle(fontSize: size.iScreen(2.5)),
-            //       textInputAction: TextInputAction.done,
-            //       keyboardType: TextInputType.number,
-            //       inputFormatters: <TextInputFormatter>[
-            //         FilteringTextInputFormatter.digitsOnly,
-            //       ],
-            //       onChanged: (text) {
-            //         providers.setCedulaVerificar(text);
-            //       },
-            //     );
-            // }),
-        
+       
        TextFormField(
                 controller: providers.getControllerPlacaVehiculoPropietarioVisita,
               decoration: const InputDecoration(),
@@ -2474,7 +2514,7 @@ Column( children: [
                                                           )
                                          :GestureDetector(
                                            onTap:  valueVehiculo.isPicking ? null :() {
-                        valueVehiculo.pickPlacaImage();
+                        valueVehiculo.pickPlacaImage(context);
                       },
                                           child: Column(
                                             mainAxisAlignment: MainAxisAlignment.center,
@@ -2530,6 +2570,7 @@ Column( children: [
 
 
                                                valueVehiculo.removePlacaImage();
+                                                valueVehiculo.resetIsValidatePlaca();
                                             },
                                             child: Icon(Icons.close_outlined,size: size.iScreen(4.0),color: Colors.redAccent,)): Container())
                         ],
@@ -2779,10 +2820,18 @@ void _onSubmit(BuildContext context, BitacoraController _controller) async {
   final isValid = _controller.validateFormRegistro();
   if (!isValid) return;
 
-  // if (_controller.getItemObservacionBitacora == '' || _controller.getItemObservacionBitacora == null) {
-  //   NotificatiosnService.showSnackBarDanger('Agregue Observación');
-  //   return;
-  // }
+
+      bool existeCedula = _controller.verificarCedulaVisita();
+                // print('LA CEDULA ES: ${valueDoc.listaVisitas[0]['cedulaVisita']}');
+                print('LA CEDULA ES: ${existeCedula}');
+
+                            
+                            if (existeCedula) {
+                              NotificatiosnService.showSnackBarDanger('Visitantante ya registrado');
+                            } else {
+
+
+  
   if (_controller.getItemTipoPersonal == '' || _controller.getItemTipoPersonal == null) {
     NotificatiosnService.showSnackBarDanger('Seleccione tipo de Persona');
     return;
@@ -3000,7 +3049,7 @@ if (_controller.getItemTipoDocumento == 'PASAPORTE') {
 
 
   //********************************************************************************************************/
-
+                            }
 }
 
 
@@ -3322,7 +3371,9 @@ if (_controller.getItemTipoDocumento == 'PASAPORTE') {
                                   _control.setTextPlaca('');
                                  
                                    _control.setCedulaVerificar('');
-                                   _control.setPlacaVerificar('');
+                                  //  _control.setPlacaVerificar('');
+                                    _control.resetIsValidate();
+                                     _control.setDataCedula({});
 
                             _control.setItemTipoDocumento(_data[index]);
                             Navigator.pop(context);

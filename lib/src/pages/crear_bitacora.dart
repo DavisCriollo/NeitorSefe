@@ -1494,18 +1494,28 @@ print('LOS URL DE LA LISTA DE VICITANTES >>>>>> $urlList');
                           borderRadius: BorderRadius.circular(8),
                           child: GestureDetector(
                             onTap: () {
+                               bitacoraController.setIsValidate(1);
+                               bitacoraController.resetIsValidate();
+                               bitacoraController.setIsValidatePlaca(0);
+                               
+                              
                             if ( bitacoraController.getItemPersonaDestinol!.isNotEmpty) {
                                bitacoraController.removeFrontBackPlacaImage();
                                bitacoraController.setCedulaOk(false);
                                bitacoraController.setDataCedula({});
+                               
                               
                                 if (bitacoraController.getDataVehiculo.isNotEmpty) {
               
-                                   print('LA FOTO DE LA PLACA ES ${bitacoraController.getDataVehiculo}');
-                                   bitacoraController.setDataVehiculoAddFoto(bitacoraController.listaVisitas[0]['fotoPlaca']);
+                                  //  print('LA FOTO DE LA PLACA ES ${bitacoraController.getDataVehiculo}');
+                                  if (bitacoraController.listaVisitas[0]['fotoPlaca'].isNotEmpty) {
+                                     bitacoraController.setDataVehiculoAddFoto(bitacoraController.listaVisitas[0]['fotoPlaca']);
+                                  }
+                                  
                                     bitacoraController.setUrlPlaca(bitacoraController.listaVisitas[0]['fotoPlaca']);
                                     // print('LA FOTO fotoPlaca ${bitacoraController.getDataVehiculo['fotoPlaca']}');
                                   // bitacoraController.setUrlPlaca(bitacoraController.getDataVehiculo['fotoPlaca']);
+                                  bitacoraController.resetIsValidatePlaca();
                                 }else{
                                   bitacoraController.setUrlPlaca('');
                                 } 
@@ -1526,6 +1536,7 @@ print('LOS URL DE LA LISTA DE VICITANTES >>>>>> $urlList');
                    bitacoraController.setPasaporteVisita('');
                    bitacoraController.setUrlPasaporte('');
                    bitacoraController.setItemAsunto('');
+                
                               
               
                               Navigator.push(
