@@ -23,6 +23,7 @@ import 'package:nseguridad/src/service/notifications_service.dart';
 // import 'package:nseguridad/src/service/notificatiosn.dart';
 import 'package:nseguridad/src/service/socket_service.dart';
 import 'package:nseguridad/src/theme/themes_app.dart';
+
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 // import 'package:sincop_app/src/api/api_provider.dart';
@@ -86,6 +87,7 @@ class HomeController extends ChangeNotifier {
   @override
   void dispose() {
     _deboucerSearchCompras?.cancel();
+   
     super.dispose();
   }
 
@@ -1186,11 +1188,11 @@ class HomeController extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future getAllMantenimientos(BuildContext context) async {
+  Future getAllMantenimientos() async {
     final dataUser = await Auth.instance.getSession();
 
     final response = await _api.getAllMantenimiento(
-      context: context,
+      // context: context,
       token: dataUser!.token,
     );
 
@@ -1452,7 +1454,64 @@ List get  getListaNotificacionesMenu=>_listaNotificacionesMenu;
     notifyListeners();
   }
 
-//*************************//
+//************VERIFICA GPS ACTIVO *************//
+ 
+// bool _isGpsEnabled = false;
+//   bool get isGpsEnabled => _isGpsEnabled;
+
+//   GpsProvider() {
+//     _startListeningToGpsStatus();
+//   }
+
+//   void _startListeningToGpsStatus() {
+//     Geolocator.Geolocator.getPositionStream().listen((Position position) async {
+//       bool serviceEnabled = await Geolocator.Geolocator.isLocationServiceEnabled();
+//       if (serviceEnabled != _isGpsEnabled) {
+//         _isGpsEnabled = serviceEnabled;
+//         notifyListeners();
+//       }
+//     });
+//     print('EL ESTADO DEL GPS _startListeningToGpsStatus =======>: ${_isGpsEnabled} ');
+//   }
+
+//   Future<void> checkGpsStatus() async {
+//     bool serviceEnabled = await Geolocator.Geolocator.isLocationServiceEnabled();
+//     if (serviceEnabled != _isGpsEnabled) {
+//       _isGpsEnabled = serviceEnabled;
+//       notifyListeners();
+//     }
+//      print('EL ESTADO DEL GPS checkGpsStatus =======>: ${_isGpsEnabled} ');
+
+//   }
+
+bool _isGpsEnabled = false;
+  bool get isGpsEnabled => _isGpsEnabled;
+
+  GpsProvider() {
+    _startListeningToGpsStatus();
+  }
+
+  void _startListeningToGpsStatus() {
+    Geolocator.Geolocator.getPositionStream().listen((Position position) async {
+      bool serviceEnabled = await Geolocator.Geolocator.isLocationServiceEnabled();
+      if (serviceEnabled != _isGpsEnabled) {
+        _isGpsEnabled = serviceEnabled;
+        notifyListeners();
+      }
+    });
+  }
+
+  Future<bool> checkGpsStatus() async {
+    _isGpsEnabled = await Geolocator.Geolocator.isLocationServiceEnabled();
+    notifyListeners();
+    return _isGpsEnabled;
+  }
+  
+
+
+
+
+
 
 
 }

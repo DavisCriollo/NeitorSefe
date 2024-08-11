@@ -1141,6 +1141,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:nseguridad/src/controllers/home_ctrl.dart';
 import 'package:nseguridad/src/controllers/residentes_controller.dart';
+import 'package:nseguridad/src/pages/acceso_gps_page.dart';
 import 'package:nseguridad/src/pages/agregar_visita_bitacora.dart';
 import 'package:nseguridad/src/utils/foto_url.dart';
 import 'package:nseguridad/src/widgets/no_data.dart';
@@ -1493,8 +1494,15 @@ print('LOS URL DE LA LISTA DE VICITANTES >>>>>> $urlList');
                         ClipRRect(
                           borderRadius: BorderRadius.circular(8),
                           child: GestureDetector(
-                            onTap: () {
-                               bitacoraController.setIsValidate(1);
+                            onTap: () async{
+                             bool isGpsEnabled = await context.read<HomeController>().checkGpsStatus();
+            if (!isGpsEnabled) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => AccesoGPSPage()),
+              );
+            } else {
+              bitacoraController.setIsValidate(1);
                                bitacoraController.resetIsValidate();
                                bitacoraController.setIsValidatePlaca(0);
                                
@@ -1552,19 +1560,16 @@ print('LOS URL DE LA LISTA DE VICITANTES >>>>>> $urlList');
               
                                NotificatiosnService.showSnackBarDanger('Seleccione Residente');
                             }
-                             
-                              //  bitacoraController.removeFrontBackPlacaImage();
-                              // Navigator.push(
-                              //   context,
-                              //   MaterialPageRoute(
-                              //     builder: ((context) => AgregarVicitaBitaora(
-                              //           user: widget.user,
-                              //         )),
-                              //   ),
-                              // );
-                              
                             
-                            },
+                  
+                            
+                                    }                          //  
+                                            },
+                           
+                           
+                           
+                           
+                           
                             child: Consumer<ThemeApp>(
                               builder: (_, valueTheme, __) {
                                 return Container(

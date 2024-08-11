@@ -3238,7 +3238,7 @@ _listaTurnos =listaIds!
 //=========================GET ALL MANTENIMIENTO =====================================//
   Future getAllMantenimiento({
 
-    BuildContext? context,
+    // BuildContext? context,
     // List? idFechas,
     String? token,
   }) async {
@@ -3254,14 +3254,14 @@ _listaTurnos =listaIds!
       // final respo = jsonDecode(dataResp.body);
       //  print('RESPUESTA DE MANTENIMIENTO: ${dataResp.body} ---- ${dataResp.statusCode}');
       if (dataResp.statusCode == 404) {
-         Map<String, dynamic> message = jsonDecode(dataResp.body);
-       Dialogs.alert(context!, title: 'Atención', description: '${message['msg']}');
+      //    Map<String, dynamic> message = jsonDecode(dataResp.body);
+      //  Dialogs.alert(context!, title: 'Atención', description: '${message['msg']}');
         return null;
     
       }
       if (dataResp.statusCode == 500) {
-         Map<String, dynamic> message = jsonDecode(dataResp.body);
-         Dialogs.alert(context!, title: 'Atención', description: '${message['msg']}');
+        //  Map<String, dynamic> message = jsonDecode(dataResp.body);
+        //  Dialogs.alert(context!, title: 'Atención', description: '${message['msg']}');
        
         return null;
     
@@ -3271,7 +3271,7 @@ _listaTurnos =listaIds!
         return responseData;
       }
       if (dataResp.statusCode == 401) {
-        Auth.instance.deleteSesion(context!);
+        // Auth.instance.deleteSesion(context!);
 
         return null;
       }
@@ -3491,6 +3491,10 @@ _listaTurnos =listaIds!
     String? placa,
     
   }) async {
+
+   print('PLACA PARA API:${placa} ');
+
+
     try {
       final url = Uri.parse('$_dirURL/personas/searchByPlaca/0?placa=$placa');
           

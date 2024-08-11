@@ -562,7 +562,54 @@ class _SplashPageState extends State<SplashPage> {
       final status = await Permission.location.request();
       if (status == PermissionStatus.granted) {
       //   // print('============== SI TIENE PERMISOS');
+final isGPSActive=await controllerHome.checkGPSStatus();
+ print('isGPSActive ================+> : ${isGPSActive}');
+  if (isGPSActive==true) {
+       await controllerHome.getCurrentPosition();
 
+
+
+        if (controllerHome.getCoords != '') {
+          
+          if (session.rol!.contains('GUARDIA')||session.rol!.contains('SUPERVISOR')||session.rol!.contains('ADMINISTRACION')) {
+        controllerHome.getValidaTurnoServer();
+         controllerHome.buscaNotificacionesPush('');
+    controllerHome.buscaNotificacionesPush2('');
+        // print('EL TURNO SI EXISTE : ${_isTurned}');
+        //      controllerHome.setValidaBtnTurno((validaTurno != null) ? true : false);
+
+        //   if (controllerHome.getBotonTurno) {
+        //     controllerHome.setBotonTurno(true); //P OR DEFAUL ES TRUE
+        //   } else {
+        //     controllerHome.setBotonTurno(false);
+        //   }
+          }
+
+ 
+final String primaryColorStr = session.colorPrimario.toString().substring(1);
+    final String secondaryColorStr = session.colorSecundario.toString().substring(1);
+
+    final Color primaryColor = Color(int.parse(primaryColorStr, radix: 16)).withOpacity(1.0);
+    final Color secondaryColor = Color(int.parse(secondaryColorStr, radix: 16)).withOpacity(1.0);
+
+
+  Provider.of<ThemeApp>(context, listen: false).updateTheme(primaryColor,secondaryColor);
+
+          Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(
+                  builder: (context) => Home(
+                      validaTurno: validaTurno,
+                      tipo: session.rol,
+                      user: session,
+                      ubicacionGPS: controllerHome.getCoords)),
+              (Route<dynamic> route) => false);
+          ModalRoute.withName('/');
+        }
+
+  }
+  else {
+     Navigator.pushNamed(context, 'gpsActive');
+  }
           
 //  await controllerHome.fetchCurrentPosition();
 //  print('LA POSICION GPS: NUEVA ${controllerHome.currentPosition}');  
@@ -624,51 +671,17 @@ class _SplashPageState extends State<SplashPage> {
   
     
 //********************************************/
- final isGPSActive=await controllerHome.checkGPSStatus();
-   print('isGPSActive : ${isGPSActive}');
-        await controllerHome.getCurrentPosition();
+//  final isGPSActive=await controllerHome.checkGPSStatus();
 
+  // if (controllerHome.getCoords != '') {
 
+  // }
 
-        if (controllerHome.getCoords != '') {
-          
-          if (session.rol!.contains('GUARDIA')||session.rol!.contains('SUPERVISOR')||session.rol!.contains('ADMINISTRACION')) {
-        controllerHome.getValidaTurnoServer();
-         controllerHome.buscaNotificacionesPush('');
-    controllerHome.buscaNotificacionesPush2('');
-        // print('EL TURNO SI EXISTE : ${_isTurned}');
-        //      controllerHome.setValidaBtnTurno((validaTurno != null) ? true : false);
-
-        //   if (controllerHome.getBotonTurno) {
-        //     controllerHome.setBotonTurno(true); //P OR DEFAUL ES TRUE
-        //   } else {
-        //     controllerHome.setBotonTurno(false);
-        //   }
-          }
-
- 
-final String primaryColorStr = session.colorPrimario.toString().substring(1);
-    final String secondaryColorStr = session.colorSecundario.toString().substring(1);
-
-    final Color primaryColor = Color(int.parse(primaryColorStr, radix: 16)).withOpacity(1.0);
-    final Color secondaryColor = Color(int.parse(secondaryColorStr, radix: 16)).withOpacity(1.0);
-
-
-  Provider.of<ThemeApp>(context, listen: false).updateTheme(primaryColor,secondaryColor);
-
-          Navigator.of(context).pushAndRemoveUntil(
-              MaterialPageRoute(
-                  builder: (context) => Home(
-                      validaTurno: validaTurno,
-                      tipo: session.rol,
-                      user: session,
-                      ubicacionGPS: controllerHome.getCoords)),
-              (Route<dynamic> route) => false);
-          ModalRoute.withName('/');
-        }
+  
+       
       }
        else {
-        Navigator.pushNamed(context, 'gps');
+        // Navigator.pushNamed(context, 'gps');
       }
 
 

@@ -33,7 +33,7 @@ class _AccesoGPSPageState extends State<AccesoGPSPage>
     if (state == AppLifecycleState.resumed) {
       if (await Permission.location.isGranted) {
         // Navigator.pushReplacementNamed(context, 'home');
-        Navigator.pushReplacementNamed(context, 'login');
+        Navigator.pushReplacementNamed(context, 'splash');
       }
     }
   }
@@ -128,7 +128,7 @@ Navigator.pop(context);
       //   // TODO: Handle this case.
       //   break;
        case PermissionStatus.granted:
-      Navigator.pushReplacementNamed(context, 'login');
+      Navigator.pushReplacementNamed(context, 'splash');
       break;
     case PermissionStatus.denied:
     case PermissionStatus.restricted:

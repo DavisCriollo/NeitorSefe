@@ -32,8 +32,8 @@ class _PermisosAppPageState extends State<PermisosAppPage>
   void didChangeAppLifecycleState(AppLifecycleState state) async {
     if (state == AppLifecycleState.resumed) {
       if (await Permission.location.isGranted) {
-        // Navigator.pushReplacementNamed(context, 'home');
-        Navigator.pushReplacementNamed(context, 'login');
+        Navigator.pushReplacementNamed(context, 'home');
+        // Navigator.pushReplacementNamed(context, 'login');
       }
     }
   }
@@ -129,7 +129,7 @@ Navigator.pop(context);
       //   // TODO: Handle this case.
       //   break;
        case PermissionStatus.granted:
-      Navigator.pushReplacementNamed(context, 'login');
+      Navigator.pushReplacementNamed(context, 'splash');
       break;
     case PermissionStatus.denied:
     case PermissionStatus.restricted:

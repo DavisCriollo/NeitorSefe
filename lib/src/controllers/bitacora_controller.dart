@@ -2068,10 +2068,13 @@ Future<dynamic> getVehiculoPlavaVisitante(
     String? search,
    
   ) async {
+  final placaTrim=_placas.replaceAll('-','');
+
+
     final dataUser = await Auth.instance.getSession();
     final response = await _api.getPlacaVehiculoVisita(
      
-      placa:_placas ,
+      placa:placaTrim ,
       token: '${dataUser!.token}',
     );
 
@@ -2724,7 +2727,7 @@ TextEditingController _controllerTextPlacaVehiculoPropietarioVisita = TextEditin
   String get getPlacaVehiculoPropietarioVisita => _controllerTextPlacaVehiculoPropietarioVisita.text;
 
   void setTextPlacaVehiculoPropietarioVisita(String _text) {
-      final _placa=_text.replaceAll('-', '');
+      final _placa=_text.replaceAll('-','');
     if ( _controllerTextPlacaVehiculoPropietarioVisita.text != _placa) {
        _controllerTextPlacaVehiculoPropietarioVisita.text = _placa;
       notifyListeners();
