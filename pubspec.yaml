@@ -94,6 +94,7 @@ dependencies:
   pdf_viewer_plugin: ^2.0.1
   flutter_pdfview: ^1.0.1
   # downloads_path_provider: 
+  gallery_saver: ^2.3.1
   image_gallery_saver: 
   cached_network_image: 
   flutter_localization: 

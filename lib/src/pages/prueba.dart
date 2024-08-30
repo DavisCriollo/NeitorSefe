@@ -1,102 +1,508 @@
 
 
 
-// // // // import 'dart:io';
+import 'dart:io';
 
-// // // // import 'package:flutter/material.dart';
-// // // // import 'package:provider/provider.dart';
-// // // // import 'package:sincop_app/src/controllers/prueba_controller.dart';
+import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:nseguridad/src/controllers/prueba_controller.dart';
+import 'package:provider/provider.dart';
 
-// // // // class Prueba extends StatelessWidget {
-// // // //   @override
-// // // //   Widget build(BuildContext context) {
-// // // //     return Consumer<ImagenCompress>(
-// // // //         builder: (context, imageProvider, _) {
-// // // //           final File? originalImage = imageProvider.originalImage;
-// // // //           final File? compressedImage = imageProvider.compressedImage;
+// class Prueba extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Consumer<ImagenCompress>(
+//       builder: (context, imageProvider, _) {
+//         final File? originalImage = imageProvider.originalImage;
+//         final File? compressedImage = imageProvider.compressedImage;
 
-// // // //           return SafeArea(
-// // // //             child: Scaffold(
-// // // //               body: Column(
-// // // //                 children: [
-// // // //                   TextButton(onPressed: (){
-// // // //                     imageProvider.deleteImage();
-// // // //                   }, child: Text('BORAR')),
-// // // //                   Row(
-// // // //                     children: [
-// // // //                       Expanded(
-// // // //                         child: SizedBox(
-// // // //                           child: Column(
-// // // //                             mainAxisAlignment: MainAxisAlignment.center,
-// // // //                             children: [
-// // // //                               Text(
-// // // //                                 "Original Image",
-// // // //                                 style: TextStyle(
-// // // //                                   fontSize: 20,
-// // // //                                   fontWeight: FontWeight.w500,
-// // // //                                 ),
-// // // //                               ),
-                              
-// // // //                               originalImage != null
-// // // //                                   ? Image.file(originalImage)
-// // // //                                   : TextButton(
-// // // //                                       onPressed: () {
-// // // //                                         imageProvider.pickImage();
-// // // //                                       },
-// // // //                                       child: Text("Pick an Image"),
-// // // //                                     ),
-// // // //                                     Text(
-// // // //                                 "${imageProvider.originalImage?.length()}",
-// // // //                                 style: TextStyle(
-// // // //                                   fontSize: 20,
-// // // //                                   fontWeight: FontWeight.w500,
-// // // //                                 ),
-// // // //                               ),
-// // // //                             ],
-// // // //                           ),
-// // // //                         ),
-// // // //                       ),
-// // // //                       Expanded(
-// // // //                         child: SizedBox(
-// // // //                           child: Column(
-// // // //                             mainAxisAlignment: MainAxisAlignment.center,
-// // // //                             children: [
-// // // //                               Text(
-// // // //                                 "Compressed Image",
-// // // //                                 style: TextStyle(
-// // // //                                   fontSize: 20,
-// // // //                                   fontWeight: FontWeight.w500,
-// // // //                                 ),
-// // // //                               ),
-// // // //                               compressedImage != null
-// // // //                                   ? Image.file(compressedImage)
-// // // //                                   : TextButton(
-// // // //                                       onPressed: () {
-// // // //                                         imageProvider.compressImage();
-// // // //                                       },
-// // // //                                       child: Text("Compress Image"),
-// // // //                                     ),
-// // // //                                     Text(
-// // // //                                 "${imageProvider.compressedImage?.path}",
-// // // //                                 style: TextStyle(
-// // // //                                   fontSize: 20,
-// // // //                                   fontWeight: FontWeight.w500,
-// // // //                                 ),
-// // // //                               ),
-// // // //                             ],
-// // // //                           ),
-// // // //                         ),
-// // // //                       ),
-// // // //                     ],
-// // // //                   ),
-// // // //                 ],
-// // // //               ),
-// // // //             ),
-// // // //           );
-// // // //         },
-// // // //       );
-// // // //   }
-// // // // }
+//         return SafeArea(
+//           child: Scaffold(
+//             body: Column(
+//               children: [
+//                 TextButton(
+//                   onPressed: () {
+//                     imageProvider.deleteImage();
+//                   },
+//                   child: Text('BORRAR'),
+//                 ),
+//                 Row(
+//                   children: [
+//                     Expanded(
+//                       child: SizedBox(
+//                         child: Column(
+//                           mainAxisAlignment: MainAxisAlignment.center,
+//                           children: [
+//                             Text(
+//                               "Original Image",
+//                               style: TextStyle(
+//                                 fontSize: 20,
+//                                 fontWeight: FontWeight.w500,
+//                               ),
+//                             ),
+//                             originalImage != null
+//                                 ? Image.file(originalImage)
+//                                 : TextButton(
+//                                     onPressed: () {
+//                                       imageProvider.pickImage();
+//                                     },
+//                                     child: Text("Pick an Image"),
+//                                   ),
+//                             if (originalImage != null)
+//                               FutureBuilder<int>(
+//                                 future: originalImage.length(),
+//                                 builder: (context, snapshot) {
+//                                   if (snapshot.connectionState ==
+//                                       ConnectionState.waiting) {
+//                                     return CircularProgressIndicator();
+//                                   }
+//                                   if (snapshot.hasError) {
+//                                     return Text("Error: ${snapshot.error}");
+//                                   }
+//                                   final originalSizeMB =
+//                                       _bytesToMB(snapshot.data!);
+//                                   return Text(
+//                                     "Size: ${originalSizeMB.toStringAsFixed(2)} MB",
+//                                     style: TextStyle(
+//                                       fontSize: 16,
+//                                       fontWeight: FontWeight.w400,
+//                                     ),
+//                                   );
+//                                 },
+//                               ),
+//                           ],
+//                         ),
+//                       ),
+//                     ),
+//                     Expanded(
+//                       child: SizedBox(
+//                         child: Column(
+//                           mainAxisAlignment: MainAxisAlignment.center,
+//                           children: [
+//                             Text(
+//                               "Compressed Image",
+//                               style: TextStyle(
+//                                 fontSize: 20,
+//                                 fontWeight: FontWeight.w500,
+//                               ),
+//                             ),
+//                             compressedImage != null
+//                                 ? Image.file(compressedImage)
+//                                 : TextButton(
+//                                     onPressed: () {
+//                                       imageProvider.compressImage();
+//                                     },
+//                                     child: Text("Compress Image"),
+//                                   ),
+//                             if (compressedImage != null)
+//                               FutureBuilder<int>(
+//                                 future: compressedImage.length(),
+//                                 builder: (context, snapshot) {
+//                                   if (snapshot.connectionState ==
+//                                       ConnectionState.waiting) {
+//                                     return CircularProgressIndicator();
+//                                   }
+//                                   if (snapshot.hasError) {
+//                                     return Text("Error: ${snapshot.error}");
+//                                   }
+//                                   final compressedSizeMB =
+//                                       _bytesToMB(snapshot.data!);
+//                                   return Text(
+//                                     "Size: ${compressedSizeMB.toStringAsFixed(2)} MB",
+//                                     style: TextStyle(
+//                                       fontSize: 16,
+//                                       fontWeight: FontWeight.w400,
+//                                     ),
+//                                   );
+//                                 },
+//                               ),
+//                           ],
+//                         ),
+//                       ),
+//                     ),
+//                   ],
+//                 ),
+//               ],
+//             ),
+//           ),
+//         );
+//       },
+//     );
+//   }
+
+//   double _bytesToMB(int bytes) {
+//     return bytes / (1024 * 1024); // Convierte bytes a MB
+//   }
+// }
+
+
+// class Prueba extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Consumer<ImagenCompress>(
+//       builder: (context, imageProvider, _) {
+//         final File? compressedImage = imageProvider.compressedImage;
+
+//         return SafeArea(
+//           child: Scaffold(
+//             body: Column(
+//               children: [
+//                 TextButton(
+//                   onPressed: () {
+//                     imageProvider.deleteImage();
+//                   },
+//                   child: Text('BORRAR'),
+//                 ),
+//                 ElevatedButton(
+//                   onPressed: () {
+//                     imageProvider.pickAndCompressImage();
+//                   },
+//                   child: Text('Pick and Compress Image'),
+//                 ),
+//                 Expanded(
+//                   child: Center(
+//                     child: compressedImage != null
+//                         ? Column(
+//                             mainAxisAlignment: MainAxisAlignment.center,
+//                             children: [
+//                               Image.file(compressedImage),
+//                               FutureBuilder<int>(
+//                                 future: compressedImage.length(),
+//                                 builder: (context, snapshot) {
+//                                   if (snapshot.connectionState ==
+//                                       ConnectionState.waiting) {
+//                                     return CircularProgressIndicator();
+//                                   }
+//                                   if (snapshot.hasError) {
+//                                     return Text("Error: ${snapshot.error}");
+//                                   }
+//                                   final compressedSizeMB =
+//                                       _bytesToMB(snapshot.data!);
+//                                   return Text(
+//                                     "Compressed Size: ${compressedSizeMB.toStringAsFixed(2)} MB",
+//                                     style: TextStyle(
+//                                       fontSize: 16,
+//                                       fontWeight: FontWeight.w400,
+//                                     ),
+//                                   );
+//                                 },
+//                               ),
+//                             ],
+//                           )
+//                         : Text('No compressed image'),
+//                   ),
+//                 ),
+//               ],
+//             ),
+//           ),
+//         );
+//       },
+//     );
+//   }
+
+//   double _bytesToMB(int bytes) {
+//     return bytes / (1024 * 1024); // Convierte bytes a MB
+//   }
+// }
+//********IMAGEN DESDE CAMARA O GALERIA *********/
+
+class Prueba extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<ImagenCompress>(
+      builder: (context, imageProvider, _) {
+        final File? compressedImage = imageProvider.compressedImage;
+
+        return SafeArea(
+          child: Scaffold(
+            body: Column(
+              children: [
+                TextButton(
+                  onPressed: () {
+                    imageProvider.deleteImage();
+                  },
+                  child: Text('BORRAR'),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    _showImageSourceDialog(context, imageProvider);
+                  },
+                  child: Text('Pick or Capture Image'),
+                ),
+                Expanded(
+                  child: Center(
+                    child: compressedImage != null
+                        ? SingleChildScrollView(
+                          child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Image.file(compressedImage),
+                                FutureBuilder<int>(
+                                  future: compressedImage.length(),
+                                  builder: (context, snapshot) {
+                                    if (snapshot.connectionState ==
+                                        ConnectionState.waiting) {
+                                      return CircularProgressIndicator();
+                                    }
+                                    if (snapshot.hasError) {
+                                      return Text("Error: ${snapshot.error}");
+                                    }
+                                    final compressedSizeMB =
+                                        _bytesToMB(snapshot.data!);
+                                    return Text(
+                                      "Compressed Size: ${compressedSizeMB.toStringAsFixed(2)} MB",
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    );
+                                  },
+                                ),
+                             
+                             
+                             
+                              ],
+                            ),
+                        )
+                        : Text('No compressed image'),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  void _showImageSourceDialog(BuildContext context, ImagenCompress imageProvider) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Select Image Source'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+                imageProvider.pickOrCaptureImage(ImageSource.camera);
+              },
+              child: Text('Take Photo'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+                imageProvider.pickOrCaptureImage(ImageSource.gallery);
+              },
+              child: Text('Pick from Gallery'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text('Cancel'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  double _bytesToMB(int bytes) {
+    return bytes / (1024 * 1024); // Convierte bytes a MB
+  }
+}
+
+
+//********* multiples imagenes independientes almacenadas en una LISTA Y EN LA GALERIA  **********/
+
+
+
+// class Prueba extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Consumer<ImagenCompress>(
+//       builder: (context, imageProvider, _) {
+//         final List<File> compressedImages = imageProvider.compressedImages;
+
+//         return SafeArea(
+//           child: Scaffold(
+//             body: Column(
+//               children: [
+//                 TextButton(
+//                   onPressed: () {
+//                     imageProvider.deleteAllImages();
+//                   },
+//                   child: Text('BORRAR TODOS'),
+//                 ),
+//                 ElevatedButton(
+//                   onPressed: () {
+//                     _showImageSourceDialog(context, imageProvider);
+//                   },
+//                   child: Text('Pick or Capture Image'),
+//                 ),
+//                 Expanded(
+//                   child: compressedImages.isNotEmpty
+//                       ? GridView.builder(
+//                           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+//                             crossAxisCount: 2,
+//                             crossAxisSpacing: 8,
+//                             mainAxisSpacing: 8,
+//                           ),
+//                           itemCount: compressedImages.length,
+//                           itemBuilder: (context, index) {
+//                             final image = compressedImages[index];
+//                             return Stack(
+//                               fit: StackFit.expand,
+//                               children: [
+//                                 Image.file(image, fit: BoxFit.cover),
+//                                 Positioned(
+//                                   right: 8,
+//                                   top: 8,
+//                                   child: IconButton(
+//                                     icon: Icon(Icons.delete, color: Colors.red),
+//                                     onPressed: () {
+//                                       imageProvider.deleteImage(image);
+//                                     },
+//                                   ),
+//                                 ),
+//                               ],
+//                             );
+//                           },
+//                         )
+//                       : Center(child: Text('No compressed images')),
+//                 ),
+//               ],
+//             ),
+//           ),
+//         );
+//       },
+//     );
+//   }
+
+//   void _showImageSourceDialog(BuildContext context, ImagenCompress imageProvider) {
+//     showDialog(
+//       context: context,
+//       builder: (BuildContext context) {
+//         return AlertDialog(
+//           title: Text('Select Image Source'),
+//           actions: <Widget>[
+//             TextButton(
+//               onPressed: () {
+//                 Navigator.pop(context);
+//                 imageProvider.pickOrCaptureImage(ImageSource.camera);
+//               },
+//               child: Text('Take Photo'),
+//             ),
+//             TextButton(
+//               onPressed: () {
+//                 Navigator.pop(context);
+//                 imageProvider.pickOrCaptureImage(ImageSource.gallery);
+//               },
+//               child: Text('Pick from Gallery'),
+//             ),
+//             TextButton(
+//               onPressed: () {
+//                 Navigator.pop(context);
+//               },
+//               child: Text('Cancel'),
+//             ),
+//           ],
+//         );
+//       },
+//     );
+//   }
+// }
+
+
+
+//********** GUARDA EN GALERIA DE MANERA INDEPENDIENTE Y LA ELIMINA DEL DISPOSITIVO**********//
+
+
+// class Prueba extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Consumer<ImagenCompress>(
+//       builder: (context, imageProvider, _) {
+//         final File? compressedImage = imageProvider.compressedImage;
+
+//         return SafeArea(
+//           child: Scaffold(
+//             appBar: AppBar(
+//               title: Text('Image Compression Example'),
+//             ),
+//             body: Column(
+//               children: [
+//                 SizedBox(height: 20),
+//                 Row(
+//                   mainAxisAlignment: MainAxisAlignment.center,
+//                   children: [
+//                     ElevatedButton(
+//                       onPressed: () {
+//                         imageProvider.pickOrCaptureImage(ImageSource.camera);
+//                       },
+//                       child: Text('Take a Photo'),
+//                     ),
+//                     SizedBox(width: 20),
+//                     ElevatedButton(
+//                       onPressed: () {
+//                         imageProvider.pickOrCaptureImage(ImageSource.gallery);
+//                       },
+//                       child: Text('Pick from Gallery'),
+//                     ),
+//                   ],
+//                 ),
+//                 SizedBox(height: 20),
+//                 compressedImage != null
+//                     ? Expanded(
+//                         child: Column(
+//                           children: [
+//                             Text(
+//                               "Compressed Image",
+//                               style: TextStyle(
+//                                 fontSize: 20,
+//                                 fontWeight: FontWeight.w500,
+//                               ),
+//                             ),
+//                             SizedBox(height: 20),
+//                             Image.file(
+//                               compressedImage,
+//                               width: double.infinity,
+//                               height: 300,
+//                               fit: BoxFit.cover,
+//                             ),
+//                             SizedBox(height: 20),
+//                             Text(
+//                               "File size: ${compressedImage.lengthSync() / (1024 * 1024)} MB",
+//                               style: TextStyle(
+//                                 fontSize: 16,
+//                                 fontWeight: FontWeight.w400,
+//                               ),
+//                             ),
+//                             SizedBox(height: 20),
+//                             ElevatedButton(
+//                               onPressed: () {
+//                                 imageProvider.deleteImage();
+//                               },
+//                               child: Text('Delete Image'),
+//                             ),
+//                           ],
+//                         ),
+//                       )
+//                     : Center(
+//                         child: Text(
+//                           "No image selected or compressed",
+//                           style: TextStyle(fontSize: 18),
+//                         ),
+//                       ),
+//               ],
+//             ),
+//           ),
+//         );
+//       },
+//     );
+//   }
+// }
 
 
 // // import 'dart:io';
@@ -1543,21 +1949,21 @@
 
 
 
-import 'dart:io';
+// import 'dart:io';
 
-import 'package:dio/dio.dart';
-import 'package:file_picker/file_picker.dart';
-import 'package:flutter/material.dart';
-import 'package:nseguridad/src/controllers/bitacora_controller.dart';
+// import 'package:dio/dio.dart';
+// import 'package:file_picker/file_picker.dart';
+// import 'package:flutter/material.dart';
+// import 'package:nseguridad/src/controllers/bitacora_controller.dart';
 
-import 'package:nseguridad/src/utils/responsive.dart';
+// import 'package:nseguridad/src/utils/responsive.dart';
 
-// import 'package:open_file/open_file.dart';
-import 'package:open_file_safe/open_file_safe.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:permission_handler/permission_handler.dart';
-import 'package:provider/provider.dart';
-import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
+// // import 'package:open_file/open_file.dart';
+// import 'package:open_file_safe/open_file_safe.dart';
+// import 'package:path_provider/path_provider.dart';
+// import 'package:permission_handler/permission_handler.dart';
+// import 'package:provider/provider.dart';
+// import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 // class ViewsPDFs extends StatefulWidget {
 //   // final String infoPdf;
@@ -1658,8 +2064,8 @@ import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 // }
 
 //*************************  VISTAS PDF *****************************//
-import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
+// import 'package:flutter/material.dart';
+// import 'package:url_launcher/url_launcher.dart';
 
 // class ViewsPDFs extends StatelessWidget {
 //   @override
@@ -1695,41 +2101,41 @@ import 'package:url_launcher/url_launcher.dart';
 
 //*************************  VISTAS PDF *****************************//
 
-class ViewsPDFs extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'PDF Viewer',
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('PDF Viewer'),
-        ),
-        body: Center(
-          child: ElevatedButton(
-            onPressed: () {
+// class ViewsPDFs extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       title: 'PDF Viewer',
+//       home: Scaffold(
+//         appBar: AppBar(
+//           title: Text('PDF Viewer'),
+//         ),
+//         body: Center(
+//           child: ElevatedButton(
+//             onPressed: () {
 
-                final _ctrl=context.read<BitacoraController>();
-              //     _ctrl.getALLEstudiantes();
-              // Navigator.of(context).push(
-              //                             MaterialPageRoute(
-              //                                 builder: (context) =>
-              //                                     ListaNotas(
-              //                                        )));
-            },
-            child: Text('VER LISTA'),
-          ),
-        ),
-      ),
-    );
-  }
+//                 final _ctrl=context.read<BitacoraController>();
+//               //     _ctrl.getALLEstudiantes();
+//               // Navigator.of(context).push(
+//               //                             MaterialPageRoute(
+//               //                                 builder: (context) =>
+//               //                                     ListaNotas(
+//               //                                        )));
+//             },
+//             child: Text('VER LISTA'),
+//           ),
+//         ),
+//       ),
+//     );
+//   }
 
- // Función para abrir el PDF usando url_launcher
-  _launchPDF(String url) async {
-    Uri uri = Uri.parse(url);
-    if (await canLaunchUrl(uri)) {
-      await launchUrl(uri);
-    } else {
-      throw 'No se pudo abrir el PDF $url';
-    }
-  }
-}
+//  // Función para abrir el PDF usando url_launcher
+//   _launchPDF(String url) async {
+//     Uri uri = Uri.parse(url);
+//     if (await canLaunchUrl(uri)) {
+//       await launchUrl(uri);
+//     } else {
+//       throw 'No se pudo abrir el PDF $url';
+//     }
+//   }
+// }

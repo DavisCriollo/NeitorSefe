@@ -117,7 +117,7 @@ final Map<String, Widget Function(BuildContext)> appRoutes = {
   'home': (_) => const Home(),
   'gps': (_) => const PermisosAppPage(),
   'gpsActive': (_) => const ActivarGPSPage(),
-    'prueba': (_) =>   ViewsPDFs(),
+    // 'prueba': (_) =>   ViewsPDFs(),
   'password': (_) => const PasswordPage(),
     'editUserPass': (_) => const UpdatePassUser(),
   'acercade': (_) => const AcercaDePage(),
@@ -214,7 +214,7 @@ final Map<String, Widget Function(BuildContext)> appRoutes = {
 
 
 
-  // 'prueba': (_) =>  ViewsPDFs(),
+  'prueba': (_) =>  Prueba(),
 
 
 

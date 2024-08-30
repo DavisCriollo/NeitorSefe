@@ -26,6 +26,7 @@ import 'package:nseguridad/src/controllers/new_permisos_controller.dart';
 import 'package:nseguridad/src/controllers/new_turno_extra_controller.dart';
 
 import 'package:nseguridad/src/controllers/novedades_controller.dart';
+import 'package:nseguridad/src/controllers/prueba_controller.dart';
 import 'package:nseguridad/src/controllers/residentes_controller.dart';
 import 'package:nseguridad/src/controllers/sugerencias_controller.dart';
 import 'package:nseguridad/src/controllers/turno_extra_controller.dart';
@@ -79,7 +80,7 @@ class _MyAppState extends State<MyApp> {
       providers: [
         ChangeNotifierProvider(create: (_) => ThemeApp()),
         ChangeNotifierProvider(create: (_) => PushNotificationService()),
-          // ChangeNotifierProvider(create: (_) => NotificationProvider()),
+          ChangeNotifierProvider(create: (_) => ImagenCompress()),
         ChangeNotifierProvider(create: (_) => SocketService()),
         ChangeNotifierProvider(create: (_) => HomeController()),
         ChangeNotifierProvider(create: (_) => ActividadesController()),
@@ -136,9 +137,9 @@ class _MyAppState extends State<MyApp> {
             //==== AGREGO EL TEMA ====//
             theme: valueTheme.themeData,
 //============================//
-            // initialRoute: 'prueba',
+            initialRoute: 'prueba',
 
-            initialRoute: 'splash',
+            // initialRoute: 'splash',
 
             routes: appRoutes,
             navigatorKey: homeController.navigatorKey,

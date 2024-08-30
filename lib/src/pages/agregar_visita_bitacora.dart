@@ -791,17 +791,22 @@ class _AgregarVicitaBitaoraState extends State<AgregarVicitaBitaora> {
                     ),
                     //*****************************************/
 
-                    Container(
-                      width: size.wScreen(100.0),
+                  Consumer<BitacoraController>(builder: (_, value, __) {  
+                    return 
+                    value.radioValueTipoIngreso==1
+                   ? Column(
+                      children: [
+                        Container(
+                          width: size.wScreen(100.0),
 
-                      // color: Colors.blue,
-                      child: Text('Documento:',
-                          style: GoogleFonts.lexendDeca(
-                              fontSize: size.iScreen(1.8),
-                              fontWeight: FontWeight.normal,
-                              color: Colors.grey)),
-                    ),
-                   //***********************************************/
+                          // color: Colors.blue,
+                          child: Text('Documento:',
+                              style: GoogleFonts.lexendDeca(
+                                  fontSize: size.iScreen(1.8),
+                                  fontWeight: FontWeight.normal,
+                                  color: Colors.grey)),
+                        ),
+                        //***********************************************/
                     SizedBox(
                       height: size.iScreen(0.0),
                     ),
@@ -1762,6 +1767,11 @@ return //value.getCedulaOK==true && value.getDataCedula.isEmpty
                       :Container();
                     },),
                      
+                      ],
+                    ):Container();
+                   
+                  },),
+                    
                      
                   // //***********************************************/
                   //   SizedBox(

@@ -57,6 +57,7 @@ import 'package:nseguridad/src/theme/themes_app.dart';
 import 'package:nseguridad/src/urls/urls.dart';
 import 'package:nseguridad/src/utils/dialogs.dart';
 import 'package:nseguridad/src/utils/responsive.dart';
+import 'package:nseguridad/src/utils/sizeApp.dart';
 import 'package:nseguridad/src/utils/theme.dart';
 import 'package:nseguridad/src/widgets/btn_menu.dart';
 import 'package:nseguridad/src/widgets/no_data.dart';
@@ -332,6 +333,7 @@ print('DESPUES DE LLENAR LA VARIABLE COORDENADAS DE ALERTA : $coordenadasItem');
 
   @override
   Widget build(BuildContext context) {
+        final screenSize = ScreenSize(context);
     final ctrlHome = context.read<HomeController>();
     final ctrlTheme = context.read<ThemeApp>();
 
@@ -752,7 +754,7 @@ print('DESPUES DE LLENAR LA VARIABLE COORDENADAS DE ALERTA : $coordenadasItem');
           // color: Colors.grey,
           width: size.wScreen(100.0), height: size.hScreen(100.0),
           child: Center(
-            child: _getPage(context, size, ctrlHome),
+            child: _getPage(context, size, ctrlHome,screenSize),
           ),
         ),
         // bottomNavigationBar: Consumer<HomeController>(
@@ -852,19 +854,19 @@ print('DESPUES DE LLENAR LA VARIABLE COORDENADAS DE ALERTA : $coordenadasItem');
   }
 
   Widget _getPage(
-      BuildContext context, Responsive size, HomeController ctrlHome) {
+      BuildContext context, Responsive size, HomeController ctrlHome,screenSize) {
     final provider = Provider.of<HomeController>(context);
     final ctrlTheme = context.read<ThemeApp>();
     switch (provider.selectedIndex) {
       case 0:
-        return _informacionUsuario(size, ctrlHome, ctrlTheme, context);
+        return _informacionUsuario(size, ctrlHome, ctrlTheme, context,screenSize);
       case 1:
 
      
-        return _menuPrincipal(size, ctrlHome);
+        return  _menuPrincipal(size, ctrlHome);
 
       case 2:
-        return _quienesSomos(size);
+        return  _quienesSomos(size);
       case 3:
         return 
         // Padding(
@@ -1208,7 +1210,7 @@ print('DESPUES DE LLENAR LA VARIABLE COORDENADAS DE ALERTA : $coordenadasItem');
   }
 
   Stack _informacionUsuario(Responsive size, HomeController ctrlHome,
-      ThemeApp ctrlTheme, BuildContext context) {
+      ThemeApp ctrlTheme, BuildContext context,ScreenSize screenSize) {
     return Stack(
       children: [
         Column(
@@ -1226,7 +1228,7 @@ print('DESPUES DE LLENAR LA VARIABLE COORDENADAS DE ALERTA : $coordenadasItem');
                       Container(
                           // color:Colors.amber,
                           width: size.wScreen(55),
-                          height: size.hScreen(15),
+                          height: screenSize.width<600?size.hScreen(15): size.hScreen(25),
                           child: GestureDetector(
                             onTap: () {
                               _modalReportes(context, size, widget.user);
@@ -1441,10 +1443,11 @@ print('DESPUES DE LLENAR LA VARIABLE COORDENADAS DE ALERTA : $coordenadasItem');
             //   height: size.iScreen(0.5),
             //   width: size.wScreen(80),
             // ),
-        
-            Flexible(
+        //*****************************//
+            Expanded(
               flex: 3, // Proporción de flexibilidad del segundo contenedor
-              child: Container(
+              child: 
+              Container(
           //       decoration: BoxDecoration(
           //     color: Colors.grey.shade100,
           //   borderRadius: BorderRadius.circular(10.0),
@@ -1487,6 +1490,10 @@ print('DESPUES DE LLENAR LA VARIABLE COORDENADAS DE ALERTA : $coordenadasItem');
                     ),
                   )),
             ),
+         //*************************//
+         
+         
+         
           ],
         ),
         Positioned(
@@ -1500,7 +1507,7 @@ print('DESPUES DE LLENAR LA VARIABLE COORDENADAS DE ALERTA : $coordenadasItem');
               children: [
                 Container(
                     // color: Colors.red,
-                    width: size.wScreen(40.0),
+                    width: screenSize.width<600? size.wScreen(40.0):size.wScreen(20.0),
                     child: Image.asset(
                       'assets/imgs/logoNsafe.png',
                     )),
