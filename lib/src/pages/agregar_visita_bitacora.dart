@@ -11,6 +11,7 @@ import 'package:nseguridad/src/controllers/home_ctrl.dart';
 import 'package:nseguridad/src/controllers/residentes_controller.dart';
 import 'package:nseguridad/src/utils/correos.dart';
 import 'package:nseguridad/src/utils/foto_url.dart';
+import 'package:nseguridad/src/utils/sizeApp.dart';
 import 'package:provider/provider.dart';
 import 'package:nseguridad/src/controllers/bitacora_controller.dart';
 import 'package:nseguridad/src/controllers/home_controller.dart';
@@ -120,16 +121,9 @@ class _AgregarVicitaBitaoraState extends State<AgregarVicitaBitaora> {
     final ctrResidente = context.read<ResidentesController>();
       final bitacoraController = context.read<BitacoraController>();
       final ctrlTheme = context.read<ThemeApp>();
-        
 
-    //      WidgetsBinding.instance!.addPostFrameCallback((_) {
-    //   final textProvider = Provider.of<BitacoraController>(context, listen: false);
-    //   _controllerTextCedula.text = textProvider.getCedulas;
-    // });
+        final screenSize = ScreenSize(context); 
 
-
-        // Use Future.delayed to avoid updating controller during build
-   
 
 
 
@@ -640,6 +634,7 @@ class _AgregarVicitaBitaoraState extends State<AgregarVicitaBitaora> {
                                                 
                                                     valueRadioIngreso.getDataVehiculo.isEmpty?   (int? value) {
                                                           if (value != null) {
+                                                          valueRadioIngreso.setIsValidate(2)  ;
                                                             valueRadioIngreso
                                                                 .setRadioTipoIngreso(
                                                                     value);
@@ -722,7 +717,7 @@ class _AgregarVicitaBitaoraState extends State<AgregarVicitaBitaora> {
                           borderRadius: BorderRadius.circular(8),
                           child: GestureDetector(onTap: () {
                             _modalSeleccionaTipoPersona(
-                                size, bitacoraController);
+                                size, bitacoraController, screenSize);
                           }, child: Consumer<ThemeApp>(
                             builder: (_, valueTheme, __) {
                               return Container(
@@ -847,7 +842,7 @@ class _AgregarVicitaBitaoraState extends State<AgregarVicitaBitaora> {
                           borderRadius: BorderRadius.circular(8),
                           child: GestureDetector(onTap: () {
                            _modalSeleccionaTipoDocumento(
-                                size, bitacoraController);
+                                size, bitacoraController,screenSize);
                           }, child: Consumer<ThemeApp>(
                             builder: (_, valueTheme, __) {
                               return Container(
@@ -2661,7 +2656,7 @@ Column( children: [
     FloatingActionButton.extended(
       heroTag: 'noteButton',  // Proporciona un tag único
       onPressed: () {
-        _showModalObservacion(context, size);
+        _showModalObservacion(context, size,screenSize);
       },
        backgroundColor: ctrlTheme.secondaryColor,
     
@@ -3151,7 +3146,7 @@ if (_controller.getItemTipoDocumento == 'PASAPORTE') {
 
   //====== MUESTRA MODAL DE TIPO DE PERSONA =======//
   void _modalSeleccionaTipoPersona(
-      Responsive size, BitacoraController _control) {
+      Responsive size, BitacoraController _control,ScreenSize screenSize) {
     final _data = [
       'PERSONAL INTERNO',
       'FAMILIARES',
@@ -3170,64 +3165,68 @@ if (_controller.getItemTipoDocumento == 'PASAPORTE') {
               ),
               insetPadding: EdgeInsets.symmetric(
                   horizontal: size.wScreen(5.0), vertical: size.wScreen(3.0)),
-              content: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(' TIPO DE PERSONA',
-                          style: GoogleFonts.lexendDeca(
-                            fontSize: size.iScreen(2.0),
-                            fontWeight: FontWeight.bold,
-                            // color: Colors.white,
-                          )),
-                      IconButton(
-                          splashRadius: size.iScreen(3.0),
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          icon: Icon(
-                            Icons.close,
-                            color: Colors.red,
-                            size: size.iScreen(3.5),
-                          )),
-                    ],
-                  ),
-                  Container(
-                    width: size.wScreen(100),
-                    height: size.hScreen(24),
-                    child: ListView.builder(
-                      shrinkWrap: true,
-                      physics: const BouncingScrollPhysics(),
-                      itemCount: _data.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return GestureDetector(
-                          onTap: () {
-                            _control.setItemTipoPersona(_data[index]);
-                            Navigator.pop(context);
-                          },
-                          child: Container(
-                            color: Colors.grey[100],
-                            margin: EdgeInsets.symmetric(
-                                vertical: size.iScreen(0.3)),
-                            padding: EdgeInsets.symmetric(
-                                horizontal: size.iScreen(1.0),
-                                vertical: size.iScreen(1.0)),
-                            child: Text(
-                              _data[index],
-                              style: GoogleFonts.lexendDeca(
-                                fontSize: size.iScreen(1.8),
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black54,
+              content: SizedBox(
+          //        // Ajusta la altura según el tamaño de la pantalla
+          // height: screenSize.width>600? size.iScreen(60) : size.iScreen(40.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(' TIPO DE PERSONA',
+                            style: GoogleFonts.lexendDeca(
+                              fontSize: size.iScreen(2.0),
+                              fontWeight: FontWeight.bold,
+                              // color: Colors.white,
+                            )),
+                        IconButton(
+                            splashRadius: size.iScreen(3.0),
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            icon: Icon(
+                              Icons.close,
+                              color: Colors.red,
+                              size: size.iScreen(3.5),
+                            )),
+                      ],
+                    ),
+                    Container(
+                      width: size.wScreen(100),
+                      height: size.hScreen(24),
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        physics: const BouncingScrollPhysics(),
+                        itemCount: _data.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return GestureDetector(
+                            onTap: () {
+                              _control.setItemTipoPersona(_data[index]);
+                              Navigator.pop(context);
+                            },
+                            child: Container(
+                              color: Colors.grey[100],
+                              margin: EdgeInsets.symmetric(
+                                  vertical: size.iScreen(0.3)),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: size.iScreen(1.0),
+                                  vertical: size.iScreen(1.0)),
+                              child: Text(
+                                _data[index],
+                                style: GoogleFonts.lexendDeca(
+                                  fontSize: size.iScreen(1.8),
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black54,
+                                ),
                               ),
                             ),
-                          ),
-                        );
-                      },
+                          );
+                        },
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           );
@@ -3320,7 +3319,7 @@ if (_controller.getItemTipoDocumento == 'PASAPORTE') {
 
   //====== MUESTRA MODAL DE TIPO DE PERSONA =======//
   void _modalSeleccionaTipoDocumento(
-      Responsive size, BitacoraController _control) {
+      Responsive size, BitacoraController _control, ScreenSize screenSize) {
     final _data = [
       'CEDULA',
       'PASAPORTE',
@@ -3417,7 +3416,7 @@ if (_controller.getItemTipoDocumento == 'PASAPORTE') {
 
 
 
-void modalValidaCedula(BuildContext context, Responsive size) {
+void modalValidaCedula(BuildContext context, Responsive size, ScreenSize screenSize) {
   // final ausenciaController = context.read<BitacoraController>();
 
   showDialog(
@@ -3618,7 +3617,7 @@ void modalValidaCedula(BuildContext context, Responsive size) {
 
 
 
-void _showModalObservacion(BuildContext context, Responsive size) {
+void _showModalObservacion(BuildContext context, Responsive size, ScreenSize screenSize) {
   showDialog(
     barrierDismissible: false,
     context: context,

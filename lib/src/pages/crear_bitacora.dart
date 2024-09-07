@@ -1144,6 +1144,7 @@ import 'package:nseguridad/src/controllers/residentes_controller.dart';
 import 'package:nseguridad/src/pages/acceso_gps_page.dart';
 import 'package:nseguridad/src/pages/agregar_visita_bitacora.dart';
 import 'package:nseguridad/src/utils/foto_url.dart';
+import 'package:nseguridad/src/utils/sizeApp.dart';
 import 'package:nseguridad/src/widgets/no_data.dart';
 import 'package:provider/provider.dart';
 import 'package:nseguridad/src/controllers/bitacora_controller.dart';
@@ -1168,6 +1169,7 @@ class CrearBitaora extends StatefulWidget {
 class _CrearBitaoraState extends State<CrearBitaora> {
   @override
   Widget build(BuildContext context) {
+ final screenSize = ScreenSize(context);
     final Responsive size = Responsive.of(context);
     final _user = context.read<HomeController>();
     final _ctrlTheme = context.read<ThemeApp>();
@@ -1328,951 +1330,957 @@ print('LOS URL DE LA LISTA DE VICITANTES >>>>>> $urlList');
             body:
            
     
-                Container(
-              margin: EdgeInsets.symmetric(horizontal: size.iScreen(0.1)),
-              padding: EdgeInsets.all(size.iScreen(0.5)),
-              child: Form
-              (
-                key: bitacoraController.bitacoraFormKey,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      alignment: Alignment.bottomRight,
-                      width: size.wScreen(100.0),
-                      child: Text(
-                        '${_user.getUsuarioInfo!.rucempresa!}  - ${_user.getUsuarioInfo!.usuario!}',
-                        style: GoogleFonts.lexendDeca(
-                          fontSize: size.iScreen(1.5),
-                          color: Colors.grey.shade600,
-                          fontWeight: FontWeight.bold,
+                SingleChildScrollView(
+                  child: Container(
+                              margin: EdgeInsets.symmetric(horizontal: size.iScreen(0.1)),
+                              padding: EdgeInsets.all(size.iScreen(0.5)),
+                              width:size.wScreen(100.0),
+                              height: size.hScreen(100.0),
+                              child: Form
+                              (
+                  key: bitacoraController.bitacoraFormKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        alignment: Alignment.bottomRight,
+                        width: size.wScreen(100.0),
+                        child: Text(
+                          '${_user.getUsuarioInfo!.rucempresa!}  - ${_user.getUsuarioInfo!.usuario!}',
+                          style: GoogleFonts.lexendDeca(
+                            fontSize: size.iScreen(1.5),
+                            color: Colors.grey.shade600,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
-                    ),
-                    SizedBox(height: size.iScreen(1.0)),
-                   
-                        SizedBox(
-                          height: size.iScreen(1.0),
-                        ),
-                        //***********************************************/
-                          Container(
-                          width: size.wScreen(100.0),
-              
-                          // color: Colors.blue,
-                          child: Text('Residente:',
-                              style: GoogleFonts.lexendDeca(
-                                  fontSize: size.iScreen(1.8),
-                                  fontWeight: FontWeight.normal,
-                                  color: Colors.grey)),
-                        ),
-              
-                        //***********************************************/
-                        SizedBox(
-                          height: size.iScreen(0.0),
-                        ),
-                        //***********************************************/
-                        Row(
-                          children: [
-                            Expanded(
-                              child: Container(
-                                // color: Colors.red,
-                                padding: EdgeInsets.only(
-                                  top: size.iScreen(1.0),
-                                  right: size.iScreen(0.5),
-                                ),
-                                child: Consumer<BitacoraController>(
-                                  builder: (_, personal, __) {
-                                    return (personal.getItemPersonaDestinol!['nombre'] == {} ||
-                                           personal.getItemPersonaDestinol!['nombre'] == null)
-                                        ? Text(
-                                            'Seleccione residente',
-                                            style: GoogleFonts.lexendDeca(
+                      SizedBox(height: size.iScreen(1.0)),
+                     
+                          SizedBox(
+                            height: size.iScreen(1.0),
+                          ),
+                          //***********************************************/
+                            Container(
+                            width: size.wScreen(100.0),
+                              
+                            // color: Colors.blue,
+                            child: Text('Residente:',
+                                style: GoogleFonts.lexendDeca(
+                                    fontSize: size.iScreen(1.8),
+                                    fontWeight: FontWeight.normal,
+                                    color: Colors.grey)),
+                          ),
+                              
+                          //***********************************************/
+                          SizedBox(
+                            height: size.iScreen(0.0),
+                          ),
+                          //***********************************************/
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Container(
+                                  // color: Colors.red,
+                                  padding: EdgeInsets.only(
+                                    top: size.iScreen(1.0),
+                                    right: size.iScreen(0.5),
+                                  ),
+                                  child: Consumer<BitacoraController>(
+                                    builder: (_, personal, __) {
+                                      return (personal.getItemPersonaDestinol!['nombre'] == {} ||
+                                             personal.getItemPersonaDestinol!['nombre'] == null)
+                                          ? Text(
+                                              'Seleccione residente',
+                                              style: GoogleFonts.lexendDeca(
+                                                  fontSize: size.iScreen(1.8),
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.grey),
+                                            )
+                                          : Text(
+                                              '${personal.getItemPersonaDestinol!['nombre'].replaceAll('"',"")}',
+                                              style: GoogleFonts.lexendDeca(
                                                 fontSize: size.iScreen(1.8),
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.grey),
-                                          )
-                                        : Text(
-                                            '${personal.getItemPersonaDestinol!['nombre'].replaceAll('"',"")}',
-                                            style: GoogleFonts.lexendDeca(
-                                              fontSize: size.iScreen(1.8),
-                                              fontWeight: FontWeight.normal,
-                                              // color: Colors.grey
-                                            ),
-                                          );
-                                  },
+                                                fontWeight: FontWeight.normal,
+                                                // color: Colors.grey
+                                              ),
+                                            );
+                                    },
+                                  ),
                                 ),
                               ),
+                  
+                              Consumer<BitacoraController>(builder: (_, values, __) { 
+                                return  
+                                values.listaVisitas.isEmpty
+                                 ?ClipRRect(
+                                borderRadius: BorderRadius.circular(8),
+                                child: GestureDetector(onTap: () {
+                              final _ctrl=context.read<ResidentesController>();
+                                  _modalSeleccionaDestinoPersona(
+                                      size, bitacoraController,_ctrl.getInfoResidente,screenSize);
+                                }, child: Consumer<ThemeApp>(
+                                  builder: (_, valueTheme, __) {
+                                    return Container(
+                                      alignment: Alignment.center,
+                                      color: valueTheme.primaryColor,
+                                      width: size.iScreen(3.5),
+                                      padding: EdgeInsets.only(
+                                        top: size.iScreen(0.5),
+                                        bottom: size.iScreen(0.5),
+                                        left: size.iScreen(0.5),
+                                        right: size.iScreen(0.5),
+                                      ),
+                                      child: Icon(
+                                        Icons.add,
+                                        color: valueTheme.secondaryColor,
+                                        size: size.iScreen(2.0),
+                                      ),
+                                    );
+                                  },
+                                )),
+                              ):Container();
+                               },),
+                            
+                            ],
+                          ),
+                      //      //***********************************************/
+                      //     SizedBox(
+                      //       height: size.iScreen(1.0),
+                      //     ),
+                      //     //*****************************************/
+                      // SizedBox(height: size.iScreen(1.0)),
+                      // Text(
+                      //   '${bitacoraController.getResidente['cliente']}',
+                      //   style: GoogleFonts.lexendDeca(
+                      //     fontSize: size.iScreen(1.8),
+                      //     fontWeight: FontWeight.normal,
+                      //   ),
+                      // ),
+                      // // SizedBox(height: size.iScreen(1.0)),
+                      // // Container(
+                      // //   height: size.iScreen(1.0),
+                      // //   color: Colors.grey.shade200,
+                      // // ),
+                        //***********************************************/
+                          SizedBox(
+                            height: size.iScreen(1.0),
+                          ),
+                          //*****************************************/
+                         
+                          //   Container(
+                          //   width: size.wScreen(100.0),
+                              
+                          //   // color: Colors.blue,
+                              
+                          //   child: 
+                          //   Consumer<BitacoraController>(builder: (_, valueDestino,__) {  
+                          //       return Text('SDJHFSJDHFJK ',
+                          //       style: GoogleFonts.lexendDeca(
+                          //           fontSize: size.iScreen(1.8),
+                          //           fontWeight: FontWeight.normal,
+                          //           color: Colors.grey));
+                          //   },),
+                            
+                          // ),
+                              
+                      
+                      SizedBox(height: size.iScreen(1.0)),
+                      Row(
+                        children: [
+                          Text(
+                            'Registrar Persona ',
+                            style: GoogleFonts.lexendDeca(
+                              fontSize: size.iScreen(1.8),
+                              fontWeight: FontWeight.normal,
+                              color: Colors.grey,
                             ),
-
-                            Consumer<BitacoraController>(builder: (_, values, __) { 
-                              return  
-                              values.listaVisitas.isEmpty
-                               ?ClipRRect(
-                              borderRadius: BorderRadius.circular(8),
-                              child: GestureDetector(onTap: () {
-              final _ctrl=context.read<ResidentesController>();
-                                _modalSeleccionaDestinoPersona(
-                                    size, bitacoraController,_ctrl.getInfoResidente,);
-                              }, child: Consumer<ThemeApp>(
+                          ),
+                          SizedBox(width: size.iScreen(2)),
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(8),
+                            child: GestureDetector(
+                              onTap: () async{
+                               bool isGpsEnabled = await context.read<HomeController>().checkGpsStatus();
+                            if (!isGpsEnabled) {
+                              Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => AccesoGPSPage()),
+                              );
+                            } else {
+                              bitacoraController.deleteOriginalFiles();
+                              bitacoraController.setIsValidate(2);
+                          
+                                 bitacoraController.resetIsValidate();
+                                 bitacoraController.setIsValidatePlaca(0);
+                                 
+                                
+                              if ( bitacoraController.getItemPersonaDestinol!.isNotEmpty) {
+                                 bitacoraController.removeFrontBackPlacaImage();
+                                 bitacoraController.setCedulaOk(false);
+                                 bitacoraController.setDataCedula({});
+                                 
+                                
+                                  if (bitacoraController.getDataVehiculo.isNotEmpty) {
+                              
+                                     print('LA FOTO DE LA PLACA ES ${bitacoraController.getDataVehiculo}');
+                                    if (bitacoraController.listaVisitas[0]['fotoPlaca'].isNotEmpty) {
+                                       bitacoraController.setDataVehiculoAddFoto(bitacoraController.listaVisitas[0]['fotoPlaca']);
+                                    }
+                                    
+                                      bitacoraController.setUrlPlaca(bitacoraController.listaVisitas[0]['fotoPlaca']);
+                                      // print('LA FOTO fotoPlaca ${bitacoraController.getDataVehiculo['fotoPlaca']}');
+                                    // bitacoraController.setUrlPlaca(bitacoraController.getDataVehiculo['fotoPlaca']);
+                                    bitacoraController.resetIsValidatePlaca();
+                                  }else{
+                                    bitacoraController.setUrlPlaca('');
+                                  } 
+                      
+                              
+                      // print('LA FOTO DE LA PLACA ES ${bitacoraController.getDataVehiculo['fotoPlaca']}');
+                      // bitacoraController.setNombrePropVehiculo();
+                      // bitacoraController.setPlacaPropVehiculo();
+                      // bitacoraController.setModeloPropVehiculo();
+                     bitacoraController.setUrlVisitante('');
+                    
+                     bitacoraController.setCedulaVisitaBitacora('');
+                     bitacoraController.setNombreVisitaBitacora('');
+                   
+                     bitacoraController.setUrlCedulaFront('');
+                     bitacoraController.setUrlCedulaBack('');
+                   
+                     bitacoraController.setPasaporteVisita('');
+                     bitacoraController.setUrlPasaporte('');
+                     bitacoraController.setItemAsunto('');
+                  
+                                
+                              
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: ((context) => AgregarVicitaBitaora(
+                                          user: widget.user,
+                                        )),
+                                  ),
+                                ).then((value) => bitacoraController.deleteOriginalFiles());
+                                
+                              } else {
+                              
+                                 NotificatiosnService.showSnackBarDanger('Seleccione Residente');
+                              }
+                              
+                    
+                              
+                                      }                          //  
+                                              },
+                             
+                             
+                             
+                             
+                             
+                              child: Consumer<ThemeApp>(
                                 builder: (_, valueTheme, __) {
                                   return Container(
                                     alignment: Alignment.center,
                                     color: valueTheme.primaryColor,
-                                    width: size.iScreen(3.5),
-                                    padding: EdgeInsets.only(
-                                      top: size.iScreen(0.5),
-                                      bottom: size.iScreen(0.5),
-                                      left: size.iScreen(0.5),
-                                      right: size.iScreen(0.5),
-                                    ),
+                                    width: size.iScreen(4.0),
+                                    height: size.iScreen(4.0),
+                                    padding: EdgeInsets.all(size.iScreen(0.5)),
                                     child: Icon(
-                                      Icons.add,
+                                      Icons.person_add_alt_outlined,
                                       color: valueTheme.secondaryColor,
-                                      size: size.iScreen(2.0),
+                                      size: size.iScreen(3.0),
                                     ),
                                   );
                                 },
-                              )),
-                            ):Container();
-                             },),
-                          
-                          ],
-                        ),
-                    //      //***********************************************/
-                    //     SizedBox(
-                    //       height: size.iScreen(1.0),
-                    //     ),
-                    //     //*****************************************/
-                    // SizedBox(height: size.iScreen(1.0)),
-                    // Text(
-                    //   '${bitacoraController.getResidente['cliente']}',
-                    //   style: GoogleFonts.lexendDeca(
-                    //     fontSize: size.iScreen(1.8),
-                    //     fontWeight: FontWeight.normal,
-                    //   ),
-                    // ),
-                    // // SizedBox(height: size.iScreen(1.0)),
-                    // // Container(
-                    // //   height: size.iScreen(1.0),
-                    // //   color: Colors.grey.shade200,
-                    // // ),
-                      //***********************************************/
-                        SizedBox(
-                          height: size.iScreen(1.0),
-                        ),
-                        //*****************************************/
-                       
-                        //   Container(
-                        //   width: size.wScreen(100.0),
-              
-                        //   // color: Colors.blue,
-              
-                        //   child: 
-                        //   Consumer<BitacoraController>(builder: (_, valueDestino,__) {  
-                        //       return Text('SDJHFSJDHFJK ',
-                        //       style: GoogleFonts.lexendDeca(
-                        //           fontSize: size.iScreen(1.8),
-                        //           fontWeight: FontWeight.normal,
-                        //           color: Colors.grey));
-                        //   },),
-                          
-                        // ),
-              
-                    
-                    SizedBox(height: size.iScreen(1.0)),
-                    Row(
-                      children: [
-                        Text(
-                          'Registrar Persona ',
-                          style: GoogleFonts.lexendDeca(
-                            fontSize: size.iScreen(1.8),
-                            fontWeight: FontWeight.normal,
-                            color: Colors.grey,
-                          ),
-                        ),
-                        SizedBox(width: size.iScreen(2)),
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(8),
-                          child: GestureDetector(
-                            onTap: () async{
-                             bool isGpsEnabled = await context.read<HomeController>().checkGpsStatus();
-            if (!isGpsEnabled) {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => AccesoGPSPage()),
-              );
-            } else {
-              bitacoraController.setIsValidate(1);
-                               bitacoraController.resetIsValidate();
-                               bitacoraController.setIsValidatePlaca(0);
-                               
-                              
-                            if ( bitacoraController.getItemPersonaDestinol!.isNotEmpty) {
-                               bitacoraController.removeFrontBackPlacaImage();
-                               bitacoraController.setCedulaOk(false);
-                               bitacoraController.setDataCedula({});
-                               
-                              
-                                if (bitacoraController.getDataVehiculo.isNotEmpty) {
-              
-                                  //  print('LA FOTO DE LA PLACA ES ${bitacoraController.getDataVehiculo}');
-                                  if (bitacoraController.listaVisitas[0]['fotoPlaca'].isNotEmpty) {
-                                     bitacoraController.setDataVehiculoAddFoto(bitacoraController.listaVisitas[0]['fotoPlaca']);
-                                  }
-                                  
-                                    bitacoraController.setUrlPlaca(bitacoraController.listaVisitas[0]['fotoPlaca']);
-                                    // print('LA FOTO fotoPlaca ${bitacoraController.getDataVehiculo['fotoPlaca']}');
-                                  // bitacoraController.setUrlPlaca(bitacoraController.getDataVehiculo['fotoPlaca']);
-                                  bitacoraController.resetIsValidatePlaca();
-                                }else{
-                                  bitacoraController.setUrlPlaca('');
-                                } 
-                    
-              
-                    // print('LA FOTO DE LA PLACA ES ${bitacoraController.getDataVehiculo['fotoPlaca']}');
-                    // bitacoraController.setNombrePropVehiculo();
-                    // bitacoraController.setPlacaPropVehiculo();
-                    // bitacoraController.setModeloPropVehiculo();
-                   bitacoraController.setUrlVisitante('');
-                  
-                   bitacoraController.setCedulaVisitaBitacora('');
-                   bitacoraController.setNombreVisitaBitacora('');
-                 
-                   bitacoraController.setUrlCedulaFront('');
-                   bitacoraController.setUrlCedulaBack('');
-                 
-                   bitacoraController.setPasaporteVisita('');
-                   bitacoraController.setUrlPasaporte('');
-                   bitacoraController.setItemAsunto('');
-                
-                              
-              
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: ((context) => AgregarVicitaBitaora(
-                                        user: widget.user,
-                                      )),
-                                ),
-                              );
-                              
-                            } else {
-              
-                               NotificatiosnService.showSnackBarDanger('Seleccione Residente');
-                            }
-                            
-                  
-                            
-                                    }                          //  
-                                            },
-                           
-                           
-                           
-                           
-                           
-                            child: Consumer<ThemeApp>(
-                              builder: (_, valueTheme, __) {
-                                return Container(
-                                  alignment: Alignment.center,
-                                  color: valueTheme.primaryColor,
-                                  width: size.iScreen(4.0),
-                                  height: size.iScreen(4.0),
-                                  padding: EdgeInsets.all(size.iScreen(0.5)),
-                                  child: Icon(
-                                    Icons.person_add_alt_outlined,
-                                    color: valueTheme.secondaryColor,
-                                    size: size.iScreen(3.0),
-                                  ),
-                                );
-                              },
+                              ),
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: size.iScreen(1.0)),
-                    Container(
-                      height: size.iScreen(1.0),
-                      color: Colors.grey.shade200,
-                    ),
-                    SizedBox(height: size.iScreen(1.0)),
-                    Expanded(
-                      child: 
-                      Consumer<BitacoraController>(builder: (_, valueListaVisitas, __) {  
-                          return   
-                          valueListaVisitas.listaVisitas.isNotEmpty
-                           ?ListView.builder(
-                        physics: const BouncingScrollPhysics(),
-                        itemCount: valueListaVisitas.listaVisitas.length, // Número de elementos de la lista
-                        itemBuilder: (context, index) {
-              
-                            final  registro=valueListaVisitas.listaVisitas[index];
-              
-                          return
-                              //***********************************************/
-                              // SizedBox(
-                              //   height: size.iScreen(1.0),
-                              // ),
-                              //*****************************************/
-                          //     Consumer<BitacoraController>(
-                          //   builder: (_, valueListaVisitas, __) {
-                          //     return 
-                          
-                          //   },
-                          // );
-                          
-                              Stack(
-                                children: [
-                                  Container(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: size.iScreen(0.0),
-                                        vertical: size.iScreen(0)),
-                                    child: Card(
-                                      elevation: 6,
-                                      child: Container(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: size.iScreen(1.0),
-                                            vertical: size.iScreen(0.0)),
-                                        child: Column(
-                                          children: [
-                                            //***********************************************/
-                                            SizedBox(
-                                              height: size.iScreen(1.0),
-                                            ),
-                                            //*****************************************/
-                                             Container(
-                                              width: size.wScreen(100.0),
-                                              child: Row(
-                                                children: [
-                                                  Text('Tipo de Ingreso: ',
-                                                      style: GoogleFonts.lexendDeca(
-                                                          fontSize: size.iScreen(1.8),
-                                                          fontWeight: FontWeight.normal,
-                                                          color: Colors.grey)),
-                                                            Container(
-                                              // width: size.wScreen(100.0),
-                                              child: Text(
-                                                  '${registro['bitTipoIngreso']}',
-                                                  style: GoogleFonts.lexendDeca(
-                                                      fontSize: size.iScreen(1.8),
-                                                      fontWeight: FontWeight.bold,
-                                                      // color: Colors.grey
-                                                      )),
-                                            ),
-                                                ],
+                        ],
+                      ),
+                      SizedBox(height: size.iScreen(1.0)),
+                      Container(
+                        height: size.iScreen(1.0),
+                        color: Colors.grey.shade200,
+                      ),
+                      SizedBox(height: size.iScreen(1.0)),
+                      Expanded(
+                        child: 
+                        Consumer<BitacoraController>(builder: (_, valueListaVisitas, __) {  
+                            return   
+                            valueListaVisitas.listaVisitas.isNotEmpty
+                             ?ListView.builder(
+                          physics: const BouncingScrollPhysics(),
+                          itemCount: valueListaVisitas.listaVisitas.length, // Número de elementos de la lista
+                          itemBuilder: (context, index) {
+                              
+                              final  registro=valueListaVisitas.listaVisitas[index];
+                              
+                            return
+                                //***********************************************/
+                                // SizedBox(
+                                //   height: size.iScreen(1.0),
+                                // ),
+                                //*****************************************/
+                            //     Consumer<BitacoraController>(
+                            //   builder: (_, valueListaVisitas, __) {
+                            //     return 
+                            
+                            //   },
+                            // );
+                            
+                                Stack(
+                                  children: [
+                                    Container(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: size.iScreen(0.0),
+                                          vertical: size.iScreen(0)),
+                                      child: Card(
+                                        elevation: 6,
+                                        child: Container(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: size.iScreen(1.0),
+                                              vertical: size.iScreen(0.0)),
+                                          child: Column(
+                                            children: [
+                                              //***********************************************/
+                                              SizedBox(
+                                                height: size.iScreen(1.0),
                                               ),
-                                            ),
-              
-                                          
-                                          
-                                            SizedBox(
-                                              height: size.iScreen(0.5),
-                                            ),
-                                                 
-              
-                                            Container(
-                                              width: size.wScreen(100.0),
-                                              child: Text('Nombre:',
-                                                  style: GoogleFonts.lexendDeca(
-                                                      fontSize: size.iScreen(1.8),
-                                                      fontWeight: FontWeight.normal,
-                                                      color: Colors.grey)),
-                                            ),
-              
-                                            SizedBox(
-                                              height: size.iScreen(0.0),
-                                            ),
-                                            Container(
-                                              width: size.wScreen(100.0),
-                                              child: Text(
-                                                  '${registro['nombreVisita']}',
-                                                  style: GoogleFonts.lexendDeca(
-                                                      fontSize: size.iScreen(1.8),
-                                                      fontWeight: FontWeight.normal,
-                                                      // color: Colors.grey
-                                                      )),
-                                            ),
-                                          //  Container(
-                                          //     width: size.wScreen(100.0),
-                                          //     child: Row(
-                                          //       children: [
-                                          //         Text('Sexo: ',
-                                          //             style: GoogleFonts.lexendDeca(
-                                          //                 fontSize: size.iScreen(1.8),
-                                          //                 fontWeight: FontWeight.normal,
-                                          //                 color: Colors.grey)),
-                                          //                   Container(
-                                          //     // width: size.wScreen(100.0),
-                                          //     child: Text(
-                                          //         'NOMBRE',
-                                          //         style: GoogleFonts.lexendDeca(
-                                          //             fontSize: size.iScreen(1.8),
-                                          //             fontWeight: FontWeight.normal,
-                                          //             // color: Colors.grey
-                                          //             )),
-                                          //   ),
-                                          //       ],
-                                          //     ),
-                                          //   ),
-                                            Container(
-                                              width: size.wScreen(100.0),
-                                              child: Row(
-                                                children: [
-                                                  Text('Documento: ',
-                                                      style: GoogleFonts.lexendDeca(
-                                                          fontSize: size.iScreen(1.8),
-                                                          fontWeight: FontWeight.normal,
-                                                          color: Colors.grey)),
-                                                            Container(
-                                              // width: size.wScreen(100.0),
-                                              child: Text(
-                                                  '${registro['cedulaVisita']}',
-                                                  style: GoogleFonts.lexendDeca(
-                                                      fontSize: size.iScreen(1.8),
-                                                      fontWeight: FontWeight.normal,
-                                                      // color: Colors.grey
-                                                      )),
-                                            ),
-                                                ],
-                                              ),
-                                            ),
-              
-                                          
-                                          
-                                            SizedBox(
-                                              height: size.iScreen(1.0),
-                                            ),
-                                                 
-                                            //***********************************************/
-                                          registro['fotoCedulaFront']!=''
-                                            ?
-                                            Row(
-                                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                              children: [
-                                                   GestureDetector(
-                                                      onTap: 
-                                                      // valueListaVisitas.isPicking
-                                                      //     ? null
-                                                      //     :
-                                                           () {
-                                                              // valueListaVisitas.pickFrontImage();
-                                                            },
-                                                      child: Container(
-                                                        decoration: BoxDecoration(
-                                                          borderRadius:
-                                                              BorderRadius.circular(8.0),
-                                                          color: Colors.grey.shade300,
-                                                        ),
-                                                        width: size.iScreen(14.0),
-                                                        height: size.iScreen(18.0),
-                                                        child: 
-                                                        //  valueListaVisitas.frontImage == null
-                                                        //     ? Icon(
-                                                        //         Icons.add_a_photo_outlined,
-                                                        //         size: size.iScreen(4.0),
-                                                        //       )
-                                                        //     :
-                                                            registro['fotoVisitante'].isNotEmpty? 
-                                                            // Image.file(File(registro['fotoVisitante']))
-                                                             FadeInImage(
-                                                                placeholder:
-                                                                    const AssetImage(
-                                                                          'assets/imgs/loader.gif'),
-                                                                image: NetworkImage(
-                                                                  '${registro['fotoVisitante']}',
-                                                                ),
-                                                              )
-                                                            :Image.asset('assets/imgs/no-image.png', fit: BoxFit.cover)
-                                                      ),
-                                                    ),
-                                                Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.spaceAround,
+                                              //*****************************************/
+                                               Container(
+                                                width: size.wScreen(100.0),
+                                                child: Row(
                                                   children: [
-                                                    GestureDetector(
-                                                      onTap: 
-                                                      // valueListaVisitas.isPicking
-                                                      //     ? null
-                                                      //     :
-                                                           () {
-                                                              // valueListaVisitas.pickFrontImage();
-                                                            },
-                                                      child: Container(
-                                                        margin: EdgeInsets.all(size.iScreen(0.5)),
-                                                        decoration: BoxDecoration(
-                                                          borderRadius:
-                                                              BorderRadius.circular(8.0),
-                                                          color: Colors.grey.shade300,
-                                                        ),
-                                                        width: size.iScreen(17.0),
-                                                        height: size.iScreen(10.0),
-                                                        child: 
-                                                        //  valueListaVisitas.frontImage == null
-                                                        //     ? Icon(
-                                                        //         Icons.add_a_photo_outlined,
-                                                        //         size: size.iScreen(4.0),
-                                                        //       )
-                                                        //     :
-                                                            //  Image.file(File(registro['fotoCedula']['cedulaFront'])),
-                                                            registro['fotoCedulaFront'].isNotEmpty? 
-                                                              FadeInImage(
-                                                                placeholder:
-                                                                    const AssetImage(
-                                                                          'assets/imgs/loader.gif'),
-                                                                image: NetworkImage(
-                                                                  '${registro['fotoCedulaFront']}',
-                                                                ),
-                                                              ):Image.asset('assets/imgs/no-image.png', fit: BoxFit.cover)
-                                                      ),
-                                                    ),
-                                                    GestureDetector(
-                                                      onTap: 
-                                                      // valueListaVisitas.isPicking
-                                                      //     ? null
-                                                      //     :
-                                                           () {
-                                                              // valueListaVisitas.pickBackImage();
-                                                            },
-                                                      child: Container(
-                                                        decoration: BoxDecoration(
-                                                          borderRadius:
-                                                              BorderRadius.circular(8.0),
-                                                          color: Colors.grey.shade300,
-                                                        ),
-                                                        width: size.iScreen(17.0),
-                                                        height: size.iScreen(10.0),
-                                                        child:
-                                                        // valueListaVisitas.backImage == null
-                                                        //     ? Icon(
-                                                        //         Icons.add_a_photo_outlined,
-                                                        //         size: size.iScreen(4.0),
-                                                        //       )
-                                                        //     : 
-                                                         registro['fotoCedulaBack'].isNotEmpty? 
-                                                         FadeInImage(
-                                                                placeholder:
-                                                                    const AssetImage(
-                                                                          'assets/imgs/loader.gif'),
-                                                                image: NetworkImage(
-                                                                  '${registro['fotoCedulaBack']}',
-                                                                ),
-                                                              ):Image.asset('assets/imgs/no-image.png', fit: BoxFit.cover)
-                                                            // Image.file(File(registro['fotoCedula']['cedulaBack'])),
-                                                      ),
-                                                    ),
+                                                    Text('Tipo de Ingreso: ',
+                                                        style: GoogleFonts.lexendDeca(
+                                                            fontSize: size.iScreen(1.8),
+                                                            fontWeight: FontWeight.normal,
+                                                            color: Colors.grey)),
+                                                              Container(
+                                                // width: size.wScreen(100.0),
+                                                child: Text(
+                                                    '${registro['bitTipoIngreso']}',
+                                                    style: GoogleFonts.lexendDeca(
+                                                        fontSize: size.iScreen(1.8),
+                                                        fontWeight: FontWeight.bold,
+                                                        // color: Colors.grey
+                                                        )),
+                                              ),
                                                   ],
                                                 ),
-                                              ],
-                                            )
-                                            : Container(),
-                                           
-                                           
-                                         registro['fotoPasaporte']!=''
-                                            ?
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceAround,
-                                              children: [
-                                                Container(
-                                                        decoration: BoxDecoration(
-                                                          borderRadius:
-                                                              BorderRadius.circular(8.0),
-                                                          color: Colors.grey.shade300,
-                                                        ),
-                                                        width: size.iScreen(14.0),
-                                                        height: size.iScreen(18.0),
-                                                        child: 
-                                                        //  valueListaVisitas.frontImage == null
-                                                        //     ? Icon(
-                                                        //         Icons.add_a_photo_outlined,
-                                                        //         size: size.iScreen(4.0),
-                                                        //       )
-                                                        //     :
-                                                            registro['fotoVisitante'].isNotEmpty? 
-                                                            // Image.file(File(registro['fotoVisitante']))
-                                                            FadeInImage(
-                                                                placeholder:
-                                                                    const AssetImage(
-                                                                          'assets/imgs/loader.gif'),
-                                                                image: NetworkImage(
-                                                                  '${registro['fotoVisitante']}',
-                                                                ),
-                                                              )
-                                                            :Image.asset('assets/imgs/no-image.png', fit: BoxFit.cover)
-                                                      ),
-                                                GestureDetector(
-                                                  onTap: 
-                                                  // valueListaVisitas.isPicking
-                                                  //     ? null
-                                                  //     : 
-                                                      () {
-                                                          // valueListaVisitas.pickFrontImage();
-                                                        },
-                                                  child: Container(
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(8.0),
-                                                      color: Colors.grey.shade300,
-                                                    ),
-                                                    width: size.iScreen(18.0),
-                                                    height: size.iScreen(10.0),
-                                                    child:
-                                                    //  valueListaVisitas.pasaporteImage == null  && valueListaVisitas.pasaporteImage==''
-                                                    //     ? Icon(
-                                                    //         Icons.add_a_photo_outlined,
-                                                    //         size: size.iScreen(4.0),
-                                                    //       )
-                                                    //    : 
-                                                      //  Image.file(File(registro['fotoPasaporte'])),
-                                                       registro['fotoPasaporte'].isNotEmpty? 
-                                                      FadeInImage(
-                                                                placeholder:
-                                                                    const AssetImage(
-                                                                          'assets/imgs/loader.gif'),
-                                                                image: NetworkImage(
-                                                                  '${registro['fotoPasaporte']}',
-                                                                ),
-                                                              )
-                                                            :Image.asset('assets/imgs/no-image.png', fit: BoxFit.cover)
-                                                  ),
+                                              ),
+                              
+                                            
+                                            
+                                              SizedBox(
+                                                height: size.iScreen(0.5),
+                                              ),
+                                                   
+                              
+                                              Container(
+                                                width: size.wScreen(100.0),
+                                                child: Text('Nombre:',
+                                                    style: GoogleFonts.lexendDeca(
+                                                        fontSize: size.iScreen(1.8),
+                                                        fontWeight: FontWeight.normal,
+                                                        color: Colors.grey)),
+                                              ),
+                              
+                                              SizedBox(
+                                                height: size.iScreen(0.0),
+                                              ),
+                                              Container(
+                                                width: size.wScreen(100.0),
+                                                child: Text(
+                                                    '${registro['nombreVisita']}',
+                                                    style: GoogleFonts.lexendDeca(
+                                                        fontSize: size.iScreen(1.8),
+                                                        fontWeight: FontWeight.normal,
+                                                        // color: Colors.grey
+                                                        )),
+                                              ),
+                                            //  Container(
+                                            //     width: size.wScreen(100.0),
+                                            //     child: Row(
+                                            //       children: [
+                                            //         Text('Sexo: ',
+                                            //             style: GoogleFonts.lexendDeca(
+                                            //                 fontSize: size.iScreen(1.8),
+                                            //                 fontWeight: FontWeight.normal,
+                                            //                 color: Colors.grey)),
+                                            //                   Container(
+                                            //     // width: size.wScreen(100.0),
+                                            //     child: Text(
+                                            //         'NOMBRE',
+                                            //         style: GoogleFonts.lexendDeca(
+                                            //             fontSize: size.iScreen(1.8),
+                                            //             fontWeight: FontWeight.normal,
+                                            //             // color: Colors.grey
+                                            //             )),
+                                            //   ),
+                                            //       ],
+                                            //     ),
+                                            //   ),
+                                              Container(
+                                                width: size.wScreen(100.0),
+                                                child: Row(
+                                                  children: [
+                                                    Text('Documento: ',
+                                                        style: GoogleFonts.lexendDeca(
+                                                            fontSize: size.iScreen(1.8),
+                                                            fontWeight: FontWeight.normal,
+                                                            color: Colors.grey)),
+                                                              Container(
+                                                // width: size.wScreen(100.0),
+                                                child: Text(
+                                                    '${registro['cedulaVisita']}',
+                                                    style: GoogleFonts.lexendDeca(
+                                                        fontSize: size.iScreen(1.8),
+                                                        fontWeight: FontWeight.normal,
+                                                        // color: Colors.grey
+                                                        )),
+                                              ),
+                                                  ],
                                                 ),
-                                                
-                                              ],
-                                            )
-                                              :Container(),
-                                             //***********************************************/
-                                            SizedBox(
-                                              height: size.iScreen(1.0),
-                                            ),
-                                            //*****************************************/
-                                          Container(
-                                              width: size.wScreen(100.0),
-                                              child: Row(
+                                              ),
+                              
+                                            
+                                            
+                                              SizedBox(
+                                                height: size.iScreen(1.0),
+                                              ),
+                                                   
+                                              //***********************************************/
+                                            registro['fotoCedulaFront']!=''
+                                              ?
+                                              Row(
+                                                mainAxisAlignment: MainAxisAlignment.spaceAround,
                                                 children: [
-                                                  Text('Vehículo: ',
-                                                      style: GoogleFonts.lexendDeca(
-                                                          fontSize: size.iScreen(1.8),
-                                                          fontWeight: FontWeight.normal,
-                                                          color: Colors.grey)),
-                                                            Container(
-                                              // width: size.wScreen(100.0),
-                                              child: Text('${registro['placa']}',
-                                                  style: GoogleFonts.lexendDeca(
-                                                      fontSize: size.iScreen(1.8),
-                                                      fontWeight: FontWeight.normal,
-                                                      // color: Colors.grey
-                                                      )),
-                                            ),
-                                            registro['vehiculo']=='NO'
-                                            ?Container(
-                                              // width: size.wScreen(100.0),
-                                              margin: EdgeInsets.only(left: size.iScreen(5.0)),
-                                              child: Text(
-                                                  '${registro['vehiculo']}',
-                                                  style: GoogleFonts.lexendDeca(
-                                                      fontSize: size.iScreen(1.8),
-                                                      fontWeight: FontWeight.bold,
-                                                      // color: Colors.grey
-                                                      )),
-                                            )
-                                            :Container(),
+                                                     GestureDetector(
+                                                        onTap: 
+                                                        // valueListaVisitas.isPicking
+                                                        //     ? null
+                                                        //     :
+                                                             () {
+                                                                // valueListaVisitas.pickFrontImage();
+                                                              },
+                                                        child: Container(
+                                                          decoration: BoxDecoration(
+                                                            borderRadius:
+                                                                BorderRadius.circular(8.0),
+                                                            color: Colors.grey.shade300,
+                                                          ),
+                                                          width: size.iScreen(14.0),
+                                                          height: size.iScreen(18.0),
+                                                          child: 
+                                                          //  valueListaVisitas.frontImage == null
+                                                          //     ? Icon(
+                                                          //         Icons.add_a_photo_outlined,
+                                                          //         size: size.iScreen(4.0),
+                                                          //       )
+                                                          //     :
+                                                              registro['fotoVisitante'].isNotEmpty? 
+                                                              // Image.file(File(registro['fotoVisitante']))
+                                                               FadeInImage(
+                                                                  placeholder:
+                                                                      const AssetImage(
+                                                                            'assets/imgs/loader.gif'),
+                                                                  image: NetworkImage(
+                                                                    '${registro['fotoVisitante']}',
+                                                                  ),
+                                                                )
+                                                              :Image.asset('assets/imgs/no-image.png', fit: BoxFit.cover)
+                                                        ),
+                                                      ),
+                                                  Column(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.spaceAround,
+                                                    children: [
+                                                      GestureDetector(
+                                                        onTap: 
+                                                        // valueListaVisitas.isPicking
+                                                        //     ? null
+                                                        //     :
+                                                             () {
+                                                                // valueListaVisitas.pickFrontImage();
+                                                              },
+                                                        child: Container(
+                                                          margin: EdgeInsets.all(size.iScreen(0.5)),
+                                                          decoration: BoxDecoration(
+                                                            borderRadius:
+                                                                BorderRadius.circular(8.0),
+                                                            color: Colors.grey.shade300,
+                                                          ),
+                                                          width: size.iScreen(17.0),
+                                                          height: size.iScreen(10.0),
+                                                          child: 
+                                                          //  valueListaVisitas.frontImage == null
+                                                          //     ? Icon(
+                                                          //         Icons.add_a_photo_outlined,
+                                                          //         size: size.iScreen(4.0),
+                                                          //       )
+                                                          //     :
+                                                              //  Image.file(File(registro['fotoCedula']['cedulaFront'])),
+                                                              registro['fotoCedulaFront'].isNotEmpty? 
+                                                                FadeInImage(
+                                                                  placeholder:
+                                                                      const AssetImage(
+                                                                            'assets/imgs/loader.gif'),
+                                                                  image: NetworkImage(
+                                                                    '${registro['fotoCedulaFront']}',
+                                                                  ),
+                                                                ):Image.asset('assets/imgs/no-image.png', fit: BoxFit.cover)
+                                                        ),
+                                                      ),
+                                                      GestureDetector(
+                                                        onTap: 
+                                                        // valueListaVisitas.isPicking
+                                                        //     ? null
+                                                        //     :
+                                                             () {
+                                                                // valueListaVisitas.pickBackImage();
+                                                              },
+                                                        child: Container(
+                                                          decoration: BoxDecoration(
+                                                            borderRadius:
+                                                                BorderRadius.circular(8.0),
+                                                            color: Colors.grey.shade300,
+                                                          ),
+                                                          width: size.iScreen(17.0),
+                                                          height: size.iScreen(10.0),
+                                                          child:
+                                                          // valueListaVisitas.backImage == null
+                                                          //     ? Icon(
+                                                          //         Icons.add_a_photo_outlined,
+                                                          //         size: size.iScreen(4.0),
+                                                          //       )
+                                                          //     : 
+                                                           registro['fotoCedulaBack'].isNotEmpty? 
+                                                           FadeInImage(
+                                                                  placeholder:
+                                                                      const AssetImage(
+                                                                            'assets/imgs/loader.gif'),
+                                                                  image: NetworkImage(
+                                                                    '${registro['fotoCedulaBack']}',
+                                                                  ),
+                                                                ):Image.asset('assets/imgs/no-image.png', fit: BoxFit.cover)
+                                                              // Image.file(File(registro['fotoCedula']['cedulaBack'])),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ],
+                                              )
+                                              : Container(),
+                                             
+                                             
+                                           registro['fotoPasaporte']!=''
+                                              ?
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.spaceAround,
+                                                children: [
+                                                  Container(
+                                                          decoration: BoxDecoration(
+                                                            borderRadius:
+                                                                BorderRadius.circular(8.0),
+                                                            color: Colors.grey.shade300,
+                                                          ),
+                                                          width: size.iScreen(14.0),
+                                                          height: size.iScreen(18.0),
+                                                          child: 
+                                                          //  valueListaVisitas.frontImage == null
+                                                          //     ? Icon(
+                                                          //         Icons.add_a_photo_outlined,
+                                                          //         size: size.iScreen(4.0),
+                                                          //       )
+                                                          //     :
+                                                              registro['fotoVisitante'].isNotEmpty? 
+                                                              // Image.file(File(registro['fotoVisitante']))
+                                                              FadeInImage(
+                                                                  placeholder:
+                                                                      const AssetImage(
+                                                                            'assets/imgs/loader.gif'),
+                                                                  image: NetworkImage(
+                                                                    '${registro['fotoVisitante']}',
+                                                                  ),
+                                                                )
+                                                              :Image.asset('assets/imgs/no-image.png', fit: BoxFit.cover)
+                                                        ),
+                                                  GestureDetector(
+                                                    onTap: 
+                                                    // valueListaVisitas.isPicking
+                                                    //     ? null
+                                                    //     : 
+                                                        () {
+                                                            // valueListaVisitas.pickFrontImage();
+                                                          },
+                                                    child: Container(
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius.circular(8.0),
+                                                        color: Colors.grey.shade300,
+                                                      ),
+                                                      width: size.iScreen(18.0),
+                                                      height: size.iScreen(10.0),
+                                                      child:
+                                                      //  valueListaVisitas.pasaporteImage == null  && valueListaVisitas.pasaporteImage==''
+                                                      //     ? Icon(
+                                                      //         Icons.add_a_photo_outlined,
+                                                      //         size: size.iScreen(4.0),
+                                                      //       )
+                                                      //    : 
+                                                        //  Image.file(File(registro['fotoPasaporte'])),
+                                                         registro['fotoPasaporte'].isNotEmpty? 
+                                                        FadeInImage(
+                                                                  placeholder:
+                                                                      const AssetImage(
+                                                                            'assets/imgs/loader.gif'),
+                                                                  image: NetworkImage(
+                                                                    '${registro['fotoPasaporte']}',
+                                                                  ),
+                                                                )
+                                                              :Image.asset('assets/imgs/no-image.png', fit: BoxFit.cover)
+                                                    ),
+                                                  ),
+                                                  
+                                                ],
+                                              )
+                                                :Container(),
+                                               //***********************************************/
+                                              SizedBox(
+                                                height: size.iScreen(1.0),
+                                              ),
+                                              //*****************************************/
+                                            Container(
+                                                width: size.wScreen(100.0),
+                                                child: Row(
+                                                  children: [
+                                                    Text('Vehículo: ',
+                                                        style: GoogleFonts.lexendDeca(
+                                                            fontSize: size.iScreen(1.8),
+                                                            fontWeight: FontWeight.normal,
+                                                            color: Colors.grey)),
+                                                              Container(
+                                                // width: size.wScreen(100.0),
+                                                child: Text('${registro['placa']}',
+                                                    style: GoogleFonts.lexendDeca(
+                                                        fontSize: size.iScreen(1.8),
+                                                        fontWeight: FontWeight.normal,
+                                                        // color: Colors.grey
+                                                        )),
+                                              ),
+                                              registro['vehiculo']=='NO'
+                                              ?Container(
+                                                // width: size.wScreen(100.0),
+                                                margin: EdgeInsets.only(left: size.iScreen(5.0)),
+                                                child: Text(
+                                                    '${registro['vehiculo']}',
+                                                    style: GoogleFonts.lexendDeca(
+                                                        fontSize: size.iScreen(1.8),
+                                                        fontWeight: FontWeight.bold,
+                                                        // color: Colors.grey
+                                                        )),
+                                              )
+                                              :Container(),
+                                                  ],
+                                                ),
+                                              ),
+                                               SizedBox(
+                                                    height: size.iScreen(1.0),
+                                                  ),
+                                                  //*****************************************/
+                                            registro['modelo'].isNotEmpty
+                                            ?   Column(
+                                                 children: [
+                                                   Container(
+                                                    width: size.wScreen(100.0),
+                                                    child:  Text('Modelo: ',
+                                                            style: GoogleFonts.lexendDeca(
+                                                                fontSize: size.iScreen(1.8),
+                                                                fontWeight: FontWeight.normal,
+                                                                color: Colors.grey)),
+                                              ),
+                                                SizedBox(
+                                                height: size.iScreen(0.5),
+                                              ),
+                                               Container(
+                                                width: size.wScreen(100.0),
+                                                child:  Text('${registro['modelo']}',
+                                                        style: GoogleFonts.lexendDeca(
+                                                            fontSize: size.iScreen(1.8),
+                                                            fontWeight: FontWeight.normal,
+                                                            // color: Colors.grey
+                                                            )),
+                                              ),
+                                               
+                                               SizedBox(
+                                                height: size.iScreen(1.0),
+                                              ),
+                                                   
+                                                 ],
+                                               ):Container(),
+                                             
+                                              //***********************************************/
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.spaceAround,
+                                                children: [
+                                                  GestureDetector(
+                                                    onTap: 
+                                                    // valueListaVisitas.isPicking
+                                                    //     ? null
+                                                    //     : 
+                                                        () {
+                                                            // valueListaVisitas.pickFrontImage();
+                                                          },
+                                                    child: 
+                                                     registro['fotoPlaca']!=''
+                                              ?
+                                                    Container(
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius.circular(8.0),
+                                                        color: Colors.grey.shade300,
+                                                      ),
+                                                      width: size.iScreen(18.0),
+                                                      height: size.iScreen(10.0),
+                                                      child:
+                                                      //  valueListaVisitas.placaImage == null
+                                                      //     ? Icon(
+                                                      //         Icons.add_a_photo_outlined,
+                                                      //         size: size.iScreen(4.0),
+                                                      //       )
+                                                      //     :   
+                                                          // Image.file(File(registro['fotoPlaca'])),
+                                                            registro['fotoPlaca'].isNotEmpty? 
+                                                        FadeInImage(
+                                                                  placeholder:
+                                                                      const AssetImage(
+                                                                            'assets/imgs/loader.gif'),
+                                                                  image: NetworkImage(
+                                                                    '${registro['fotoPlaca']}',
+                                                                  ),
+                                                                )
+                                                              :Image.asset('assets/imgs/no-image.png', fit: BoxFit.cover)
+                                                    ):Container(),
+                                                  ),
+                                                 
                                                 ],
                                               ),
-                                            ),
-                                             SizedBox(
-                                                  height: size.iScreen(1.0),
-                                                ),
-                                                //*****************************************/
-                                          registro['modelo'].isNotEmpty
-                                          ?   Column(
-                                               children: [
-                                                 Container(
-                                                  width: size.wScreen(100.0),
-                                                  child:  Text('Modelo: ',
-                                                          style: GoogleFonts.lexendDeca(
-                                                              fontSize: size.iScreen(1.8),
-                                                              fontWeight: FontWeight.normal,
-                                                              color: Colors.grey)),
-                                            ),
+                                               //***********************************************/
+                              
+                                    registro['cedulaPropietarioVehiculo']!=''
+                              
+                                           ?   Column(
+                                                children: [
+                                                  SizedBox(
+                                                    height: size.iScreen(1.0),
+                                                  ),
+                                                  //*****************************************/
+                                               Container(
+                                                width: size.wScreen(100.0),
+                                                child:  Text('Documento: ',
+                                                        style: GoogleFonts.lexendDeca(
+                                                            fontSize: size.iScreen(1.8),
+                                                            fontWeight: FontWeight.normal,
+                                                            color: Colors.grey)),
+                                              ),
+                                               SizedBox(
+                                                height: size.iScreen(1.0),
+                                              ),
+                                               Container(
+                                                width: size.wScreen(100.0),
+                                                child:  Text('${registro['cedulaPropietarioVehiculo']}',
+                                                        style: GoogleFonts.lexendDeca(
+                                                            fontSize: size.iScreen(1.8),
+                                                            fontWeight: FontWeight.normal,
+                                                            // color: Colors.grey
+                                                            )),
+                                              ),
+                                               SizedBox(
+                                                height: size.iScreen(1.0),
+                                              ),
+                                                //***********************************************/
+                                               //***********************************************/
                                               SizedBox(
-                                              height: size.iScreen(0.5),
-                                            ),
-                                             Container(
-                                              width: size.wScreen(100.0),
-                                              child:  Text('${registro['modelo']}',
-                                                      style: GoogleFonts.lexendDeca(
-                                                          fontSize: size.iScreen(1.8),
-                                                          fontWeight: FontWeight.normal,
-                                                          // color: Colors.grey
-                                                          )),
-                                            ),
+                                                height: size.iScreen(1.0),
+                                              ),
+                                              //*****************************************/
+                                               Container(
+                                                width: size.wScreen(100.0),
+                                                child:  Text('Propietario Vehiculo: ',
+                                                        style: GoogleFonts.lexendDeca(
+                                                            fontSize: size.iScreen(1.8),
+                                                            fontWeight: FontWeight.normal,
+                                                            color: Colors.grey)),
+                                              ),
+                                               SizedBox(
+                                                height: size.iScreen(1.0),
+                                              ),
+                                               Container(
+                                                width: size.wScreen(100.0),
+                                                child:  Text('${registro['nombrePropietarioVehiculo']}',
+                                                        style: GoogleFonts.lexendDeca(
+                                                            fontSize: size.iScreen(1.8),
+                                                            fontWeight: FontWeight.normal,
+                                                            // color: Colors.grey
+                                                            )),
+                                              ),
+                                               SizedBox(
+                                                height: size.iScreen(1.0),
+                                              ),
+                                                ],
+                                              )
+                                              :Container(),
+                                              
+                                                //***********************************************/
+                              
                                              
-                                             SizedBox(
-                                              height: size.iScreen(1.0),
-                                            ),
-                                                 
-                                               ],
-                                             ):Container(),
-                                           
-                                            //***********************************************/
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceAround,
-                                              children: [
-                                                GestureDetector(
-                                                  onTap: 
-                                                  // valueListaVisitas.isPicking
-                                                  //     ? null
-                                                  //     : 
-                                                      () {
-                                                          // valueListaVisitas.pickFrontImage();
-                                                        },
-                                                  child: 
-                                                   registro['fotoPlaca']!=''
-                                            ?
-                                                  Container(
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(8.0),
-                                                      color: Colors.grey.shade300,
-                                                    ),
-                                                    width: size.iScreen(18.0),
-                                                    height: size.iScreen(10.0),
-                                                    child:
-                                                    //  valueListaVisitas.placaImage == null
-                                                    //     ? Icon(
-                                                    //         Icons.add_a_photo_outlined,
-                                                    //         size: size.iScreen(4.0),
-                                                    //       )
-                                                    //     :   
-                                                        // Image.file(File(registro['fotoPlaca'])),
-                                                          registro['fotoPlaca'].isNotEmpty? 
-                                                      FadeInImage(
-                                                                placeholder:
-                                                                    const AssetImage(
-                                                                          'assets/imgs/loader.gif'),
-                                                                image: NetworkImage(
-                                                                  '${registro['fotoPlaca']}',
-                                                                ),
-                                                              )
-                                                            :Image.asset('assets/imgs/no-image.png', fit: BoxFit.cover)
-                                                  ):Container(),
-                                                ),
-                                               
-                                              ],
-                                            ),
-                                             //***********************************************/
-              
-                                  registro['cedulaPropietarioVehiculo']!=''
-              
-                                         ?   Column(
-                                              children: [
-                                                SizedBox(
-                                                  height: size.iScreen(1.0),
-                                                ),
-                                                //*****************************************/
-                                             Container(
-                                              width: size.wScreen(100.0),
-                                              child:  Text('Documento: ',
-                                                      style: GoogleFonts.lexendDeca(
-                                                          fontSize: size.iScreen(1.8),
-                                                          fontWeight: FontWeight.normal,
-                                                          color: Colors.grey)),
-                                            ),
-                                             SizedBox(
-                                              height: size.iScreen(1.0),
-                                            ),
-                                             Container(
-                                              width: size.wScreen(100.0),
-                                              child:  Text('${registro['cedulaPropietarioVehiculo']}',
-                                                      style: GoogleFonts.lexendDeca(
-                                                          fontSize: size.iScreen(1.8),
-                                                          fontWeight: FontWeight.normal,
-                                                          // color: Colors.grey
-                                                          )),
-                                            ),
-                                             SizedBox(
-                                              height: size.iScreen(1.0),
-                                            ),
-                                              //***********************************************/
-                                             //***********************************************/
-                                            SizedBox(
-                                              height: size.iScreen(1.0),
-                                            ),
-                                            //*****************************************/
-                                             Container(
-                                              width: size.wScreen(100.0),
-                                              child:  Text('Propietario Vehiculo: ',
-                                                      style: GoogleFonts.lexendDeca(
-                                                          fontSize: size.iScreen(1.8),
-                                                          fontWeight: FontWeight.normal,
-                                                          color: Colors.grey)),
-                                            ),
-                                             SizedBox(
-                                              height: size.iScreen(1.0),
-                                            ),
-                                             Container(
-                                              width: size.wScreen(100.0),
-                                              child:  Text('${registro['nombrePropietarioVehiculo']}',
-                                                      style: GoogleFonts.lexendDeca(
-                                                          fontSize: size.iScreen(1.8),
-                                                          fontWeight: FontWeight.normal,
-                                                          // color: Colors.grey
-                                                          )),
-                                            ),
-                                             SizedBox(
-                                              height: size.iScreen(1.0),
-                                            ),
-                                              ],
-                                            )
-                                            :Container(),
-                                            
-                                              //***********************************************/
-              
-                                           
-                                             Container(
-                                              width: size.wScreen(100.0),
-                                              child:  Text('Observación: ',
-                                                      style: GoogleFonts.lexendDeca(
-                                                          fontSize: size.iScreen(1.8),
-                                                          fontWeight: FontWeight.normal,
-                                                          color: Colors.grey)),
-                                            ),
-                                             SizedBox(
-                                              height: size.iScreen(1.0),
-                                            ),
-                                             Container(
-                                              width: size.wScreen(100.0),
-                                              child:  Text('${registro['observacion']}',
-                                                      style: GoogleFonts.lexendDeca(
-                                                          fontSize: size.iScreen(1.8),
-                                                          fontWeight: FontWeight.normal,
-                                                          // color: Colors.grey
-                                                          )),
-                                            ),
-                                             SizedBox(
-                                              height: size.iScreen(1.5),
-                                            ),
-                                          ],
+                                               Container(
+                                                width: size.wScreen(100.0),
+                                                child:  Text('Observación: ',
+                                                        style: GoogleFonts.lexendDeca(
+                                                            fontSize: size.iScreen(1.8),
+                                                            fontWeight: FontWeight.normal,
+                                                            color: Colors.grey)),
+                                              ),
+                                               SizedBox(
+                                                height: size.iScreen(1.0),
+                                              ),
+                                               Container(
+                                                width: size.wScreen(100.0),
+                                                child:  Text('${registro['observacion']}',
+                                                        style: GoogleFonts.lexendDeca(
+                                                            fontSize: size.iScreen(1.8),
+                                                            fontWeight: FontWeight.normal,
+                                                            // color: Colors.grey
+                                                            )),
+                                              ),
+                                               SizedBox(
+                                                height: size.iScreen(1.5),
+                                              ),
+                                            ],
+                                          ),
                                         ),
                                       ),
                                     ),
-                                  ),
-                                  
-                                  
-                                  
-                                   Positioned(
-                                                  top: 20.0,
-                                                  right: 10.0,
-                                                  child: 
-                                                  //  valueListaVisitas.frontImage != null?
-                                                  GestureDetector(
-                                                    onTap: ()async {
-              
-                                                      // valueListaVisitas.eliminaItemVisita(registro['cedulaVisita']);
-                                                      // print('LA DATA DE LA LISTA ********< $registro');
-              
-                                                      List<String> urlList = [];
-              
-                if (registro['fotoVisitante'] != null && registro['fotoVisitante'].isNotEmpty) {
-                  urlList.add(registro['fotoVisitante']);
-                }
-                if (registro['fotoCedulaFront'] != null && registro['fotoCedulaFront'].isNotEmpty) {
-                  urlList.add(registro['fotoCedulaFront']);
-                }
-                if (registro['fotoCedulaBack'] != null && registro['fotoCedulaBack'].isNotEmpty) {
-                  urlList.add(registro['fotoCedulaBack']);
-                }
-                if (registro['fotoPasaporte'] != null && registro['fotoPasaporte'].isNotEmpty) {
-                  urlList.add(registro['fotoPasaporte']);
-                }
-                if (registro['fotoPlaca'] != null && registro['fotoPlaca'].isNotEmpty) {
-                  urlList.add(registro['fotoPlaca']);
-                }
-              
-              ProgressDialog.show(context);
-                                                  final response = await   eliminaAllUrlServer(urlList); 
-                                                    ProgressDialog.dissmiss(context);
-                                                        if (response) {
-                                                          
-                                                             valueListaVisitas.eliminaItemVisita(registro['cedulaVisita']);
-                                                             NotificatiosnService.showSnackBarDanger('Registro eliminado correctamente');
-                                                        } else {
-                                                           NotificatiosnService.showSnackBarError('Error al eliminar foto !! ');
-                                                        }
-                
-                                                 
-                                                    
-                                                    
-                                                    },
-                                                    child: Icon(Icons.close_outlined,size: size.iScreen(4.0),color: Colors.redAccent,))
-                                                    // : Container()
-                                                    )
-                                ],
-                              );
-                          
-                          
-              
-                          //   //***********************************************/
-                          // SizedBox(
-                          //   height: size.iScreen(1.0),
-                          // ),
-                          // //*****************************************/
-                        },
-                      )
-                      :NoData(label: 'Agregar Persona');
-                   
-                      },),
-                   
-                   
-                    ),
-                  //    ***********************************************/
-                        SizedBox(
-                          height: size.iScreen(1.0),
-                        ),
-                        //*****************************************/
-                        Container(
-                          width: size.wScreen(100.0),
-                          child: Text('Observaciones:',
-                              style: GoogleFonts.lexendDeca(
-                                  // fontSize: size.iScreen(2.0),
-                                  fontWeight: FontWeight.normal,
-                                  color: Colors.grey)),
-                        ),
-                        TextFormField(
-                          minLines: 1,
-                          maxLines: 3,
-                          decoration: const InputDecoration(),
-                          textAlign: TextAlign.start,
-                          style: const TextStyle(),
-                          textInputAction: TextInputAction.done,
-                          inputFormatters: <TextInputFormatter>[
-                            FilteringTextInputFormatter.allow(
-                                // RegExp("[a-zA-Z0-9@#-+.,{" "}\\s]")),
-                                RegExp(r'^[^\n"]*$')),
-                            UpperCaseText(),
-                          ],
-                          onChanged: (text) {
-                            bitacoraController.setItemObservacion(text);
+                                    
+                                    
+                                    
+                                     Positioned(
+                                                    top: 20.0,
+                                                    right: 10.0,
+                                                    child: 
+                                                    //  valueListaVisitas.frontImage != null?
+                                                    GestureDetector(
+                                                      onTap: ()async {
+                              
+                                                        // valueListaVisitas.eliminaItemVisita(registro['cedulaVisita']);
+                                                        // print('LA DATA DE LA LISTA ********< $registro');
+                              
+                                                        List<String> urlList = [];
+                              
+                  if (registro['fotoVisitante'] != null && registro['fotoVisitante'].isNotEmpty) {
+                    urlList.add(registro['fotoVisitante']);
+                  }
+                  if (registro['fotoCedulaFront'] != null && registro['fotoCedulaFront'].isNotEmpty) {
+                    urlList.add(registro['fotoCedulaFront']);
+                  }
+                  if (registro['fotoCedulaBack'] != null && registro['fotoCedulaBack'].isNotEmpty) {
+                    urlList.add(registro['fotoCedulaBack']);
+                  }
+                  if (registro['fotoPasaporte'] != null && registro['fotoPasaporte'].isNotEmpty) {
+                    urlList.add(registro['fotoPasaporte']);
+                  }
+                  if (registro['fotoPlaca'] != null && registro['fotoPlaca'].isNotEmpty) {
+                    urlList.add(registro['fotoPlaca']);
+                  }
+                              
+                              ProgressDialog.show(context);
+                                                    final response = await   eliminaAllUrlServer(urlList); 
+                                                      ProgressDialog.dissmiss(context);
+                                                          if (response) {
+                                                            
+                                                               valueListaVisitas.eliminaItemVisita(registro['cedulaVisita']);
+                                                               NotificatiosnService.showSnackBarDanger('Registro eliminado correctamente');
+                                                          } else {
+                                                             NotificatiosnService.showSnackBarError('Error al eliminar foto !! ');
+                                                          }
+                  
+                                                   
+                                                      
+                                                      
+                                                      },
+                                                      child: Icon(Icons.close_outlined,size: size.iScreen(4.0),color: Colors.redAccent,))
+                                                      // : Container()
+                                                      )
+                                  ],
+                                );
+                            
+                            
+                              
+                            //   //***********************************************/
+                            // SizedBox(
+                            //   height: size.iScreen(1.0),
+                            // ),
+                            // //*****************************************/
                           },
-                          // validator: (text) {
-                          //   if (text!.trim().isNotEmpty) {
-                          //     return null;
-                          //   } else {
-                          //     return 'Ingrese Observación';
-                          //   }
-                          // },
-                        ),
-                               //***********************************************/
-                        SizedBox(
-                          height: size.iScreen(2.0),
-                        ),
-                        //*****************************************/
-              //                     //*****************************************/
-                  ],
+                        )
+                        :NoData(label: 'Agregar Persona');
+                     
+                        },),
+                     
+                     
+                      ),
+                    //    ***********************************************/
+                          SizedBox(
+                            height: size.iScreen(1.0),
+                          ),
+                          //*****************************************/
+                          Container(
+                            width: size.wScreen(100.0),
+                            child: Text('Observaciones:',
+                                style: GoogleFonts.lexendDeca(
+                                    // fontSize: size.iScreen(2.0),
+                                    fontWeight: FontWeight.normal,
+                                    color: Colors.grey)),
+                          ),
+                          TextFormField(
+                            minLines: 1,
+                            maxLines: 3,
+                            decoration: const InputDecoration(),
+                            textAlign: TextAlign.start,
+                            style: const TextStyle(),
+                            textInputAction: TextInputAction.done,
+                            inputFormatters: <TextInputFormatter>[
+                              FilteringTextInputFormatter.allow(
+                                  // RegExp("[a-zA-Z0-9@#-+.,{" "}\\s]")),
+                                  RegExp(r'^[^\n"]*$')),
+                              UpperCaseText(),
+                            ],
+                            onChanged: (text) {
+                              bitacoraController.setItemObservacion(text);
+                            },
+                            // validator: (text) {
+                            //   if (text!.trim().isNotEmpty) {
+                            //     return null;
+                            //   } else {
+                            //     return 'Ingrese Observación';
+                            //   }
+                            // },
+                          ),
+                                 //***********************************************/
+                          SizedBox(
+                            height: size.iScreen(2.0),
+                          ),
+                          //*****************************************/
+                              //                     //*****************************************/
+                    ],
+                  ),
+                              ),
+                            ),
                 ),
-              ),
-            ),
           ),
         ),
       ),
@@ -2328,7 +2336,7 @@ print('LOS URL DE LA LISTA DE VICITANTES >>>>>> $urlList');
   }
 
   //====== MUESTRA MODAL DE SEDIRIGE A =======//
-  void _modalSeleccionaSeDirigeA(Responsive size, BitacoraController _control) {
+  void _modalSeleccionaSeDirigeA(Responsive size, BitacoraController _control,ScreenSize screenSize) {
     final _data = [
       'PERSONAL PROPIO',
       'VISITANTES',
@@ -2410,7 +2418,7 @@ print('LOS URL DE LA LISTA DE VICITANTES >>>>>> $urlList');
 
   //====== MUESTRA MODAL DE AUTORIZADO POR  =======//
   void _modalSeleccionaAutorizadoPor(
-      Responsive size, BitacoraController _control, List _data) {
+      Responsive size, BitacoraController _control, List _data,ScreenSize screenSize) {
 // final  _data=[ 'PERSONAL PROPIO',
 //                       'VISITANTES',
 //                       'CONTRATISTA',
@@ -2493,7 +2501,7 @@ print('LOS URL DE LA LISTA DE VICITANTES >>>>>> $urlList');
 
   //====== MUESTRA MODAL DE TIPO DE PERSONA =======//
   void _modalSeleccionaTipoPersona(
-      Responsive size, BitacoraController _control) {
+      Responsive size, BitacoraController _control,ScreenSize screenSize) {
     final _data = [
       'PERSONAL PROPIO',
       'VISITANTES',
@@ -2578,7 +2586,7 @@ print('LOS URL DE LA LISTA DE VICITANTES >>>>>> $urlList');
 
 
   //====== MUESTRA MODAL DE TIPO DE PERSONA =======//
-  void _modalSeleccionaDestinoPersona(Responsive size, BitacoraController _control, Map data) {
+  void _modalSeleccionaDestinoPersona(Responsive size, BitacoraController _control, Map data, ScreenSize screenSize) {
  List<Map<String,dynamic>> _data=[];
  
  data['resCedulaPropietario']!=null
@@ -2605,111 +2613,96 @@ print('LOS URL DE LA LISTA DE VICITANTES >>>>>> $urlList');
       "nombre":data['resNombres'],  
     }, ];
 
-  
-    showDialog(
-        barrierDismissible: false,
-        context: context,
-        builder: (BuildContext context) {
-          return GestureDetector(
-            onTap: () => FocusScope.of(context).unfocus(),
-            child: AlertDialog(
-               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8),
-              ),
-              insetPadding: EdgeInsets.symmetric(
-                  horizontal: size.wScreen(5.0), vertical: size.wScreen(3.0)),
-              content: Column(
-                mainAxisSize: MainAxisSize.min,
+  showDialog(
+  barrierDismissible: false,
+  context: context,
+  builder: (BuildContext context) {
+    // Obtén el tamaño de la pantalla
+ 
+
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: AlertDialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8),
+        ),
+        insetPadding: EdgeInsets.symmetric(
+          horizontal: size.wScreen(5.0),
+          vertical: size.wScreen(3.0),
+        ),
+        content: SizedBox(
+          // Ajusta la altura según el tamaño de la pantalla
+          height: screenSize.width>600? size.iScreen(40) : size.iScreen(20.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(' SELECCIONE RESIDENTE',
-                          style: GoogleFonts.lexendDeca(
-                            fontSize: size.iScreen(2.0),
-                            fontWeight: FontWeight.bold,
-                            // color: Colors.white,
-                          )),
-                      IconButton(
-                          splashRadius: size.iScreen(3.0),
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          icon: Icon(
-                            Icons.close,
-                            color: Colors.red,
-                            size: size.iScreen(3.5),
-                          )),
-                    ],
-                  ),
-                  Container(
-                    width: size.wScreen(100),
-                    height: size.hScreen(12),
-                    child: ListView.builder(
-                      shrinkWrap: true,
-                      physics: const BouncingScrollPhysics(),
-                      itemCount: _data.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return GestureDetector(
-                          onTap: () {
-                            _control.setItemPersonaDestino(_data[index]);
-                            Navigator.pop(context);
-                          },
-                          child: Container(
-                            color: Colors.grey[100],
-                            margin: EdgeInsets.symmetric(
-                                vertical: size.iScreen(0.3)),
-                            padding: EdgeInsets.symmetric(
-                                horizontal: size.iScreen(1.0),
-                                vertical: size.iScreen(1.0)),
-                            child: Text(
-                             '${ _data[index]['nombre'].replaceAll('"','')}',
-                              style: GoogleFonts.lexendDeca(
-                                fontSize: size.iScreen(1.8),
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black54,
-                              ),
-                            ),
-                          ),
-                        );
-                      },
+                  Text(
+                    'SELECCIONE RESIDENTE',
+                    style: GoogleFonts.lexendDeca(
+                      fontSize: size.iScreen(2.0),
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
-                  
-                    // ListView.builder(
-                    //   shrinkWrap: true,
-                    //   physics: const BouncingScrollPhysics(),
-                    //   itemCount: _data.length,
-                    //   itemBuilder: (BuildContext context, int index) {
-                    //     return GestureDetector(
-                    //       onTap: () {
-                    //         _control.setItemPersonaDestino(_data[index]);
-                    //         Navigator.pop(context);
-                    //       },
-                    //       child: Container(
-                    //         color: Colors.grey[100],
-                    //         margin: EdgeInsets.symmetric(
-                    //             vertical: size.iScreen(0.3)),
-                    //         padding: EdgeInsets.symmetric(
-                    //             horizontal: size.iScreen(1.0),
-                    //             vertical: size.iScreen(1.0)),
-                    //         child: Text(
-                    //           _data[index],
-                    //           style: GoogleFonts.lexendDeca(
-                    //             fontSize: size.iScreen(1.8),
-                    //             fontWeight: FontWeight.bold,
-                    //             color: Colors.black54,
-                    //           ),
-                    //         ),
-                    //       ),
-                    //     );
-                    //   },
-                    // ),
-                  // ),
+                  IconButton(
+                    splashRadius: size.iScreen(3.0),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    icon: Icon(
+                      Icons.close,
+                      color: Colors.red,
+                      size: size.iScreen(3.5),
+                    ),
+                  ),
                 ],
               ),
-            ),
-          );
+              Expanded(
+                child: Container(
+                  width: size.wScreen(100),
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    physics: const BouncingScrollPhysics(),
+                    itemCount: _data.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return GestureDetector(
+                        onTap: () {
+                          _control.setItemPersonaDestino(_data[index]);
+                          Navigator.pop(context);
+                        },
+                        child: Container(
+                          color: Colors.grey[100],
+                          margin: EdgeInsets.symmetric(
+                            vertical: size.iScreen(0.3),
+                          ),
+                          padding: EdgeInsets.symmetric(
+                            horizontal: size.iScreen(1.0),
+                            vertical: size.iScreen(1.0),
+                          ),
+                          child: Text(
+                            '${_data[index]['nombre'].replaceAll('"', '')}',
+                            style: GoogleFonts.lexendDeca(
+                              fontSize: size.iScreen(1.8),
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black54,
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+
+
+
         });
   }
 

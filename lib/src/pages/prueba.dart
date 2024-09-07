@@ -204,116 +204,201 @@ import 'package:provider/provider.dart';
 //     return bytes / (1024 * 1024); // Convierte bytes a MB
 //   }
 // }
-//********IMAGEN DESDE CAMARA O GALERIA *********/
+// //********IMAGEN DESDE CAMARA O GALERIA *********/
+
+// class Prueba extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Consumer<ImagenCompress>(
+//       builder: (context, imageProvider, _) {
+//         final File? compressedImage = imageProvider.compressedImage;
+
+//         return SafeArea(
+//           child: Scaffold(
+//             body: Column(
+//               children: [
+//                 TextButton(
+//                   onPressed: () {
+//                     imageProvider.deleteImage();
+//                   },
+//                   child: Text('BORRAR'),
+//                 ),
+//                 ElevatedButton(
+//                   onPressed: () {
+//                     _showImageSourceDialog(context, imageProvider);
+//                   },
+//                   child: Text('Pick or Capture Image'),
+//                 ),
+//                 Expanded(
+//                   child: Center(
+//                     child: compressedImage != null
+//                         ? SingleChildScrollView(
+//                           child: Column(
+//                               mainAxisAlignment: MainAxisAlignment.center,
+//                               children: [
+//                                 Image.file(compressedImage),
+//                                 FutureBuilder<int>(
+//                                   future: compressedImage.length(),
+//                                   builder: (context, snapshot) {
+//                                     if (snapshot.connectionState ==
+//                                         ConnectionState.waiting) {
+//                                       return CircularProgressIndicator();
+//                                     }
+//                                     if (snapshot.hasError) {
+//                                       return Text("Error: ${snapshot.error}");
+//                                     }
+//                                     final compressedSizeMB =
+//                                         _bytesToMB(snapshot.data!);
+//                                     return Text(
+//                                       "Compressed Size: ${compressedSizeMB.toStringAsFixed(2)} MB",
+//                                       style: TextStyle(
+//                                         fontSize: 16,
+//                                         fontWeight: FontWeight.w400,
+//                                       ),
+//                                     );
+//                                   },
+//                                 ),
+                             
+                             
+                             
+//                               ],
+//                             ),
+//                         )
+//                         : Text('No compressed image'),
+//                   ),
+//                 ),
+//               ],
+//             ),
+//           ),
+//         );
+//       },
+//     );
+//   }
+
+//   void _showImageSourceDialog(BuildContext context, ImagenCompress imageProvider) {
+//     showDialog(
+//       context: context,
+//       builder: (BuildContext context) {
+//         return AlertDialog(
+//           title: Text('Select Image Source'),
+//           actions: <Widget>[
+//             TextButton(
+//               onPressed: () {
+//                 Navigator.pop(context);
+//                 imageProvider.pickOrCaptureImage(ImageSource.camera);
+//               },
+//               child: Text('Take Photo'),
+//             ),
+//             TextButton(
+//               onPressed: () {
+//                 Navigator.pop(context);
+//                 imageProvider.pickOrCaptureImage(ImageSource.gallery);
+//               },
+//               child: Text('Pick from Gallery'),
+//             ),
+//             TextButton(
+//               onPressed: () {
+//                 Navigator.pop(context);
+//               },
+//               child: Text('Cancel'),
+//             ),
+//           ],
+//         );
+//       },
+//     );
+//   }
+
+//   double _bytesToMB(int bytes) {
+//     return bytes / (1024 * 1024); // Convierte bytes a MB
+//   }
+// }
+
+
+//*****************TOMA FOTO DE CEDULA PLACA ETC  **********************//
+
 
 class Prueba extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Consumer<ImagenCompress>(
-      builder: (context, imageProvider, _) {
-        final File? compressedImage = imageProvider.compressedImage;
+    final imagenCompress = Provider.of<ImagenCompress>(context);
 
-        return SafeArea(
-          child: Scaffold(
-            body: Column(
-              children: [
-                TextButton(
-                  onPressed: () {
-                    imageProvider.deleteImage();
-                  },
-                  child: Text('BORRAR'),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    _showImageSourceDialog(context, imageProvider);
-                  },
-                  child: Text('Pick or Capture Image'),
-                ),
-                Expanded(
-                  child: Center(
-                    child: compressedImage != null
-                        ? SingleChildScrollView(
-                          child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Image.file(compressedImage),
-                                FutureBuilder<int>(
-                                  future: compressedImage.length(),
-                                  builder: (context, snapshot) {
-                                    if (snapshot.connectionState ==
-                                        ConnectionState.waiting) {
-                                      return CircularProgressIndicator();
-                                    }
-                                    if (snapshot.hasError) {
-                                      return Text("Error: ${snapshot.error}");
-                                    }
-                                    final compressedSizeMB =
-                                        _bytesToMB(snapshot.data!);
-                                    return Text(
-                                      "Compressed Size: ${compressedSizeMB.toStringAsFixed(2)} MB",
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                    );
-                                  },
-                                ),
-                             
-                             
-                             
-                              ],
-                            ),
-                        )
-                        : Text('No compressed image'),
-                  ),
-                ),
-              ],
-            ),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Capturar Imágenes"),
+      ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              // Imagen Frontal de la Cédula
+              _buildImageSection(
+                context,
+                "Cédula (Frontal)",
+                imagenCompress.cedulaFrontal,
+                () => imagenCompress.pickOrCaptureImage(ImageSource.camera, 'cedulaFrontal'),
+              ),
+              SizedBox(height: 16),
+              // Imagen Trasera de la Cédula
+              _buildImageSection(
+                context,
+                "Cédula (Trasera)",
+                imagenCompress.cedulaTrasera,
+                () => imagenCompress.pickOrCaptureImage(ImageSource.camera, 'cedulaTrasera'),
+              ),
+              SizedBox(height: 16),
+              // Foto de la Persona
+              _buildImageSection(
+                context,
+                "Foto de la Persona",
+                imagenCompress.fotoPersona,
+                () => imagenCompress.pickOrCaptureImage(ImageSource.camera, 'fotoPersona'),
+              ),
+              SizedBox(height: 16),
+              // Foto de la Placa
+              _buildImageSection(
+                context,
+                "Foto de la Placa",
+                imagenCompress.fotoPlaca,
+                () => imagenCompress.pickOrCaptureImage(ImageSource.camera, 'fotoPlaca'),
+              ),
+            ],
           ),
-        );
-      },
+        ),
+      ),
     );
   }
 
-  void _showImageSourceDialog(BuildContext context, ImagenCompress imageProvider) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Select Image Source'),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-                imageProvider.pickOrCaptureImage(ImageSource.camera);
-              },
-              child: Text('Take Photo'),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-                imageProvider.pickOrCaptureImage(ImageSource.gallery);
-              },
-              child: Text('Pick from Gallery'),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: Text('Cancel'),
-            ),
-          ],
-        );
-      },
+  // Widget genérico para cada sección de imagen (botón y preview)
+  Widget _buildImageSection(BuildContext context, String title, File? imageFile, VoidCallback onCapture) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(title, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+        SizedBox(height: 8),
+        imageFile != null
+            ? Image.file(
+                imageFile,
+                height: 150,
+                width: double.infinity,
+                fit: BoxFit.cover,
+              )
+            : Container(
+                height: 150,
+                color: Colors.grey[200],
+                child: Center(child: Text("No Image Selected")),
+              ),
+        SizedBox(height: 8),
+        ElevatedButton.icon(
+          onPressed: onCapture,
+          icon: Icon(Icons.camera_alt),
+          label: Text("Capturar Imagen"),
+        ),
+      ],
     );
-  }
-
-  double _bytesToMB(int bytes) {
-    return bytes / (1024 * 1024); // Convierte bytes a MB
   }
 }
-
-
 //********* multiples imagenes independientes almacenadas en una LISTA Y EN LA GALERIA  **********/
 
 

@@ -750,12 +750,56 @@ print('DESPUES DE LLENAR LA VARIABLE COORDENADAS DE ALERTA : $coordenadasItem');
     ),
   
 
-        body: Container(
-          // color: Colors.grey,
-          width: size.wScreen(100.0), height: size.hScreen(100.0),
-          child: Center(
-            child: _getPage(context, size, ctrlHome,screenSize),
+        body: Stack(
+          children: [
+            Container(
+              // color: Colors.grey,
+              width: size.wScreen(100.0), 
+              height: size.hScreen(100.0),
+              child: SingleChildScrollView(
+                child: Center(
+                  child: _getPage(context, size, ctrlHome,screenSize),
+                ),
+              ),
+            ),
+            Positioned(
+          bottom: -20.0,
+          right: 10.0,
+          child: GestureDetector(
+            onTap: () {
+              _modalShare(context, size);
+            },
+            child: Row(
+              children: [
+                Container(
+                    // color: Colors.red,
+                    width: screenSize.width<600? size.wScreen(40.0):size.wScreen(20.0),
+                    child: Image.asset(
+                      'assets/imgs/logoNsafe.png',
+                    )),
+                Container(
+                    padding: EdgeInsets.only(top: size.iScreen(1.5)),
+                    child: Icon(
+                      Icons.share,
+                      size: size.iScreen(3.5),
+                    ))
+              ],
+            ),
           ),
+        ),
+        Positioned(
+          bottom: 5.0,
+          left: 4.0,
+          child: Text(
+            'Ver: 1.0.0',
+            style: GoogleFonts.roboto(
+              fontSize: size.iScreen(1.7),
+              color: Colors.grey,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        )
+          ],
         ),
         // bottomNavigationBar: Consumer<HomeController>(
         //   builder: (context, provider, child) {
@@ -1193,346 +1237,318 @@ print('DESPUES DE LLENAR LA VARIABLE COORDENADAS DE ALERTA : $coordenadasItem');
       alignment: Alignment.centerLeft,
       child: SingleChildScrollView(
         physics: BouncingScrollPhysics(),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: Stack(
           children: [
-            SizedBox(
-              height: size.iScreen(1.0),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  height: size.iScreen(1.0),
+                ),
+                gruposItemMenuGestionIntegral(size, ctrlHome, 'Gestión Integral'),
+                gruposItemMenuNovedades(size, ctrlHome, 'Novedades'),
+                gruposItemMenuBitacora(size, ctrlHome, 'Bitácora'),
+              ],
             ),
-            gruposItemMenuGestionIntegral(size, ctrlHome, 'Gestión Integral'),
-            gruposItemMenuNovedades(size, ctrlHome, 'Novedades'),
-            gruposItemMenuBitacora(size, ctrlHome, 'Bitácora'),
+            
           ],
         ),
       ),
     );
   }
 
-  Stack _informacionUsuario(Responsive size, HomeController ctrlHome,
+  Widget _informacionUsuario(Responsive size, HomeController ctrlHome,
       ThemeApp ctrlTheme, BuildContext context,ScreenSize screenSize) {
-    return Stack(
+    return Column(
+      mainAxisAlignment: MainAxisAlignment
+          .spaceAround, // Distribuye los contenedores uniformemente
+          
       children: [
-        Column(
-          mainAxisAlignment: MainAxisAlignment
-              .start, // Distribuye los contenedores uniformemente
-              
-          children: [
-            Container(
-              // color: Colors.blue,
-              child: Column(
+        Container(
+          // color: Colors.blue,
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Container(
-                          // color:Colors.amber,
-                          width: size.wScreen(55),
-                          height: screenSize.width<600?size.hScreen(15): size.hScreen(25),
-                          child: GestureDetector(
-                            onTap: () {
-                              _modalReportes(context, size, widget.user);
-                            },
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  '${ctrlHome.getUsuarioInfo!.nombre}',
-                                  style: GoogleFonts.roboto(
-                                      fontSize: size.iScreen(2.2),
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold),
-                                  textAlign: TextAlign.center,
-                                ),
-                                SizedBox(
-                                  height: size.iScreen(0.5),
-                                ),
-                                Container(
-                                  width: size.wScreen(100.0),
-                                  child: Center(
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Container(
-                                          child: Text(
-                                            '${ctrlHome.getUsuarioInfo!.usuario}',
-                                            style: GoogleFonts.roboto(
-                                                fontSize: size.iScreen(2.0),
-                                                color: Colors.black,
-                                                fontWeight: FontWeight.bold),
-                                            textAlign: TextAlign.justify,
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          width: size.iScreen(2.0),
-                                        ),
-                                        Icon(
-                                          Icons.edit,
-                                          size: size.iScreen(3.0),
-                                          color: ctrlTheme.secondaryColor,
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  // color: Colors.grey.shade300,
-                                  padding: EdgeInsets.symmetric(
-                                      vertical: size.iScreen(0.5),
-                                      horizontal: size.iScreen(0.5)),
-                                  // height:size.iScreen(0.2),
-                                  width: size.wScreen(100),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Icon(
-                                        Icons.assignment_ind_outlined,
-                                        size: size.iScreen(3.0),
-                                      ),
-                                      ctrlHome.getUsuarioInfo!.rol!.isNotEmpty
-                                          ? Wrap(
-                                              children:
-                                                  ctrlHome.getUsuarioInfo!.rol!
-                                                      .map((e) => Text(
-                                                            ': ${e} ',
-                                                            style: GoogleFonts.roboto(
-                                                                fontSize: size
-                                                                    .iScreen(
-                                                                        2.0),
-                                                                color: Colors
-                                                                    .black,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .normal),
-                                                            textAlign: TextAlign
-                                                                .justify,
-                                                          ))
-                                                      .toList(),
-                                            )
-                                          : Text(
-                                              ': Sin Perfil',
-                                              style: GoogleFonts.roboto(
-                                                  fontSize: size.iScreen(2.0),
-                                                  color: Colors.black,
-                                                  fontWeight:
-                                                      FontWeight.normal),
-                                              textAlign: TextAlign.justify,
-                                            )
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          )),
-                      // btnAlerta(size),
-                      GestureDetector(
+                  Container(
+                      // color:Colors.amber,
+                      width: size.wScreen(55),
+                      height: screenSize.width<600?size.hScreen(15): size.hScreen(25),
+                      child: GestureDetector(
                         onTap: () {
-                          // Navigator.of(context)
-                          //     .push(MaterialPageRoute(builder: (context) => Perfil()));
+                          _modalReportes(context, size, widget.user);
                         },
-                        child:
-                            //  Container(
-                            //   margin:
-                            //   EdgeInsets.only(
-                            //       bottom: size.iScreen(4.0),
-                            //       top: size.iScreen(4.0),
-                            //       right: size.iScreen(2.0)),
-                            //   width: size.iScreen(10.0),
-                            //   height: size.iScreen(10.0),
-                            //   child: ClipRRect(
-                            //     borderRadius: BorderRadius.circular(
-                            //         100.0), // 50.0 es un radio grande para hacer la imagen completamente redonda
-                            //     child: CachedNetworkImage(
-                            //       imageUrl: '${ctrlHome.getUsuarioInfo!.logo}',
-                            //       fit: BoxFit.fill,
-                            //       placeholder: (context, url) =>
-                            //           const CupertinoActivityIndicator(),
-                            //       // Image.asset(
-                            //       //     'assets/imgs/loader.gif'),
-        
-                            //       errorWidget: (context, url, error) =>
-                            //           const Icon(Icons.error),
-                            //     ),
-                            //     //Image.asset('assets/imgs/no-image.jpg'),
-                            //   ),
-                            // ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              '${ctrlHome.getUsuarioInfo!.nombre}',
+                              style: GoogleFonts.roboto(
+                                  fontSize: size.iScreen(2.2),
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold),
+                              textAlign: TextAlign.center,
+                            ),
+                            SizedBox(
+                              height: size.iScreen(0.5),
+                            ),
                             Container(
-                          padding: EdgeInsets.all(size.iScreen(0.5)),
-                          width: size.iScreen(12.0),
-                          height: size.iScreen(12.0),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            shape: BoxShape.circle,
-                            border: Border.all(
-                              color: Colors.grey,
-                              width: 2.0,
+                              width: size.wScreen(100.0),
+                              child: Center(
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.center,
+                                  children: [
+                                    Container(
+                                      child: Text(
+                                        '${ctrlHome.getUsuarioInfo!.usuario}',
+                                        style: GoogleFonts.roboto(
+                                            fontSize: size.iScreen(2.0),
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold),
+                                        textAlign: TextAlign.justify,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: size.iScreen(2.0),
+                                    ),
+                                    Icon(
+                                      Icons.edit,
+                                      size: size.iScreen(3.0),
+                                      color: ctrlTheme.secondaryColor,
+                                    )
+                                  ],
+                                ),
+                              ),
                             ),
-                          ),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(
-                                100.0), // 50.0 es un radio grande para hacer la imagen completamente redonda
-                            child: 
-                             ctrlHome.getUsuarioInfo!.foto==null ?Image.asset('assets/imgs/no-image.jpg'):
-                            CachedNetworkImage(
-                              imageUrl: '${ctrlHome.getUsuarioInfo!.foto}',
-                              fit: BoxFit.cover,
-                              placeholder: (context, url) =>
-                                  const CupertinoActivityIndicator(),
-                              // Image.asset(
-                              //     'assets/imgs/loader.gif'),
-        
-                              errorWidget: (context, url, error) =>
-                                  // const Icon(Icons.error),
-                                  Image.asset('assets/imgs/no-image.jpg'),
+                            Container(
+                              // color: Colors.grey.shade300,
+                              padding: EdgeInsets.symmetric(
+                                  vertical: size.iScreen(0.5),
+                                  horizontal: size.iScreen(0.5)),
+                              // height:size.iScreen(0.2),
+                              width: size.wScreen(100),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    Icons.assignment_ind_outlined,
+                                    size: size.iScreen(3.0),
+                                  ),
+                                  ctrlHome.getUsuarioInfo!.rol!.isNotEmpty
+                                      ? Wrap(
+                                          children:
+                                              ctrlHome.getUsuarioInfo!.rol!
+                                                  .map((e) => Text(
+                                                        ': ${e} ',
+                                                        style: GoogleFonts.roboto(
+                                                            fontSize: size
+                                                                .iScreen(
+                                                                    2.0),
+                                                            color: Colors
+                                                                .black,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .normal),
+                                                        textAlign: TextAlign
+                                                            .justify,
+                                                      ))
+                                                  .toList(),
+                                        )
+                                      : Text(
+                                          ': Sin Perfil',
+                                          style: GoogleFonts.roboto(
+                                              fontSize: size.iScreen(2.0),
+                                              color: Colors.black,
+                                              fontWeight:
+                                                  FontWeight.normal),
+                                          textAlign: TextAlign.justify,
+                                        )
+                                ],
+                              ),
                             ),
+                          ],
+                        ),
+                      )),
+                  // btnAlerta(size),
+                  GestureDetector(
+                    onTap: () {
+                      // Navigator.of(context)
+                      //     .push(MaterialPageRoute(builder: (context) => Perfil()));
+                    },
+                    child:
+                        //  Container(
+                        //   margin:
+                        //   EdgeInsets.only(
+                        //       bottom: size.iScreen(4.0),
+                        //       top: size.iScreen(4.0),
+                        //       right: size.iScreen(2.0)),
+                        //   width: size.iScreen(10.0),
+                        //   height: size.iScreen(10.0),
+                        //   child: ClipRRect(
+                        //     borderRadius: BorderRadius.circular(
+                        //         100.0), // 50.0 es un radio grande para hacer la imagen completamente redonda
+                        //     child: CachedNetworkImage(
+                        //       imageUrl: '${ctrlHome.getUsuarioInfo!.logo}',
+                        //       fit: BoxFit.fill,
+                        //       placeholder: (context, url) =>
+                        //           const CupertinoActivityIndicator(),
+                        //       // Image.asset(
+                        //       //     'assets/imgs/loader.gif'),
+    
+                        //       errorWidget: (context, url, error) =>
+                        //           const Icon(Icons.error),
+                        //     ),
+                        //     //Image.asset('assets/imgs/no-image.jpg'),
+                        //   ),
+                        // ),
+                        Container(
+                      padding: EdgeInsets.all(size.iScreen(0.5)),
+                      width: size.iScreen(12.0),
+                      height: size.iScreen(12.0),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: Colors.grey,
+                          width: 2.0,
+                        ),
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(
+                            100.0), // 50.0 es un radio grande para hacer la imagen completamente redonda
+                        child: 
+                         ctrlHome.getUsuarioInfo!.foto==null ?Image.asset('assets/imgs/no-image.jpg'):
+                        CachedNetworkImage(
+                          imageUrl: '${ctrlHome.getUsuarioInfo!.foto}',
+                          fit: BoxFit.cover,
+                          placeholder: (context, url) =>
+                              const CupertinoActivityIndicator(),
+                          // Image.asset(
+                          //     'assets/imgs/loader.gif'),
+    
+                          errorWidget: (context, url, error) =>
+                              // const Icon(Icons.error),
+                              Image.asset('assets/imgs/no-image.jpg'),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              // Container(
+              //   color: Colors.grey.shade300,
+              //   height: size.iScreen(0.5),
+              //   width: size.wScreen(80),
+              // ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  btnAlerta(size),
+                   btnTurnoPrincipal(size, ctrlTheme),
+                ],
+              ),
+            ],
+          ),
+          // Center(
+          //   child: Text(
+          //     'Contenedor 1',
+          //     style: TextStyle(color: Colors.white),
+          //   ),
+          // ),
+        ),
+        // Container(
+        //   color: Colors.grey.shade300,
+        //   height: size.iScreen(0.5),
+        //   width: size.wScreen(80),
+        // ),
+    
+        // btnAlerta(size),
+    
+        //  Container(
+        // color: Colors.grey,
+        // height: size.iScreen(0.2),
+        // width: size.wScreen(80),
+        // ),
+        // Container(
+    
+        //   color: Colors.grey.shade300,
+        //   padding: EdgeInsets.symmetric(
+        //       vertical: size.iScreen(0.5),
+        //       horizontal: size.iScreen(0.5)),
+        //   // height:size.iScreen(0.2),
+        //   width: size.wScreen(80),
+        //   child: Center(
+        //     child: Text(
+        //           'Turno',
+        //           style: GoogleFonts.roboto(
+        //               fontSize: size.iScreen(2.5),
+        //               color: Colors.black,
+        //               fontWeight: FontWeight.bold),
+        //           textAlign: TextAlign.justify,
+        //         ),
+        //   )
+        // ),
+        // Container(
+        //   color: Colors.grey.shade300,
+        //   height: size.iScreen(0.5),
+        //   width: size.wScreen(80),
+        // ),
+    //*****************************//
+    //     Expanded(
+    //       flex: 3, // Proporción de flexibilidad del segundo contenedor
+    //       child: 
+    //       Container(
+    //   //       decoration: BoxDecoration(
+    //   //     color: Colors.grey.shade100,
+    //   //   borderRadius: BorderRadius.circular(10.0),
+    //   // ),
+    //   margin: EdgeInsets.only(
+    //      top:size.iScreen(1.0),
+    //       right: size.iScreen(0.0), left: size.iScreen(0.0)),
+    //           alignment: Alignment.center,
+    //           // color: Colors.grey.shade200,
+    //           child:
+    //               //**************** MENU BOTONES ***********//
+    //               // menuPrincipalCircular(size, context, ctrlTheme)
+    //               //****************  BOTON INICAR TURNO  ***********//
+    
+    //               Column(
+    //                 mainAxisAlignment: MainAxisAlignment.spaceAround,
+    //                 children: [
+    //                   // btnTurnoPrincipal(size, ctrlTheme),
+    // //***********************************************//
+                      // infoMantenimiento(size) ,//////   AQUI MOSTRAR BANNER IINIFORMATIVO
+                      
+                      Container(
+                        margin: EdgeInsets.symmetric(
+                            vertical: size.iScreen(2.0),
+                            horizontal: size.iScreen(2.0)),
+                        // color: Colors.red,
+                        width: size.wScreen(100.0),
+                             height: size.hScreen(40.0),
+                        
+                        alignment: Alignment.center,
+                        child: Text(
+                          'Sistema integrado de seguridad,',
+                          style: GoogleFonts.roboto(
+                            fontSize: size.iScreen(2.0),
+                            color: Colors.grey,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
                       ),
-                    ],
-                  ),
-                  // Container(
-                  //   color: Colors.grey.shade300,
-                  //   height: size.iScreen(0.5),
-                  //   width: size.wScreen(80),
-                  // ),
-                  btnAlerta(size),
-                ],
-              ),
-              // Center(
-              //   child: Text(
-              //     'Contenedor 1',
-              //     style: TextStyle(color: Colors.white),
-              //   ),
-              // ),
-            ),
-            // Container(
-            //   color: Colors.grey.shade300,
-            //   height: size.iScreen(0.5),
-            //   width: size.wScreen(80),
-            // ),
-        
-            // btnAlerta(size),
-        
-            //  Container(
-            // color: Colors.grey,
-            // height: size.iScreen(0.2),
-            // width: size.wScreen(80),
-            // ),
-            // Container(
-        
-            //   color: Colors.grey.shade300,
-            //   padding: EdgeInsets.symmetric(
-            //       vertical: size.iScreen(0.5),
-            //       horizontal: size.iScreen(0.5)),
-            //   // height:size.iScreen(0.2),
-            //   width: size.wScreen(80),
-            //   child: Center(
-            //     child: Text(
-            //           'Turno',
-            //           style: GoogleFonts.roboto(
-            //               fontSize: size.iScreen(2.5),
-            //               color: Colors.black,
-            //               fontWeight: FontWeight.bold),
-            //           textAlign: TextAlign.justify,
-            //         ),
-            //   )
-            // ),
-            // Container(
-            //   color: Colors.grey.shade300,
-            //   height: size.iScreen(0.5),
-            //   width: size.wScreen(80),
-            // ),
-        //*****************************//
-            Expanded(
-              flex: 3, // Proporción de flexibilidad del segundo contenedor
-              child: 
-              Container(
-          //       decoration: BoxDecoration(
-          //     color: Colors.grey.shade100,
-          //   borderRadius: BorderRadius.circular(10.0),
-          // ),
-          margin: EdgeInsets.only(
-             top:size.iScreen(1.0),
-              right: size.iScreen(0.0), left: size.iScreen(0.0)),
-                  alignment: Alignment.center,
-                  // color: Colors.grey.shade200,
-                  child:
-                      //**************** MENU BOTONES ***********//
-                      // menuPrincipalCircular(size, context, ctrlTheme)
-                      //****************  BOTON INICAR TURNO  ***********//
-        
-                      SingleChildScrollView(
-                    physics: BouncingScrollPhysics(),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        btnTurnoPrincipal(size, ctrlTheme),
-        //***********************************************//
-                        // infoMantenimiento(size) //////   AQUI MOSTRAR BANNER IINIFORMATIVO
-                        Container(
-                          margin: EdgeInsets.symmetric(
-                              vertical: size.iScreen(2.0),
-                              horizontal: size.iScreen(2.0)),
-                          // color: Colors.red,
-                          width: size.wScreen(100.0),
-                          alignment: Alignment.center,
-                          child: Text(
-                            'Sistema integrado de seguridad,',
-                            style: GoogleFonts.roboto(
-                              fontSize: size.iScreen(2.0),
-                              color: Colors.grey,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  )),
-            ),
-         //*************************//
-         
-         
-         
-          ],
-        ),
-        Positioned(
-          bottom: -20.0,
-          right: 10.0,
-          child: GestureDetector(
-            onTap: () {
-              _modalShare(context, size);
-            },
-            child: Row(
-              children: [
-                Container(
-                    // color: Colors.red,
-                    width: screenSize.width<600? size.wScreen(40.0):size.wScreen(20.0),
-                    child: Image.asset(
-                      'assets/imgs/logoNsafe.png',
-                    )),
-                Container(
-                    padding: EdgeInsets.only(top: size.iScreen(1.5)),
-                    child: Icon(
-                      Icons.share,
-                      size: size.iScreen(3.5),
-                    ))
-              ],
-            ),
-          ),
-        ),
-        Positioned(
-          bottom: 5.0,
-          left: 4.0,
-          child: Text(
-            'Ver: 1.0.0',
-            style: GoogleFonts.roboto(
-              fontSize: size.iScreen(1.7),
-              color: Colors.grey,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        )
+    //                 ],
+    //               )),
+    //     ),
+    
+    
+     //*************************//
+     
+     
+     
       ],
     );
   }
@@ -1573,9 +1589,11 @@ print('DESPUES DE LLENAR LA VARIABLE COORDENADAS DE ALERTA : $coordenadasItem');
   Container infoMantenimiento(Responsive size) {
     return Container(
       margin: EdgeInsets.only(
-          top: size.iScreen(0.5),
+          top: size.iScreen(1.0),
           left: size.iScreen(1.0),
-          right: size.iScreen(1.0)),
+          right: size.iScreen(1.0),
+            bottom: size.iScreen(2.0),
+          ),
       padding: EdgeInsets.all(size.iScreen(1.5)),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -2913,7 +2931,7 @@ print('DESPUES DE LLENAR LA VARIABLE COORDENADAS DE ALERTA : $coordenadasItem');
           margin: EdgeInsets.only(
               right: size.iScreen(1.0), left: size.iScreen(1.0)),
           padding: EdgeInsets.all(size.iScreen(1.0)),
-          width: size.wScreen(100.0),
+          width: size.wScreen(45.0),
           alignment: Alignment.center,
           child: AvatarGlow(
             endRadius: 60,

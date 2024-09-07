@@ -137,49 +137,50 @@ import 'package:path_provider/path_provider.dart';
 //   }
 // }
 
+//********************** TOMA FOTO DESDE GALERIA O CAMARA   ********************************//
 
-class ImagenCompress extends ChangeNotifier {
-  File? _compressedImage;
-  String compressedImagePath = "/storage/emulated/0/Download/";
+// class ImagenCompress extends ChangeNotifier {
+//   File? _compressedImage;
+//   String compressedImagePath = "/storage/emulated/0/Download/";
 
-  File? get compressedImage => _compressedImage;
+//   File? get compressedImage => _compressedImage;
 
-  Future pickOrCaptureImage(ImageSource source) async {
-    final picker = ImagePicker();
-    final pickedFile = await picker.pickImage(source: source);
+//   Future pickOrCaptureImage(ImageSource source) async {
+//     final picker = ImagePicker();
+//     final pickedFile = await picker.pickImage(source: source);
 
-    if (pickedFile != null) {
-      final originalImage = File(pickedFile.path);
+//     if (pickedFile != null) {
+//       final originalImage = File(pickedFile.path);
 
-      // Comprime la imagen
-      final compressedFile = await FlutterImageCompress.compressAndGetFile(
-        originalImage.path,
-        "$compressedImagePath/${DateTime.now().millisecondsSinceEpoch}.jpg",
-        quality: 15,
-      );
+//       // Comprime la imagen
+//       final compressedFile = await FlutterImageCompress.compressAndGetFile(
+//         originalImage.path,
+//         "$compressedImagePath/${DateTime.now().millisecondsSinceEpoch}.jpg",
+//         quality: 15,
+//       );
 
-      if (compressedFile != null) {
-        _compressedImage = compressedFile;
-        notifyListeners();
-        await originalImage.delete(); // Elimina el archivo original
-      }
-    }
-  }
+//       if (compressedFile != null) {
+//         _compressedImage = compressedFile;
+//         notifyListeners();
+//         await originalImage.delete(); // Elimina el archivo original
+//       }
+//     }
+//   }
 
-  Future<void> deleteImage() async {
-    if (_compressedImage != null) {
-      try {
-        if (await _compressedImage!.exists()) {
-          await _compressedImage!.delete(); // Elimina el archivo comprimido del dispositivo
-        }
-      } catch (e) {
-        print("Error deleting image: $e");
-      }
-      _compressedImage = null;
-      notifyListeners();
-    }
-  }
-}
+//   Future<void> deleteImage() async {
+//     if (_compressedImage != null) {
+//       try {
+//         if (await _compressedImage!.exists()) {
+//           await _compressedImage!.delete(); // Elimina el archivo comprimido del dispositivo
+//         }
+//       } catch (e) {
+//         print("Error deleting image: $e");
+//       }
+//       _compressedImage = null;
+//       notifyListeners();
+//     }
+//   }
+// }
        
        //************GUARDA EN LA GALERIA************ */
 // class ImagenCompress extends ChangeNotifier {
@@ -230,6 +231,116 @@ class ImagenCompress extends ChangeNotifier {
 //     }
 //   }
 // }
+
+
+
+//*********************  TOMA FOTO DE CEDULA PLACA ETC  *************************//
+class ImagenCompress extends ChangeNotifier {
+  // Variables para almacenar cada imagen
+  File? _cedulaFrontal;
+  File? _cedulaTrasera;
+  File? _fotoPersona;
+  File? _fotoPlaca;
+
+  String compressedImagePath = "/storage/emulated/0/Download/";
+
+  // Getters para acceder a cada imagen
+  File? get cedulaFrontal => _cedulaFrontal;
+  File? get cedulaTrasera => _cedulaTrasera;
+  File? get fotoPersona => _fotoPersona;
+  File? get fotoPlaca => _fotoPlaca;
+
+  // Función genérica para comprimir la imagen
+  Future pickOrCaptureImage(ImageSource source, String imageType) async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: source);
+
+    if (pickedFile != null) {
+      final originalImage = File(pickedFile.path);
+
+      // Comprime la imagen
+      final compressedFile = await FlutterImageCompress.compressAndGetFile(
+        originalImage.path,
+        "$compressedImagePath/${DateTime.now().millisecondsSinceEpoch}.jpg",
+        quality: 15,
+      );
+
+      if (compressedFile != null) {
+        // Asigna la imagen comprimida a la variable correspondiente según el tipo
+        switch (imageType) {
+          case 'cedulaFrontal':
+            _cedulaFrontal = compressedFile;
+            break;
+          case 'cedulaTrasera':
+            _cedulaTrasera = compressedFile;
+            break;
+          case 'fotoPersona':
+            _fotoPersona = compressedFile;
+            break;
+          case 'fotoPlaca':
+            _fotoPlaca = compressedFile;
+            break;
+        }
+        notifyListeners();
+        await originalImage.delete(); // Elimina el archivo original
+      }
+    }
+  }
+
+  // Funciones para eliminar cada imagen
+  Future<void> deleteImage(String imageType) async {
+    File? imageToDelete;
+
+    // Selecciona la imagen correspondiente según el tipo
+    switch (imageType) {
+      case 'cedulaFrontal':
+        imageToDelete = _cedulaFrontal;
+        break;
+      case 'cedulaTrasera':
+        imageToDelete = _cedulaTrasera;
+        break;
+      case 'fotoPersona':
+        imageToDelete = _fotoPersona;
+        break;
+      case 'fotoPlaca':
+        imageToDelete = _fotoPlaca;
+        break;
+    }
+
+    if (imageToDelete != null) {
+      try {
+        if (await imageToDelete.exists()) {
+          await imageToDelete.delete(); // Elimina el archivo comprimido
+        }
+      } catch (e) {
+        print("Error deleting image: $e");
+      }
+
+      // Asigna null a la variable de la imagen eliminada
+      switch (imageType) {
+        case 'cedulaFrontal':
+          _cedulaFrontal = null;
+          break;
+        case 'cedulaTrasera':
+          _cedulaTrasera = null;
+          break;
+        case 'fotoPersona':
+          _fotoPersona = null;
+          break;
+        case 'fotoPlaca':
+          _fotoPlaca = null;
+          break;
+      }
+      notifyListeners();
+    }
+  }
+}
+
+
+
+
+
+
 
 //****** VARIAS IMAGENES INDEPENDIENTES  ********//
 

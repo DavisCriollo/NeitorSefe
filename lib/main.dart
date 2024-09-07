@@ -65,8 +65,8 @@ class _MyAppState extends State<MyApp> {
     WidgetsBinding.instance!.addPostFrameCallback(
       (_) {
         SystemChrome.setPreferredOrientations([
-          DeviceOrientation.portraitUp,
-          DeviceOrientation.portraitDown,
+          // DeviceOrientation.portraitUp,
+          // DeviceOrientation.portraitDown,
         ]);
       },
     );
@@ -137,9 +137,9 @@ class _MyAppState extends State<MyApp> {
             //==== AGREGO EL TEMA ====//
             theme: valueTheme.themeData,
 //============================//
-            initialRoute: 'prueba',
+            // initialRoute: 'prueba',
 
-            // initialRoute: 'splash',
+            initialRoute: 'splash',
 
             routes: appRoutes,
             navigatorKey: homeController.navigatorKey,

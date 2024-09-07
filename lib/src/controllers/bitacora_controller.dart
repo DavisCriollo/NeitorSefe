@@ -5,6 +5,7 @@ import 'dart:io';
 
 
 import 'package:flutter/material.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
 // import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
 import 'package:image_picker/image_picker.dart';
@@ -1274,6 +1275,9 @@ _listaVisitas.clear();
   XFile? _pasaporteImage;
   bool _isPicking = false;
 
+
+  String compressedImagePath = "/storage/emulated/0/Download/";
+
   List<Map<String, dynamic>> _listaVisitas = [];
   XFile? get visitanteImage => _visitanteImage;
   XFile? get frontImage => _frontImage;
@@ -1283,59 +1287,256 @@ _listaVisitas.clear();
   bool get isPicking => _isPicking;
 
   final ImagePicker _picker = ImagePicker();
- Future<void> pickVisitanteImage() async {
-    await _pickImage((image)  async{
-      _visitanteImage = image;
-      // final file = File(_visitanteImage!.path);
-  //  final foto= await upLoadImagens(file);
-// setUrlVisitante(foto!);
-      
+
+
+//==================  COMPRIME IMAGEN DEL VISITANTE  =====================//
+
+Future<void> pickVisitanteImage() async {
+  await _pickImage((image) async {
+    // Obtén el archivo original
+    final originalFile = File(image.path);
+
+    // Comprime la imagen
+    final compressedFile = await FlutterImageCompress.compressAndGetFile(
+      image.path,
+      "$compressedImagePath/${DateTime.now().millisecondsSinceEpoch}.jpg",
+      quality: 20,
+    );
+
+    if (compressedFile != null) {
+      // Asigna el archivo comprimido a _visitanteImage
+      _visitanteImage = XFile(compressedFile.path); // O File, dependiendo de tu elección
+
      
-    });
-  }
-  Future<void> pickFrontImage(BuildContext context) async {
-    await _pickImage((image) async{
-      _frontImage = image;
-      _readTextFromImage(_frontImage!,0,context);
-//         final file = File(_visitanteImage!.path);
-//    final foto= await upLoadImagens(file);
-// setUrlCedulaFront(foto!);
-      // _extractDataFromText(_frontImage);
-    });
-  }
+    }
+//  // Elimina el archivo original después de la compresión
+//       try {
+//         await originalFile.delete();
+//         print("Imagen original eliminada.");
+//       } catch (e) {
+//         print("Error eliminando la imagen original: $e");
+//       }
+    notifyListeners();
+  });
+}
+ //==================  COMPRIME IMAGEN FRONTAL DE LA CEDULA  =====================//
+  // Future<void> pickFrontImage(BuildContext context) async {
+  //   await _pickImage((image) async{
+      
+  //      final compressedFile = await FlutterImageCompress.compressAndGetFile(
+  //     image.path,
+  //     "$compressedImagePath/${DateTime.now().millisecondsSinceEpoch}.jpg",
+  //     quality: 20,
+  //   );
+  //     _frontImage = image;
+  //     _readTextFromImage(_frontImage!,0,context);
 
+  //   });
+  // }
+ 
+Future<void> pickFrontImage(BuildContext context) async {
+  await _pickImage((image) async {
+    // Obtén el archivo original
+    final originalFile = File(image.path);
+ 
+    // Obtén el tamaño de la imagen original en bytes
+    final originalFileSize = await originalFile.length();
+    print("Tamaño de la imagen original: ${originalFileSize / 1024} KB");
+
+    // Comprime la imagen
+    final compressedFile = await FlutterImageCompress.compressAndGetFile(
+      image.path,
+      "$compressedImagePath/${DateTime.now().millisecondsSinceEpoch}.jpg",
+      quality: 20,
+    );
+
+    if (compressedFile != null) {
+
+ // Obtén el tamaño de la imagen comprimida en bytes
+      final compressedFileSize = await compressedFile.length();
+      print("Tamaño de la imagen comprimida: ${compressedFileSize / 1024} KB");
+
+      // Asigna el archivo comprimido a _frontImage
+      _frontImage = XFile(compressedFile.path); // O File, dependiendo de tu elección
+     
+      _readTextFromImage(image, 0, context);
+       // Elimina el archivo original después de la compresión
+     
+     
+    }
+//  try {
+//         await originalFile.delete();
+//         print("Imagen original eliminada.");
+//       } catch (e) {
+//         print("Error eliminando la imagen original: $e");
+//       }
+    notifyListeners();
+  });
+}
+ //==================  COMPRIME IMAGEN POSTERIOR  DE LA CEDULA  =====================//
+  // Future<void> pickBackImage() async {
+  //   await _pickImage((image) async{
+  //     _backImage = image;
+  //      final file = File(_backImage!.path);
+
+  //   });
+  // }
   Future<void> pickBackImage() async {
-    await _pickImage((image) async{
-      _backImage = image;
-       final file = File(_backImage!.path);
-//    final foto= await upLoadImagens(file);
-// setUrlCedulaBack(foto!);
-        // _readTextFromImage(_backImage!,1);
-    });
-  }
+  await _pickImage((image) async {
+    // Obtén el archivo original
+    final originalFile = File(image.path);
 
+    // Comprime la imagen
+    final compressedFile = await FlutterImageCompress.compressAndGetFile(
+      image.path,
+      "$compressedImagePath/${DateTime.now().millisecondsSinceEpoch}.jpg",
+      quality: 20,
+    );
+
+    if (compressedFile != null) {
+      // Asigna el archivo comprimido a _backImage
+      _backImage = XFile(compressedFile.path); // O File, dependiendo de tu elección
+
+     
+    }
+    //  // Elimina el archivo original después de la compresión
+    //   try {
+    //     await originalFile.delete();
+    //     print("Imagen original eliminada.");
+    //   } catch (e) {
+    //     print("Error eliminando la imagen original: $e");
+    //   }
+
+    notifyListeners();
+  });
+}
+
+//==================  COMPRIME IMAGEN DEL PASAPORTE  =====================//
+
+  // Future<void> pickPasaporteImage(BuildContext context) async {
+  //   await _pickImage((image) async{
+  //     _pasaporteImage = image;
+  //       _readTextFromImage(_pasaporteImage!,2,context);
+
+  //   });
+  // }
 
   Future<void> pickPasaporteImage(BuildContext context) async {
-    await _pickImage((image) async{
-      _pasaporteImage = image;
-        _readTextFromImage(_pasaporteImage!,2,context);
-//           final file = File(_pasaporteImage!.path);
-//    final foto= await upLoadImagens(file);
-// setUrlPasaporte(foto!);
-    });
+  await _pickImage((image) async {
+    // Obtén el archivo original
+    final originalFile = File(image.path);
+
+    // Comprime la imagen
+    final compressedFile = await FlutterImageCompress.compressAndGetFile(
+      image.path,
+      "$compressedImagePath/${DateTime.now().millisecondsSinceEpoch}.jpg",
+      quality: 20,
+    );
+
+    if (compressedFile != null) {
+      // Asigna el archivo comprimido a _pasaporteImage
+      _pasaporteImage = XFile(compressedFile.path); // O File, dependiendo de tu elección
+
+     
+      _readTextFromImage(_pasaporteImage!, 2, context);
+    }
+//  // Elimina el archivo original después de la compresión
+//       try {
+//         await originalFile.delete();
+//         print("Imagen original eliminada.");
+//       } catch (e) {
+//         print("Error eliminando la imagen original: $e");
+//       }
+
+   
+    notifyListeners();
+  });
+}
+//==================  COMPRIME IMAGEN DE LA PLACA  =====================//
+
+  // Future<void> pickPlacaImage(BuildContext context) async {
+  //   await _pickImage((image)async {
+  //     _placaImage = image;
+  //       _readTextFromImage(_placaImage!,3,context);
+
+  //   });
+  // }
+
+Future<void> pickPlacaImage(BuildContext context) async {
+  await _pickImage((image) async {
+    // Obtén el archivo original
+    final originalFile = File(image.path);
+
+    // Comprime la imagen
+    final compressedFile = await FlutterImageCompress.compressAndGetFile(
+      image.path,
+      "$compressedImagePath/${DateTime.now().millisecondsSinceEpoch}.jpg",
+      quality: 20,
+    );
+
+    if (compressedFile != null) {
+      // Asigna el archivo comprimido a _placaImage
+      _placaImage = XFile(compressedFile.path); // O File, dependiendo de tu elección
+      _readTextFromImage(_placaImage!, 3, context);
+    }
+// Elimina el archivo original después de la compresión
+      // try {
+      //   await originalFile.delete();
+      //   print("Imagen original eliminada.");
+      // } catch (e) {
+      //   print("Error eliminando la imagen original: $e");
+      // }
+
+      // Procesa la imagen comprimida
+    notifyListeners();
+  });
+}
+
+
+Future<void> deleteOriginalFiles() async {
+    try {
+      if (_visitanteImage != null) {
+        final originalFile = File(_visitanteImage!.path);
+        if (await originalFile.exists()) {
+          await originalFile.delete();
+          print("Imagen visitante original eliminada.");
+        }
+      }
+      if (_frontImage != null) {
+        final originalFile = File(_frontImage!.path);
+        if (await originalFile.exists()) {
+          await originalFile.delete();
+          print("Imagen frontal original eliminada.");
+        }
+      }
+      if (_backImage != null) {
+        final originalFile = File(_backImage!.path);
+        if (await originalFile.exists()) {
+          await originalFile.delete();
+          print("Imagen trasera original eliminada.");
+        }
+      }
+      if (_pasaporteImage != null) {
+        final originalFile = File(_pasaporteImage!.path);
+        if (await originalFile.exists()) {
+          await originalFile.delete();
+          print("Imagen pasaporte original eliminada.");
+        }
+      }
+      if (_placaImage != null) {
+        final originalFile = File(_placaImage!.path);
+        if (await originalFile.exists()) {
+          await originalFile.delete();
+          print("Imagen placa original eliminada.");
+        }
+      }
+    } catch (e) {
+      print("Error eliminando las imágenes originales: $e");
+    }
   }
 
-  Future<void> pickPlacaImage(BuildContext context) async {
-    await _pickImage((image)async {
-      _placaImage = image;
-        _readTextFromImage(_placaImage!,3,context);
-  //         final file = File(_visitanteImage!.path);
-  //  final foto= await upLoadImagens(file);
-  //  setUrlPlaca(foto!);
-    });
-  }
 
-
+//==================  VERIFICA SI SE TOMO FOTO O NO  =====================//
   Future<void> _pickImage(Function(XFile) setImage) async {
     if (_isPicking) return;
     _isPicking = true;
