@@ -10,6 +10,7 @@ import 'package:nseguridad/src/service/socket_service.dart';
 
 // import 'package:sincop_app/src/service/socket_service.dart';
 
+
 class CambioDePuestoController extends ChangeNotifier {
   GlobalKey<FormState> cambioPuestoFormKey = GlobalKey<FormState>();
   final _api = ApiProvider();

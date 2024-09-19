@@ -18,6 +18,7 @@ import 'package:nseguridad/src/service/socket_service.dart';
 // import 'package:sincop_app/src/models/lista_allInforme_guardias.dart';
 // import 'package:sincop_app/src/service/socket_service.dart';
 
+
 class AvisoSalidaController extends ChangeNotifier {
   GlobalKey<FormState> avisoSalidaFormKey = GlobalKey<FormState>();
   final _api = ApiProvider();

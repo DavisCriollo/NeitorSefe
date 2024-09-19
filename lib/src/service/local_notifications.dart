@@ -62,15 +62,71 @@ import 'package:rxdart/subjects.dart';
 
 // }
 
+
+
+
+// class LocalNotificationsService {
+//   static final FlutterLocalNotificationsPlugin _notificationsPlugin =
+//       FlutterLocalNotificationsPlugin();
+//   static final onNotification = BehaviorSubject<String?>();
+
+//   static Future<void> initialize() async {
+//     final InitializationSettings initializationSettings =
+//         InitializationSettings(
+//       android: AndroidInitializationSettings('@mipmap/ic_launcher'), // Especifica el icono de tu app aquí
+//       iOS: IOSInitializationSettings(),
+//     );
+
+//     await _notificationsPlugin.initialize(
+//       initializationSettings,
+//       onSelectNotification: (String? payload) async {
+//         onNotification.add(payload);
+//       },
+//     );
+//   }
+
+//   static Future<void> showNotification({
+//     required int id,
+//     required String title,
+//     required String body,
+//     String? payload,
+//   }) async {
+//     const AndroidNotificationDetails androidPlatformChannelSpecifics =
+//         AndroidNotificationDetails(
+//       'neitor', // Personaliza tu ID de canal
+//       'NeitorSafe', // Personaliza tu nombre de canal
+//       channelDescription: 'Sistema de seguridad integral',
+//       sound: RawResourceAndroidNotificationSound('ipsnapchat'),
+//       importance: Importance.max,
+//       priority: Priority.high,
+//       showWhen: false,
+//     );
+
+//     const NotificationDetails platformChannelSpecifics = NotificationDetails(
+//       android: androidPlatformChannelSpecifics,
+//       iOS: IOSNotificationDetails(),
+//     );
+
+//     await _notificationsPlugin.show(
+//       id,
+//       title,
+//       body,
+//       platformChannelSpecifics,
+//       payload: payload,
+//     );
+//   }
+// }
+
+
 class LocalNotificationsService {
   static final FlutterLocalNotificationsPlugin _notificationsPlugin =
       FlutterLocalNotificationsPlugin();
   static final onNotification = BehaviorSubject<String?>();
 
+  // Inicialización de las notificaciones locales
   static Future<void> initialize() async {
-    final InitializationSettings initializationSettings =
-        InitializationSettings(
-      android: AndroidInitializationSettings('@mipmap/ic_launcher'), // Especifica el icono de tu app aquí
+    final InitializationSettings initializationSettings = InitializationSettings(
+      android: AndroidInitializationSettings('@mipmap/ic_launcher'), // Icono de tu app
       iOS: IOSInitializationSettings(),
     );
 
@@ -82,6 +138,7 @@ class LocalNotificationsService {
     );
   }
 
+  // Mostrar una notificación
   static Future<void> showNotification({
     required int id,
     required String title,
@@ -90,10 +147,10 @@ class LocalNotificationsService {
   }) async {
     const AndroidNotificationDetails androidPlatformChannelSpecifics =
         AndroidNotificationDetails(
-      'neitor', // Personaliza tu ID de canal
-      'NeitorSafe', // Personaliza tu nombre de canal
+      'neitor', // ID del canal
+      'NeitorSafe', // Nombre del canal
       channelDescription: 'Sistema de seguridad integral',
-      sound: RawResourceAndroidNotificationSound('ipsnapchat'),
+      sound: RawResourceAndroidNotificationSound('ipsnapchat'), // Sonido personalizado
       importance: Importance.max,
       priority: Priority.high,
       showWhen: false,
@@ -111,5 +168,16 @@ class LocalNotificationsService {
       platformChannelSpecifics,
       payload: payload,
     );
+  }
+
+  // Solicitar permisos para notificaciones en iOS
+  static Future<void> requestIOSPermissions() async {
+    await _notificationsPlugin
+        .resolvePlatformSpecificImplementation<IOSFlutterLocalNotificationsPlugin>()
+        ?.requestPermissions(
+          alert: true,
+          badge: true,
+          sound: true,
+        );
   }
 }

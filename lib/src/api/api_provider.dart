@@ -1412,7 +1412,7 @@ class ApiProvider {
         headers: {"x-auth-token": '$token'},
       );
 
-            // print('LA DATA DE TURNO core *******> : ${dataResp.body} -*- ${dataResp.statusCode}');
+            print('LA DATA DE TURNO core *******> : ${dataResp.body} -*- ${dataResp.statusCode}');
      if (dataResp.body.isEmpty) {
         return null;
       }

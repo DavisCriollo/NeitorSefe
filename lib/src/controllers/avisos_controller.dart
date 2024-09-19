@@ -18,6 +18,7 @@ import 'package:provider/provider.dart';
 // import 'package:sincop_app/src/service/notifications_service.dart' as snaks;
 // import 'package:sincop_app/src/service/socket_service.dart';
 
+
 class AvisosController extends ChangeNotifier {
   GlobalKey<FormState> comunicadosClienteFormKey = GlobalKey<FormState>();
   GlobalKey<FormState> comunicadosRespondeFormKey = GlobalKey<FormState>();
