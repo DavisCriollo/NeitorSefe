@@ -841,7 +841,7 @@ class AusenciasController extends ChangeNotifier {
   List<Map<String, dynamic>> get getlistaGuardiasSeleccionados => _listaGuardiasSeleccionados;
 
   void setGuardiasSeleccionados(Map<String, dynamic> _value) {
-     print('ESTA ES LA DATA DE  LOS ID======> $_value');
+    //  print('ESTA ES LA DATA DE  LOS ID======> $_value');
 
   
     _listaGuardiasSeleccionados
