@@ -11,6 +11,7 @@ import 'package:nseguridad/src/controllers/multas_controller.dart';
 import 'package:nseguridad/src/models/session_response.dart';
 import 'package:nseguridad/src/theme/themes_app.dart';
 import 'package:nseguridad/src/utils/dialogs.dart';
+import 'package:nseguridad/src/utils/fecha_local_convert.dart';
 
 import 'package:nseguridad/src/utils/responsive.dart';
 import 'package:nseguridad/src/utils/theme.dart';
@@ -41,12 +42,22 @@ class _DetalleMultaGuardiaPageState extends State<DetalleMultaGuardiaPage> {
     final Responsive size = Responsive.of(context);
 
     final _user = context.read<HomeController>();
+  DateTime _date = DateTime.now();
 
-    DateTime _dateNow = DateTime.now();
+String _fechaLocalServer= DateUtility.fechaLocalConvert(_date.toString());
+
+    // DateTime _dateNow = DateTime.now();
+    DateTime _dateNow = DateTime.parse(_fechaLocalServer);
+
+
     bool _fechaMulta = false;
 
-    DateTime _fechaInforme =
-        DateTime.parse(widget.infoMultaGuardia!['nomFecReg']);
+
+ String _fechaLocal= DateUtility.fechaLocalConvert(widget.infoMultaGuardia!['nomFecReg']);
+
+    // DateTime _fechaInforme = DateTime.parse(widget.infoMultaGuardia!['nomFecReg']);
+
+  DateTime _fechaInforme = DateTime.parse(_fechaLocal);
 
     if (_fechaInforme.month == _dateNow.month) {
       _fechaMulta = true;
@@ -151,13 +162,13 @@ class _DetalleMultaGuardiaPageState extends State<DetalleMultaGuardiaPage> {
                                     fontWeight: FontWeight.normal,
                                     color: Colors.grey)),
                             Spacer(),
-                            Text(
-                                widget.infoMultaGuardia!['nomFecReg']!
-                                    // .toLocal()
-                                    .toString()
-                                    .substring(0, 16)
-                                    .replaceAll(".000Z", "")
-                                    .replaceAll("T", " "),
+                            Text(_fechaLocal,
+                                // widget.infoMultaGuardia!['nomFecReg']!
+                                //     // .toLocal()
+                                //     .toString()
+                                //     .substring(0, 16)
+                                //     .replaceAll(".000Z", "")
+                                //     .replaceAll("T", " "),
                                 style: GoogleFonts.lexendDeca(
                                     // fontSize: size.iScreen(2.0),
                                     fontWeight: FontWeight.normal,
@@ -647,7 +658,8 @@ class _DetalleMultaGuardiaPageState extends State<DetalleMultaGuardiaPage> {
                             },
                           )
                         : Container()
-                    : Positioned(
+                    : 
+                    Positioned(
                         bottom: 5,
                         child: SizedBox(
                           width: size.wScreen(100.0),

@@ -74,7 +74,7 @@ class MultasGuardiasContrtoller extends ChangeNotifier {
   void setListaTodasLasMultas(List? data) {
     _listaTodasLasMultas = [];
     _listaTodasLasMultas = data;
-    print('SI HACE EL LLAMADO : $_listaTodasLasMultas');
+    // print('SI HACE EL LLAMADO : $_listaTodasLasMultas');
 
     notifyListeners();
   }
@@ -216,6 +216,10 @@ class MultasGuardiasContrtoller extends ChangeNotifier {
 
   void setInfoMultaObtenida(dynamic _info) {
     _getInformacionMulta = _info;
+
+    print('EL ITEM DE MULTA: $_getInformacionMulta');
+
+
     notifyListeners();
   }
 

@@ -808,6 +808,8 @@ class _CrearInformeGuardiaPageState extends State<CrearInformeGuardiaPage> {
     }
   }
 
+
+
   void bottomSheet(
     InformeController informeController,
     BuildContext context,

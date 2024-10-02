@@ -76,7 +76,7 @@ class _ListaNotificacionesPushState extends State<ListaNotificacionesPush> {
             ),
           ),
         title: Text(
-          'Mis Notificaciones',
+          'Mis Tareas',
           // style: Theme.of(context).textTheme.headline2,
         ),
       ),

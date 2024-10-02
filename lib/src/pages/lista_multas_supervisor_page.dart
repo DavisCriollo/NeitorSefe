@@ -312,6 +312,7 @@ class _ListaMultasSupervisorState extends State<ListaMultasSupervisor> {
                           ? RefreshIndicator(
                               onRefresh: () => _onRefresLista(),
                               child: ListView.builder(
+                                physics: const BouncingScrollPhysics(),
                                   itemCount: multasControler
                                       .getListaTodasLasMultasGuardias!.length,
                                   itemBuilder:
