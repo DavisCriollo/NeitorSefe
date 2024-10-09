@@ -10,6 +10,7 @@ import 'package:nseguridad/src/controllers/ausencias_controller.dart';
 import 'package:nseguridad/src/controllers/aviso_salida_controller.dart';
 import 'package:nseguridad/src/controllers/avisos_controller.dart';
 import 'package:nseguridad/src/controllers/bitacora_controller.dart';
+import 'package:nseguridad/src/controllers/botonTurno_controller.dart';
 import 'package:nseguridad/src/controllers/cambio_puesto_controller.dart';
 import 'package:nseguridad/src/controllers/capacitaciones_controller.dart';
 import 'package:nseguridad/src/controllers/consignas_clientes_controller.dart';
@@ -81,6 +82,8 @@ class _MyAppState extends State<MyApp> {
 
     return MultiProvider(
       providers: [
+        ChangeNotifierProvider(create: (_) => BotonTurnoController()),
+        
         ChangeNotifierProvider(create: (_) => ThemeApp()),
         ChangeNotifierProvider(create: (_) => PushNotificationService()),
           ChangeNotifierProvider(create: (_) => ImagenCompress()),

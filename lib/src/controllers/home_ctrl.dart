@@ -13,6 +13,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
 import 'package:nseguridad/src/api/api_provider.dart';
 import 'package:nseguridad/src/api/authentication_client.dart';
+import 'package:nseguridad/src/controllers/botonTurno_controller.dart';
 import 'package:nseguridad/src/models/auth_response.dart';
 import 'package:nseguridad/src/models/session_response.dart';
 import 'package:nseguridad/src/service/location_GPS.dart';
@@ -268,6 +269,7 @@ class HomeController extends ChangeNotifier {
 
   Future<void> validaTurnoQR(BuildContext context) async {
     final serviceSocket = context.read<SocketService>();
+     final btnCtrl = context.read<BotonTurnoController>();
     final infoUser = await Auth.instance.getSession();
 
     final _pyloadDataIniciaTurno = {
@@ -309,6 +311,8 @@ class HomeController extends ChangeNotifier {
 
           await Auth.instance.saveTurnoSessionUser(datosLogin);
           //========INICIO TURNO DE NUEVA NAMERA======//
+ btnCtrl.setTurnoBTN(true);
+
           setBotonTurno(true);
           //====================================//
         }
@@ -848,6 +852,7 @@ class HomeController extends ChangeNotifier {
 //==================FINALIZA TURNO ===========================//
   Future<void> finalizarTurno(BuildContext context) async {
     final serviceSocket = context.read<SocketService>();
+    final btnCtrl = context.read<BotonTurnoController>();
     final infoUser = await Auth.instance.getSession();
     final idRegistro = await Auth.instance.getIdRegistro();
 
@@ -866,6 +871,8 @@ class HomeController extends ChangeNotifier {
     serviceSocket.socket!.on('server:actualizadoExitoso', (data) async {
       if (data['tabla'] == 'registro') {
         //================= FINALIZO TURNO DE NUEVA FORMA ===================//
+         btnCtrl.setTurnoBTN(false);
+
         setBotonTurno(false);
       }
     });
@@ -902,7 +909,8 @@ class HomeController extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future getValidaTurnoServer() async {
+  Future getValidaTurnoServer(BuildContext context) async {
+      final btnCtrl = context.read<BotonTurnoController>();
     final dataUser = await Auth.instance.getSession();
     // print('token Usuario *********************** ${dataUser!.token}');
     if (dataUser!=null) {
@@ -912,18 +920,27 @@ class HomeController extends ChangeNotifier {
 
     if (response != null) {
       _errorRefreshToken = true;
-      setGetTestTurno(false);
-      setBotonTurno(false);
+      // setTurnoBTN(false);
+
+      // setGetTestTurno(false);
+      // setBotonTurno(false);
 
       if (response['data'].length > 0) {
+
+
         await Auth.instance.deleteIdRegistro();
         await Auth.instance.saveIdRegistro('${response['data']['regId']}');
+         btnCtrl.setTurnoBTN(true);
+
         setBotonTurno(true);
         setGetTestTurno(true);
-      } else {
-        setGetTestTurno(false);
-        setBotonTurno(false);
-      }
+      } 
+      // else {
+      //    setTurnoBTN(false);
+
+      //   setGetTestTurno(false);
+      //   setBotonTurno(false);
+      // }
 
       return response;
     }
@@ -940,7 +957,7 @@ class HomeController extends ChangeNotifier {
   bool? _tieneInternet;
   bool? get getTieneInternet => _tieneInternet;
 
-  void setTieneInternet(bool? estado) {
+  void setTieneInternets(bool? estado) {
     _tieneInternet = estado;
     if (_tieneInternet == true) {
       setBotonTurno(true);
@@ -1507,8 +1524,6 @@ bool _isGpsEnabled = false;
     return _isGpsEnabled;
   }
   
-
-
 
 
 

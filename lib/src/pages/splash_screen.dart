@@ -572,7 +572,7 @@ final isGPSActive=await controllerHome.checkGPSStatus();
         if (controllerHome.getCoords != '') {
           
           if (session.rol!.contains('GUARDIA')||session.rol!.contains('SUPERVISOR')||session.rol!.contains('ADMINISTRACION')) {
-        controllerHome.getValidaTurnoServer();
+        controllerHome.getValidaTurnoServer(context);
          controllerHome.buscaNotificacionesPush('');
     controllerHome.buscaNotificacionesPush2('');
         // print('EL TURNO SI EXISTE : ${_isTurned}');

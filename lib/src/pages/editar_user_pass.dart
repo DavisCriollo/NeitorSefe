@@ -625,7 +625,7 @@ class _UpdatePassUserState extends State<UpdatePassUser> {
 
                        
                         _ctrlHome.resetNotificaciones();
-                        _ctrlHome.setGetTestTurno(false);
+                        // _ctrlHome.setGetTestTurno(false);
                         _ctrlHome.setBotonTurno(false);
                         _ctrlHome.setIndex(0);
                            _ctrlHome.sentTokenDelete();

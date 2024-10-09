@@ -18,6 +18,7 @@ import 'package:nseguridad/src/models/lista_allComunicados_clientes.dart';
 import 'package:nseguridad/src/models/lista_allEstados_cuenta_cliente.dart';
 import 'package:nseguridad/src/models/lista_allTipos_multas.dart';
 import 'package:nseguridad/src/models/lista_personas_designadas_aCliente.dart';
+import 'package:nseguridad/src/pages/splash_screen.dart';
 import 'package:nseguridad/src/service/notifications_service.dart';
 // import 'package:nseguridad/src/services/notifications_service.dart' as  snaks;
 import 'package:nseguridad/src/utils/dialogs.dart';
@@ -1425,12 +1426,13 @@ class ApiProvider {
         final responseData = jsonDecode(dataResp.body);
 
           // print('LA DATA DE TURNO *******> : ${responseData}');
+        
 
        return responseData;
        
       }
       if (dataResp.statusCode == 404) {
-        
+       
         return null;
       }
       if (dataResp.statusCode == 401) {

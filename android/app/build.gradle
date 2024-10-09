@@ -123,7 +123,7 @@ android {
         applicationId "app.neitor.nseguridad"
         minSdkVersion 29
         targetSdkVersion 33
-        versionCode 11
+        versionCode 13
         versionName '1.0.0'
     }
 

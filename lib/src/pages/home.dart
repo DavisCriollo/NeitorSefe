@@ -17,6 +17,7 @@ import 'package:nseguridad/src/controllers/actividades_asignadas_controller.dart
 import 'package:nseguridad/src/controllers/ausencias_controller.dart';
 import 'package:nseguridad/src/controllers/avisos_controller.dart';
 import 'package:nseguridad/src/controllers/bitacora_controller.dart';
+import 'package:nseguridad/src/controllers/botonTurno_controller.dart';
 import 'package:nseguridad/src/controllers/cambio_puesto_controller.dart';
 import 'package:nseguridad/src/controllers/capacitaciones_controller.dart';
 import 'package:nseguridad/src/controllers/consignas_controller.dart';
@@ -230,7 +231,7 @@ print('DESPUES DE LLENAR LA VARIABLE COORDENADAS DE ALERTA : $coordenadasItem');
 
     homeControl.getAllMantenimientos();
     await homeControl.validaInicioDeSesion(context);
-    homeControl.getValidaTurnoServer();
+    homeControl.getValidaTurnoServer(context);
 
     if (homeControl.getInfoMantenimiento.isNotEmpty) {
       _showMaintenanceAlert(context, homeControl.getInfoMantenimiento);
@@ -298,7 +299,7 @@ print('DESPUES DE LLENAR LA VARIABLE COORDENADAS DE ALERTA : $coordenadasItem');
       await homeControl.validaInicioDeSesion(context);
       homeControl.getAllMantenimientos();
 
-      homeControl.getValidaTurnoServer();
+      homeControl.getValidaTurnoServer(context);
 
       homeControl.buscaNotificacionesPush('');
       homeControl.buscaNotificacionesPush2('');
@@ -552,23 +553,24 @@ print('DESPUES DE LLENAR LA VARIABLE COORDENADAS DE ALERTA : $coordenadasItem');
     //         ),
     //       ],
     //     ),
-    UpgradeAlert(
-  upgrader: Upgrader(
-    onUpdate: () {
-      print('SE REALIZA LA ACCION DE ACTUALIZAR');
-      isUpdate();
-      return true;
-    },
-    canDismissDialog: true,
-    durationUntilAlertAgain: Duration(minutes: 1),
-    showIgnore: false,
-    showLater: false,
-    languageCode: 'es',
-    dialogStyle: Platform.isIOS
-        ? UpgradeDialogStyle.cupertino
-        : UpgradeDialogStyle.material,
-  ),
-  child: Scaffold(
+  //   UpgradeAlert(
+  // upgrader: Upgrader(
+  //   onUpdate: () {
+  //     print('SE REALIZA LA ACCION DE ACTUALIZAR');
+  //     isUpdate();
+  //     return true;
+  //   },
+  //   canDismissDialog: true,
+  //   durationUntilAlertAgain: Duration(minutes: 1),
+  //   showIgnore: false,
+  //   showLater: false,
+  //   languageCode: 'es',
+  //   dialogStyle: Platform.isIOS
+  //       ? UpgradeDialogStyle.cupertino
+  //       : UpgradeDialogStyle.material,
+  // ),
+  // child: 
+  Scaffold(
     // backgroundColor: Colors.white,
     appBar: AppBar(
       flexibleSpace: Container(
@@ -650,6 +652,15 @@ print('DESPUES DE LLENAR LA VARIABLE COORDENADAS DE ALERTA : $coordenadasItem');
                       fontWeight: FontWeight.normal)),
             ),
           ),
+          // Consumer<BotonTurnoController>(builder: (_, values,__) {  
+          //   return 
+            
+          //   Text(values.getTurnoBTN?'SI':'NO',
+          //         style: GoogleFonts.roboto(
+          //             fontSize: size.iScreen(3.0),
+          //             fontWeight: FontWeight.normal));
+          // },)
+          
         ],
       ),
       actions: [
@@ -893,8 +904,8 @@ print('DESPUES DE LLENAR LA VARIABLE COORDENADAS DE ALERTA : $coordenadasItem');
             );
           },
         ),
-      )
-    );
+      );
+    // );
   }
 
   Widget _getPage(
@@ -1239,18 +1250,24 @@ print('DESPUES DE LLENAR LA VARIABLE COORDENADAS DE ALERTA : $coordenadasItem');
         physics: BouncingScrollPhysics(),
         child: Stack(
           children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
+            Consumer<BotonTurnoController>(builder: (_, value,__) { 
+              return 
+            //  value.getTurnoBTN?  
+             Column(
+              mainAxisAlignment:   MainAxisAlignment.start,
+              crossAxisAlignment:  CrossAxisAlignment.start,
               children: [
                 SizedBox(
                   height: size.iScreen(1.0),
                 ),
-                gruposItemMenuGestionIntegral(size, ctrlHome, 'Gestión Integral'),
-                gruposItemMenuNovedades(size, ctrlHome, 'Novedades'),
-                gruposItemMenuBitacora(size, ctrlHome, 'Bitácora'),
+                gruposItemMenuGestionIntegral(size,  'Gestión Integral'),
+                gruposItemMenuNovedades(size, 'Novedades'),
+                gruposItemMenuBitacora(size,  'Bitácora'),
               ],
-            ),
+            );
+            // :Center(child: NoData(label: 'NO TIENE TURNO ACTIVO ESTE MOMENTO...'));
+             },)
+           
             
           ],
         ),
@@ -1379,32 +1396,7 @@ print('DESPUES DE LLENAR LA VARIABLE COORDENADAS DE ALERTA : $coordenadasItem');
                       //     .push(MaterialPageRoute(builder: (context) => Perfil()));
                     },
                     child:
-                        //  Container(
-                        //   margin:
-                        //   EdgeInsets.only(
-                        //       bottom: size.iScreen(4.0),
-                        //       top: size.iScreen(4.0),
-                        //       right: size.iScreen(2.0)),
-                        //   width: size.iScreen(10.0),
-                        //   height: size.iScreen(10.0),
-                        //   child: ClipRRect(
-                        //     borderRadius: BorderRadius.circular(
-                        //         100.0), // 50.0 es un radio grande para hacer la imagen completamente redonda
-                        //     child: CachedNetworkImage(
-                        //       imageUrl: '${ctrlHome.getUsuarioInfo!.logo}',
-                        //       fit: BoxFit.fill,
-                        //       placeholder: (context, url) =>
-                        //           const CupertinoActivityIndicator(),
-                        //       // Image.asset(
-                        //       //     'assets/imgs/loader.gif'),
-    
-                        //       errorWidget: (context, url, error) =>
-                        //           const Icon(Icons.error),
-                        //     ),
-                        //     //Image.asset('assets/imgs/no-image.jpg'),
-                        //   ),
-                        // ),
-                        Container(
+                       Container(
                       padding: EdgeInsets.all(size.iScreen(0.5)),
                       width: size.iScreen(12.0),
                       height: size.iScreen(12.0),
@@ -1833,12 +1825,18 @@ print('DESPUES DE LLENAR LA VARIABLE COORDENADAS DE ALERTA : $coordenadasItem');
     );
   }
 
-  Column gruposItemMenuNovedades(
+  Widget gruposItemMenuNovedades(
     Responsive size,
-    HomeController ctrlHome,
+    // HomeController ctrlHome,
     String _titulo,
   ) {
-    return Column(
+
+
+
+    return 
+    
+    Consumer<HomeController>(builder: (_, ctrlHome, __) {  
+      return Column(
       children: [
         Container(
           width: size.wScreen(100),
@@ -1867,7 +1865,7 @@ print('DESPUES DE LLENAR LA VARIABLE COORDENADAS DE ALERTA : $coordenadasItem');
           alignment: WrapAlignment.center,
           children: [
             _itemsMenuLateral(size, 'Multas', Icons.fact_check_outlined,
-                ctrlHome, ctrlTheme.combinedColors[0], 
+                ctrlTheme.combinedColors[0], 
                 () async{
                              bool isGpsEnabled = await context.read<HomeController>().checkGpsStatus();
             if (!isGpsEnabled) {
@@ -1964,7 +1962,7 @@ print('DESPUES DE LLENAR LA VARIABLE COORDENADAS DE ALERTA : $coordenadasItem');
                 size,
                 'Cambio Puesto',
                 Icons.transfer_within_a_station_outlined,
-                ctrlHome,
+               
                 ctrlTheme.combinedColors[1], 
                 () async{
                              bool isGpsEnabled = await context.read<HomeController>().checkGpsStatus();
@@ -1988,7 +1986,7 @@ print('DESPUES DE LLENAR LA VARIABLE COORDENADAS DE ALERTA : $coordenadasItem');
 
             },'PRUESTO'),
             _itemsMenuLateral(size, 'Permisos', Icons.pending_actions_outlined,
-                ctrlHome, ctrlTheme.combinedColors[2],
+              ctrlTheme.combinedColors[2],
                 () async{
                              bool isGpsEnabled = await context.read<HomeController>().checkGpsStatus();
             if (!isGpsEnabled) {
@@ -2034,7 +2032,7 @@ print('DESPUES DE LLENAR LA VARIABLE COORDENADAS DE ALERTA : $coordenadasItem');
                 size,
                 'Quejas/Reclamos',
                 Icons.rate_review_outlined,
-                ctrlHome,
+               
                 ctrlTheme.combinedColors[1], 
                () async{
                              bool isGpsEnabled = await context.read<HomeController>().checkGpsStatus();
@@ -2061,7 +2059,7 @@ print('DESPUES DE LLENAR LA VARIABLE COORDENADAS DE ALERTA : $coordenadasItem');
                 }
             },'QUEJA'),
             _itemsMenuLateral(size, 'Encuestas', Icons.checklist_rtl_outlined,
-                ctrlHome, ctrlTheme.combinedColors[2], 
+                ctrlTheme.combinedColors[2], 
                 
                () async{
                              bool isGpsEnabled = await context.read<HomeController>().checkGpsStatus();
@@ -2093,14 +2091,25 @@ print('DESPUES DE LLENAR LA VARIABLE COORDENADAS DE ALERTA : $coordenadasItem');
         ),
       ],
     );
+  
+    },);
+    
+    
+    
   }
 
-  Column gruposItemMenuGestionIntegral(
+  Widget gruposItemMenuGestionIntegral(
     Responsive size,
-    HomeController ctrlHome,
+    // HomeController ctrlHome,
     String _titulo,
   ) {
-    return Column(
+
+
+
+    return 
+    
+    Consumer<BotonTurnoController>(builder: (_, ctrlHome, __) {  
+      return  Column(
       children: [
         Container(
           width: size.wScreen(100),
@@ -2132,9 +2141,9 @@ print('DESPUES DE LLENAR LA VARIABLE COORDENADAS DE ALERTA : $coordenadasItem');
                 size,
                 'Actividades',
                 Icons.streetview_outlined,
-                ctrlHome,
+               
                 ctrlTheme.combinedColors[0],
-                ctrlHome.getgetTestTurno == true
+                ctrlHome.getTurnoBTN == true
                     ? 
                             () async{
                              bool isGpsEnabled = await context.read<HomeController>().checkGpsStatus();
@@ -2165,7 +2174,7 @@ print('DESPUES DE LLENAR LA VARIABLE COORDENADAS DE ALERTA : $coordenadasItem');
                       }
                     : () {},'ACTIVIDAD'),
             _itemsMenuLateral(size, 'Informes', Icons.analytics_outlined,
-                ctrlHome, ctrlTheme.combinedColors[1], 
+                ctrlTheme.combinedColors[1], 
                () async{
                              bool isGpsEnabled = await context.read<HomeController>().checkGpsStatus();
             if (!isGpsEnabled) {
@@ -2175,7 +2184,7 @@ print('DESPUES DE LLENAR LA VARIABLE COORDENADAS DE ALERTA : $coordenadasItem');
               );
             } else {
 
-              if (ctrlHome.getgetTestTurno == true) {
+              if (ctrlHome.getTurnoBTN == true) {
                 if ((widget.tipo!.contains('GUARDIA') ||
                     widget.tipo!.contains('SUPERVISOR'))) {
                   Navigator.of(context).push(MaterialPageRoute(
@@ -2193,7 +2202,7 @@ print('DESPUES DE LLENAR LA VARIABLE COORDENADAS DE ALERTA : $coordenadasItem');
                 size,
                 'Consignas',
                 Icons.assignment_turned_in_outlined,
-                ctrlHome,
+               
                 ctrlTheme.combinedColors[2], 
                 () async{
                              bool isGpsEnabled = await context.read<HomeController>().checkGpsStatus();
@@ -2204,7 +2213,7 @@ print('DESPUES DE LLENAR LA VARIABLE COORDENADAS DE ALERTA : $coordenadasItem');
               );
             } else {
 
-              if (ctrlHome.getgetTestTurno == true) {
+              if (ctrlHome.getTurnoBTN == true) {
                 if ((widget.tipo!.contains('GUARDIA') ||
                     widget.tipo!.contains('SUPERVISOR'))) {
                   Provider.of<ConsignasController>(context, listen: false)
@@ -2228,7 +2237,7 @@ print('DESPUES DE LLENAR LA VARIABLE COORDENADAS DE ALERTA : $coordenadasItem');
 
 
             },'CONSIGNA'),
-            _itemsMenuLateral(size, 'Comunicados', Icons.list_alt, ctrlHome,
+            _itemsMenuLateral(size, 'Comunicados', Icons.list_alt,
                 ctrlTheme.combinedColors[3], 
                 
                () async{
@@ -2239,7 +2248,7 @@ print('DESPUES DE LLENAR LA VARIABLE COORDENADAS DE ALERTA : $coordenadasItem');
                 MaterialPageRoute(builder: (context) => AccesoGPSPage()),
               );
             } else {
-              if (ctrlHome.getgetTestTurno == true) {
+              if (ctrlHome.getTurnoBTN == true) {
                 if ((widget.tipo!.contains('GUARDIA') ||
                     widget.tipo!.contains('SUPERVISOR'))) {
                   Provider.of<AvisosController>(context, listen: false)
@@ -2266,7 +2275,7 @@ print('DESPUES DE LLENAR LA VARIABLE COORDENADAS DE ALERTA : $coordenadasItem');
             // }),
          
             _itemsMenuLateral(size, 'Evaluaciones', Icons.summarize_outlined,
-                ctrlHome, ctrlTheme.combinedColors[3], 
+               ctrlTheme.combinedColors[3], 
                 () async{
                              bool isGpsEnabled = await context.read<HomeController>().checkGpsStatus();
             if (!isGpsEnabled) {
@@ -2300,7 +2309,7 @@ print('DESPUES DE LLENAR LA VARIABLE COORDENADAS DE ALERTA : $coordenadasItem');
                 size,
                 'Capacitaciones',
                 Icons.workspace_premium_outlined,
-                ctrlHome,
+            
                 ctrlTheme.combinedColors[0],
                
                
@@ -2366,14 +2375,23 @@ print('DESPUES DE LLENAR LA VARIABLE COORDENADAS DE ALERTA : $coordenadasItem');
         ),
       ],
     );
+ 
+    },);
+    
+    
+   
+ 
   }
 
-  Column gruposItemMenuBitacora(
+  Widget gruposItemMenuBitacora(
     Responsive size,
-    HomeController ctrlHome,
+    // HomeController ctrlHome,
     String _titulo,
   ) {
-    return Column(
+    return 
+    
+    Consumer(builder: (BuildContext context, value, Widget? child) { 
+      return  Column(
       children: [
         Container(
           width: size.wScreen(100),
@@ -2403,7 +2421,7 @@ print('DESPUES DE LLENAR LA VARIABLE COORDENADAS DE ALERTA : $coordenadasItem');
           children: [
             widget.user!.rol!.contains('RESIDENTE')
                 ? Container()
-                : _itemsMenuLateral(size, 'Residente', Icons.groups, ctrlHome,
+                : _itemsMenuLateral(size, 'Residente', Icons.groups, 
                     ctrlTheme.combinedColors[0], 
                     
                     () async{
@@ -2442,7 +2460,7 @@ print('DESPUES DE LLENAR LA VARIABLE COORDENADAS DE ALERTA : $coordenadasItem');
                     ? 'Solicitud de Ingreso'
                     : 'Libro Diario',
                 Icons.auto_stories_sharp,
-                ctrlHome,
+               
                 ctrlTheme.combinedColors[1], 
                 () async{
                              bool isGpsEnabled = await context.read<HomeController>().checkGpsStatus();
@@ -2478,11 +2496,19 @@ print('DESPUES DE LLENAR LA VARIABLE COORDENADAS DE ALERTA : $coordenadasItem');
         ),
       ],
     );
-  }
+ 
+     },);
+    
+   
+ }
 // ****************** WIDGET DE BOTONES DELL MENU *************//
   Widget _itemsMenuLateral(Responsive size, String _label, IconData _icon,
-      HomeController _ctrl, Color _color, final VoidCallback onTap,String _tipo) {
+      Color _color, final VoidCallback onTap,String _tipo) {
+
+
+
     return Consumer<HomeController>(builder: (_, valueBotones, __) {
+      final _ctrl=context.read<BotonTurnoController>();
       Map<String,dynamic>  tipo={};
       for (var item in valueBotones.getListaNotificacionesMenu) {
         
@@ -2566,7 +2592,7 @@ print('DESPUES DE LLENAR LA VARIABLE COORDENADAS DE ALERTA : $coordenadasItem');
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    _ctrl.getgetTestTurno == true
+                    _ctrl.getTurnoBTN == true
                         ? Icon(
                             _icon,
                             size: size.iScreen(4.0),
@@ -2593,7 +2619,7 @@ print('DESPUES DE LLENAR LA VARIABLE COORDENADAS DE ALERTA : $coordenadasItem');
     ThemeApp ctrl,
   ) {
     return Consumer<SocketService>(builder: (_, valueEstadoInternet, __) {
-      return Consumer<HomeController>(builder: (_, valueTurno, __) {
+      return Consumer<BotonTurnoController>(builder: (_, valueTurno, __) {
         return Container(
           width: size.iScreen(11.0),
           height: size.iScreen(11.0),
@@ -2607,7 +2633,7 @@ print('DESPUES DE LLENAR LA VARIABLE COORDENADAS DE ALERTA : $coordenadasItem');
             color: Colors.white,
             borderRadius: BorderRadius.circular(100),
             border: Border.all(
-              color: valueTurno.getgetTestTurno == true
+              color: valueTurno.getTurnoBTN== true
                   ? Colors.black //,_color
                   : Colors.black, // Color del borde
               width: 1.5, // Grosor del borde
@@ -2619,22 +2645,22 @@ print('DESPUES DE LLENAR LA VARIABLE COORDENADAS DE ALERTA : $coordenadasItem');
             borderRadius: BorderRadius.circular(0),
             child: Container(
                 decoration: BoxDecoration(
-                    color: valueTurno.getgetTestTurno == true
+                    color: valueTurno.getTurnoBTN == true
                         ? ctrl.combinedColors[3]
                         : Colors.grey, //Aqui se cambia el color de los botones
                     borderRadius: BorderRadius.circular(100)),
                 child: MaterialButton(
                     elevation: 20.0,
-                    splashColor: valueTurno.getgetTestTurno == true
+                    splashColor: valueTurno.getTurnoBTN == true
                         ? ctrl.combinedColors[2]
                         : Color(0xffbd1823),
                     onPressed: () {
                       if (valueEstadoInternet.serverStatus ==
                           ServerStatus.Online) {
-                        if (valueTurno.getBotonTurno) {
+                        if (valueTurno.getTurnoBTN) {
                           _modalFinalizarTurno(size);
                         } else {
-                          _modalInciaTurno(size, valueTurno);
+                          _modalInciaTurno(size,);
                         }
                       } else {}
                     },
@@ -2645,13 +2671,13 @@ print('DESPUES DE LLENAR LA VARIABLE COORDENADAS DE ALERTA : $coordenadasItem');
                         //     color: (alerta)?Colors.white:color, width: size.iScreen(8.0)),
                         // Icon(Icons.list,size: size.iScreen(4.0),),
                         Text(
-                          valueTurno.getBotonTurno == true
+                          valueTurno.getTurnoBTN == true
                               ? 'TURNO ACTIVO'
                               : 'TURNO INACTIVO',
                           textAlign: TextAlign.center,
                           style: GoogleFonts.roboto(
                               fontSize: size.iScreen(1.4),
-                              color: valueTurno.getBotonTurno == true
+                              color: valueTurno.getTurnoBTN == true
                                   ? Colors.white
                                   : Colors.black,
                               fontWeight: FontWeight.bold),
@@ -2664,7 +2690,7 @@ print('DESPUES DE LLENAR LA VARIABLE COORDENADAS DE ALERTA : $coordenadasItem');
                         //       color: Colors.white,
                         //       fontWeight: FontWeight.bold),
                         // ),
-                        valueTurno.getBotonTurno == true
+                        valueTurno.getTurnoBTN == true
                             ? Icon(
                                 Icons.gpp_good_outlined,
                                 color: Colors.white,
@@ -2730,7 +2756,7 @@ print('DESPUES DE LLENAR LA VARIABLE COORDENADAS DE ALERTA : $coordenadasItem');
                         if (valueTurno.getBotonTurno) {
                           _modalFinalizarTurno(size);
                         } else {
-                          _modalInciaTurno(size, valueTurno);
+                          _modalInciaTurno(size,);
                         }
                       } else {}
                     },
@@ -3182,7 +3208,7 @@ print('DESPUES DE LLENAR LA VARIABLE COORDENADAS DE ALERTA : $coordenadasItem');
 
   ///====== MUESTRA MODAL TERMINOS Y CONDICIONES =======//
   void _modalTerminosCondiciones(
-      Responsive size, HomeController homeController) {
+      Responsive size) {
     showDialog(
         barrierDismissible: false,
         context: context,
@@ -3299,11 +3325,12 @@ print('DESPUES DE LLENAR LA VARIABLE COORDENADAS DE ALERTA : $coordenadasItem');
   }
 
   //====== MUESTRA MODAL DE TIPO DE DOCUMENTO =======//
-  void _modalInciaTurno(Responsive size, HomeController homeController) {
+  void _modalInciaTurno(Responsive size,) {
     showDialog(
         barrierDismissible: false,
         context: context,
         builder: (BuildContext context) {
+          final ctrlHome=context.read<HomeController>();
           return GestureDetector(
             onTap: () => FocusScope.of(context).unfocus(),
             child: AlertDialog(
@@ -3355,7 +3382,7 @@ print('DESPUES DE LLENAR LA VARIABLE COORDENADAS DE ALERTA : $coordenadasItem');
                         onTap: () async {
                           // homeController.setOpcionActividad(1);
                           Navigator.pop(context);
-                          _modalTerminosCondiciones(size, homeController);
+                          _modalTerminosCondiciones(size,);
                         },
                       ),
                       SizedBox(
