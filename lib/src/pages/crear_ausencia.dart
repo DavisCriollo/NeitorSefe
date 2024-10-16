@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 
 import 'package:nseguridad/src/controllers/ausencias_controller.dart';
 import 'package:nseguridad/src/controllers/aviso_salida_controller.dart';
@@ -19,6 +20,7 @@ import 'package:nseguridad/src/models/session_response.dart';
 
 import 'package:nseguridad/src/service/notifications_service.dart';
 import 'package:nseguridad/src/theme/themes_app.dart';
+import 'package:nseguridad/src/utils/fecha_local_convert.dart';
 
 import 'package:nseguridad/src/utils/responsive.dart';
 
@@ -1309,10 +1311,21 @@ class _CreaAusenciaState extends State<CreaAusencia> {
                                 //  && value.getInputHoraFin!=''?() {
                                    value.getInputfechaInicio!=''
                                 ?() {
+
+                                  //**********************//
+
+          //                           String fechaOriginal = DateUtility.fechaLocalConvert( value.getInputfechaInicio!.toString());
+          //                           DateTime fecha = DateTime.parse(fechaOriginal);
+        
+          // String fechaLocal = DateFormat('yyyy-MM-dd').format(fecha);
+//  String _fechaSeleccionada= fechaLocal;
+
+                                  //***********************//
+
+                                   String _fechaSeleccionada= value.getInputfechaInicio;
                                  
-                                         String _fechaSeleccionada= value.getInputfechaInicio;
-                                          bool _isFecha=false;
-                                          print('FECHA ELEGIDA: $_fechaSeleccionada');
+                                   bool _isFecha=false;
+                                    print('FECHA ELEGIDA: $_fechaSeleccionada');
 
                                 value.findDate(_fechaSeleccionada);
                                  if (value.getContieneFecha.isNotEmpty) {
@@ -2238,7 +2251,7 @@ class _CreaAusenciaState extends State<CreaAusencia> {
                                                         ),
                                                         Container(
                                                          
-                                                          width: size.iScreen(30.0),
+                                                          width: size.iScreen(25.0),
                                                           child: Row(
                                                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                             children: [

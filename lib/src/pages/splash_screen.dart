@@ -563,7 +563,7 @@ class _SplashPageState extends State<SplashPage> {
       if (status == PermissionStatus.granted) {
       //   // print('============== SI TIENE PERMISOS');
 final isGPSActive=await controllerHome.checkGPSStatus();
- print('isGPSActive ================+> : ${isGPSActive}');
+//  print('isGPSActive ================+> : ${isGPSActive}');
   if (isGPSActive==true) {
        await controllerHome.getCurrentPosition();
 

@@ -380,64 +380,135 @@ class _LoginState extends State<Login> {
 //         }
       // }
       
+// void _onSubmit(BuildContext contextResponsive, LoginController ctrllogin, Responsive size) async {
+//   final ctrlHome = context.read<HomeController>();
+// ctrlHome.activateAlarm(false);
+//   final isValid = ctrllogin.validateForm();
+//   ctrllogin.loginFormKey.currentState?.save();
+//   if (!isValid) return;
+
+//   print('Formulario validado.');
+
+//   if (isValid) {
+//     final conexion = await Connectivity().checkConnectivity();
+//     print('Estado de conectividad: $conexion');
+
+//     if (ctrllogin.getlNombreEmpresa == null) {
+//       NotificatiosnService.showSnackBarError('Seleccione Empresa');
+//     } else if (conexion == ConnectivityResult.none) {
+//       NotificatiosnService.showSnackBarError('SIN CONEXION A INTERNET');
+//     } else if (conexion == ConnectivityResult.wifi || conexion == ConnectivityResult.mobile) {
+//       final status = await Permission.location.request();
+//       print('Permiso de ubicación: $status');
+
+//       if (status == PermissionStatus.granted) {
+//         await ctrlHome.getCurrentPosition();
+//         // print('Posición actual obtenida: ${ctrlHome.getCoords}');
+
+//         if (mounted && ctrlHome.getCoords != '') {
+//           ProgressDialog.show(context);
+//           print('Mostrando ProgressDialog.');
+
+//           final response = await ctrllogin.loginApp(context);
+//           // print('Respuesta del login: $response');
+
+//           if (mounted) {
+//             ProgressDialog.dissmiss(context);
+//             print('Ocultando ProgressDialog.');
+
+//             if (response != null) {
+//               WidgetsBinding.instance?.addPostFrameCallback((_) {
+//                 if (mounted) {
+//                   // print('Navegando a SplashPage.');
+//                   Navigator.pushReplacement(
+//                       context,
+//                       MaterialPageRoute<void>(
+//                           builder: (BuildContext context) => const SplashPage()));
+//                 }
+//               });
+//             } else {
+//               // print('Error en la respuesta del servidor.');
+//               // NotificatiosnService.showSnackBarError('Error de conexión con el servidor');
+//             }
+//           }
+//         }
+//       } else {
+//         if (mounted) {
+//           // print('Permiso de ubicación no concedido, navegando a gps.');
+//           Navigator.pushNamed(context, 'gps');
+//         }
+//       }
+//     }
+//   }
+// }
+
 void _onSubmit(BuildContext contextResponsive, LoginController ctrllogin, Responsive size) async {
   final ctrlHome = context.read<HomeController>();
-ctrlHome.activateAlarm(false);
+
+  // Desactiva la alarma antes de iniciar el proceso de inicio de sesión
+  ctrlHome.activateAlarm(false);
+
+  // Valida el formulario
   final isValid = ctrllogin.validateForm();
   ctrllogin.loginFormKey.currentState?.save();
   if (!isValid) return;
 
   print('Formulario validado.');
 
-  if (isValid) {
-    final conexion = await Connectivity().checkConnectivity();
-    print('Estado de conectividad: $conexion');
+  // Verifica la conexión a Internet
+  final conexion = await Connectivity().checkConnectivity();
+  print('Estado de conectividad: $conexion');
 
-    if (ctrllogin.getlNombreEmpresa == null) {
-      NotificatiosnService.showSnackBarError('Seleccione Empresa');
-    } else if (conexion == ConnectivityResult.none) {
-      NotificatiosnService.showSnackBarError('SIN CONEXION A INTERNET');
-    } else if (conexion == ConnectivityResult.wifi || conexion == ConnectivityResult.mobile) {
-      final status = await Permission.location.request();
-      print('Permiso de ubicación: $status');
+  if (ctrllogin.getlNombreEmpresa == null) {
+    NotificatiosnService.showSnackBarError('Seleccione Empresa');
+    return;
+  } else if (conexion == ConnectivityResult.none) {
+    NotificatiosnService.showSnackBarError('SIN CONEXION A INTERNET');
+    return;
+  }
 
-      if (status == PermissionStatus.granted) {
-        await ctrlHome.getCurrentPosition();
-        // print('Posición actual obtenida: ${ctrlHome.getCoords}');
+  // Solicita el permiso de ubicación
+  final status = await Permission.location.request();
+  print('Permiso de ubicación: $status');
 
-        if (mounted && ctrlHome.getCoords != '') {
-          ProgressDialog.show(context);
-          print('Mostrando ProgressDialog.');
+  if (status == PermissionStatus.granted) {
+    // Obtén la posición actual
+    await ctrlHome.getCurrentPosition();
 
-          final response = await ctrllogin.loginApp(context);
-          // print('Respuesta del login: $response');
+    // Asegúrate de que el widget sigue activo y de que se obtuvieron las coordenadas
+    if (!mounted || ctrlHome.getCoords!.isEmpty) return;
 
+    // Muestra un diálogo de progreso
+    ProgressDialog.show(context);
+    print('Mostrando ProgressDialog.');
+
+    // Realiza el inicio de sesión
+    final response = await ctrllogin.loginApp(context);
+
+    if (mounted) {
+      // Oculta el ProgressDialog
+      ProgressDialog.dissmiss(context);
+      print('Ocultando ProgressDialog.');
+
+      if (response != null) {
+        // Si la respuesta es válida, navega a la página SplashPage
+        WidgetsBinding.instance?.addPostFrameCallback((_) {
           if (mounted) {
-            ProgressDialog.dissmiss(context);
-            print('Ocultando ProgressDialog.');
-
-            if (response != null) {
-              WidgetsBinding.instance?.addPostFrameCallback((_) {
-                if (mounted) {
-                  // print('Navegando a SplashPage.');
-                  Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute<void>(
-                          builder: (BuildContext context) => const SplashPage()));
-                }
-              });
-            } else {
-              // print('Error en la respuesta del servidor.');
-              // NotificatiosnService.showSnackBarError('Error de conexión con el servidor');
-            }
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute<void>(builder: (BuildContext context) => const SplashPage())
+            );
           }
-        }
+        });
       } else {
-        if (mounted) {
-          // print('Permiso de ubicación no concedido, navegando a gps.');
-          Navigator.pushNamed(context, 'gps');
-        }
+        // Muestra un error si no hay respuesta del servidor
+        NotificatiosnService.showSnackBarError('Error de conexión con el servidor');
       }
+    }
+  } else {
+    // Si no se concede el permiso de ubicación, navega a la página de activación de GPS
+    if (mounted) {
+      Navigator.pushNamed(context, 'gps');
     }
   }
 }

@@ -1417,7 +1417,7 @@ class ApiProvider {
         headers: {"x-auth-token": '$token'},
       );
 
-            print('LA DATA DE TURNO core *******> : ${dataResp.body} -*- ${dataResp.statusCode}');
+            // print('LA DATA DE TURNO core *******> : ${dataResp.body} -*- ${dataResp.statusCode}');
      if (dataResp.body.isEmpty) {
         return null;
       }
@@ -1439,7 +1439,7 @@ class ApiProvider {
          snaks.NotificatiosnService.showSnackBarDanger(
             "Debe inciar sesión nuevamente");
        
-        Auth.instance.deleteSesion(context!);
+        // Auth.instance.deleteSesion(context!);
        return null;
       }
     } catch (e) {

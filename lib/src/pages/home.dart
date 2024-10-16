@@ -1035,8 +1035,12 @@ print('DESPUES DE LLENAR LA VARIABLE COORDENADAS DE ALERTA : $coordenadasItem');
               _ctrlHome.setGetTestTurno(false);
               _ctrlHome.setBotonTurno(false);
               provider.setIndex(0);
+          
               _ctrlHome.sentTokenDelete();
               await Auth.instance.deleteTurnoSesion();
+
+
+
               await Auth.instance.deleteSesion(context);
             },
             child: Text(
@@ -1257,11 +1261,52 @@ print('DESPUES DE LLENAR LA VARIABLE COORDENADAS DE ALERTA : $coordenadasItem');
               mainAxisAlignment:   MainAxisAlignment.start,
               crossAxisAlignment:  CrossAxisAlignment.start,
               children: [
+                //*****************************************/
+                                 Container(
+                                                             width: size.wScreen(100.0),
+                                                             margin: const EdgeInsets.all(0.0),
+                                                             padding: const EdgeInsets.all(0.0),
+                                                             child: Row(
+                                                               mainAxisAlignment:
+                                                                   MainAxisAlignment.end,
+                                                               children: [
+                                                                 Text(
+                                                                     '${ctrlHome.getUsuarioInfo!.rucempresa!}  ',
+                                                                     style: GoogleFonts.lexendDeca(
+                                                                         fontSize:
+                                                                             size.iScreen(1.7),
+                                                                         color:
+                                                                             Colors.grey.shade600,
+                                                                         fontWeight:
+                                                                             FontWeight.bold)),
+                                                                 Text('-',
+                                                                     style: GoogleFonts.lexendDeca(
+                                                                         fontSize:
+                                                                            size.iScreen(1.7),
+                                                                         color: Colors.grey,
+                                                                         fontWeight:
+                                                                             FontWeight.bold)),
+                                                                 Text(
+                                                                     '  ${ctrlHome.getUsuarioInfo!.usuario!} ',
+                                                                     style: GoogleFonts.lexendDeca(
+                                                                         fontSize:
+                                                                             size.iScreen(1.7),
+                                                                         color:
+                                                                             Colors.grey.shade600,
+                                                                         fontWeight:
+                                                                             FontWeight.bold)),
+                                                               ],
+                                                             )),
+                  //***********************************************/
+                  SizedBox(
+                    height: size.iScreen(1.0),
+                  ),
+                  //*****************************************/
                 SizedBox(
                   height: size.iScreen(1.0),
                 ),
-                gruposItemMenuGestionIntegral(size,  'Gestión Integral'),
-                gruposItemMenuNovedades(size, 'Novedades'),
+                widget.user!.rol!.contains('RESIDENTE')  || widget.user!.rol!.contains('PROPIETARIO') ? Container() : gruposItemMenuGestionIntegral(size,  'Gestión Integral'),
+                 widget.user!.rol!.contains('RESIDENTE')  || widget.user!.rol!.contains('PROPIETARIO') ? Container() : gruposItemMenuNovedades(size, 'Novedades'),
                 gruposItemMenuBitacora(size,  'Bitácora'),
               ],
             );
@@ -1319,7 +1364,7 @@ print('DESPUES DE LLENAR LA VARIABLE COORDENADAS DE ALERTA : $coordenadasItem');
                                       MainAxisAlignment.center,
                                   children: [
                                     Container(
-                                      child: Text(
+                                      child: SelectableText(
                                         '${ctrlHome.getUsuarioInfo!.usuario}',
                                         style: GoogleFonts.roboto(
                                             fontSize: size.iScreen(2.0),
@@ -1341,14 +1386,14 @@ print('DESPUES DE LLENAR LA VARIABLE COORDENADAS DE ALERTA : $coordenadasItem');
                               ),
                             ),
                             Container(
-                              // color: Colors.grey.shade300,
+                              color: Colors.grey.shade300,
                               padding: EdgeInsets.symmetric(
                                   vertical: size.iScreen(0.5),
                                   horizontal: size.iScreen(0.5)),
                               // height:size.iScreen(0.2),
                               width: size.wScreen(100),
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   Icon(
                                     Icons.assignment_ind_outlined,
@@ -1363,7 +1408,7 @@ print('DESPUES DE LLENAR LA VARIABLE COORDENADAS DE ALERTA : $coordenadasItem');
                                                         style: GoogleFonts.roboto(
                                                             fontSize: size
                                                                 .iScreen(
-                                                                    2.0),
+                                                                    1.7),
                                                             color: Colors
                                                                 .black,
                                                             fontWeight:
@@ -1377,7 +1422,7 @@ print('DESPUES DE LLENAR LA VARIABLE COORDENADAS DE ALERTA : $coordenadasItem');
                                       : Text(
                                           ': Sin Perfil',
                                           style: GoogleFonts.roboto(
-                                              fontSize: size.iScreen(2.0),
+                                              fontSize: size.iScreen(1.7),
                                               color: Colors.black,
                                               fontWeight:
                                                   FontWeight.normal),
@@ -1874,23 +1919,10 @@ print('DESPUES DE LLENAR LA VARIABLE COORDENADAS DE ALERTA : $coordenadasItem');
                 MaterialPageRoute(builder: (context) => AccesoGPSPage()),
               );
             } else {
-              if ((widget.tipo!.contains('SUPERVISOR') ||
-                  widget.tipo!.contains('GUARDIA') ||
-                  widget.tipo!.contains('ADMINISTRACION'))) {
-                // Navigator.pop(context);
-                //             context
-                //                 .read<EvaluacionesController>()
-                //                 .buscaEvaluaciones('', 'false');
-                //             // Navigator.pushNamed(context, 'evaluacion');
-
-                //             Navigator.push(
-                //                 context,
-                //                 MaterialPageRoute(
-                //                     builder: ((context) => EvaluacionPage(
-                //                           usuario: widget.user,
-                //                         )))
-                //                 // HomePageMultiSelect()
-                //                 );
+              // if ((widget.tipo!.contains('SUPERVISOR') ||
+              //     widget.tipo!.contains('GUARDIA') ||
+              //     widget.tipo!.contains('ADMINISTRACION'))) {
+                
 
                 final _controller = context.read<AusenciasController>();
                 final controllerMultas =
@@ -1917,48 +1949,16 @@ print('DESPUES DE LLENAR LA VARIABLE COORDENADAS DE ALERTA : $coordenadasItem');
                 Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) =>
                         ListaMultasSupervisor(user: widget.user)));
-              } else {
-                NotificatiosnService.showSnackBarDanger('NO TIENE INFORMACION');
-              }
+              // } else {
+              //   NotificatiosnService.showSnackBarDanger('NO TIENE INFORMACION');
+              // }
 
 
                 }
-              //  if (widget.tipo!.contains('SUPERVISOR')
-              //                       || widget.tipo!.contains('GUARDIA')
-              //                       || widget.tipo!.contains('ADMINISTRACION')
-              //                       ) {
-
-              //                                     final _controller=context.read<AusenciasController>();
-              //                                                             String _persona='';
-
-              //                                                           if( widget.tipo!.contains('GUARDIA')){
-              //                                                             _persona="GUARDIAS";
-
-              //                                                             _controller.setPersona(_persona);
-
-              //                                                           }
-              //                                                           // else if( widget.tipo!.contains('SUPERVISOR')){
-              //                                                           //   _persona="SUPERVISOR";
-              //                                                           //     _controller.setPersona(_persona);
-
-              //                                                           // }
-
-              //                                                           else if( widget.tipo!.contains('ADMINISTRACION')){
-              //                                                             _persona="ADMINISTRACION";
-              //                                                               _controller.setPersona(_persona);
-
-              //                                                           }
-
-              //                         controllerMultas.getTodasLasMultasGuardia(
-              //                             '', 'false');
-              //                         Navigator.of(context).push(
-              //                             MaterialPageRoute(
-              //                                 builder: (context) =>
-              //                                     ListaMultasSupervisor(
-              //                                         user: widget.user)));
-              //                       } else {}
             },'MULTA'),
-            _itemsMenuLateral(
+           widget.user!.rol!.contains('RESIDENTE') || widget.user!.rol!.contains('GUARDIA')
+                ? Container()
+                : _itemsMenuLateral(
                 size,
                 'Cambio Puesto',
                 Icons.transfer_within_a_station_outlined,
@@ -2418,10 +2418,23 @@ print('DESPUES DE LLENAR LA VARIABLE COORDENADAS DE ALERTA : $coordenadasItem');
         ),
         Wrap(
           alignment: WrapAlignment.center,
+          // children: [
+    //       if (widget.user!.rol!.contains('RESIDENTE') && widget.user!.rol!.contains('PROPIETARIO'))
+    //   Text('Usuario es RESIDENTE y PROPIETARIO'),
+    
+    // if (widget.user!.rol!.contains('RESIDENTE') && !widget.user!.rol!.contains('PROPIETARIO'))
+    //   Text('Usuario es RESIDENTE'),
+
+    // if (widget.user!.rol!.contains('PROPIETARIO') && !widget.user!.rol!.contains('RESIDENTE'))
+    //   Text('Usuario es PROPIETARIO'),
+
+    // if (!widget.user!.rol!.contains('RESIDENTE') && !widget.user!.rol!.contains('PROPIETARIO'))
+    //   Text('Usuario tiene otro rol'),
+    //       ],
           children: [
-            widget.user!.rol!.contains('RESIDENTE')
-                ? Container()
-                : _itemsMenuLateral(size, 'Residente', Icons.groups, 
+          //  if (widget.user!.rol!.contains('RESIDENTE') && !widget.user!.rol!.contains('PROPIETARIO'))
+                   
+                    _itemsMenuLateral(size, 'Residente', Icons.groups, 
                     ctrlTheme.combinedColors[0], 
                     
                     () async{
@@ -2454,11 +2467,12 @@ print('DESPUES DE LLENAR LA VARIABLE COORDENADAS DE ALERTA : $coordenadasItem');
                     }
 
                   },'RESIDENTE'),
+          // if (widget.user!.rol!.contains('RESIDENTE') && widget.user!.rol!.contains('PROPIETARIO')) 
             _itemsMenuLateral(
                 size,
                 widget.user!.rol!.contains('RESIDENTE')
                     ? 'Solicitud de Ingreso'
-                    : 'Libro Diario',
+                    : 'Bitácora',
                 Icons.auto_stories_sharp,
                
                 ctrlTheme.combinedColors[1], 
@@ -2470,7 +2484,10 @@ print('DESPUES DE LLENAR LA VARIABLE COORDENADAS DE ALERTA : $coordenadasItem');
                 MaterialPageRoute(builder: (context) => AccesoGPSPage()),
               );
             } else {
-              final _controller = context.read<BitacoraController>();
+                final _ctrl=context.read<BotonTurnoController>();
+              
+               if ( _ctrl.getTurnoBTN == true || !widget.user!.rol!.contains('RESIDENTE') ) {
+                 final _controller = context.read<BitacoraController>();
               _controller.resetValuesBitacora();
 
               // _controller.getBitacoras('', 'false'); ///*********este es el principal  */
@@ -2486,6 +2503,11 @@ print('DESPUES DE LLENAR LA VARIABLE COORDENADAS DE ALERTA : $coordenadasItem');
                   builder: (context) => ListaBitacora(
                         user: widget.user,
                       )));
+                 
+               } else {
+                 NotificatiosnService.showSnackBarDanger('DEBE INICIAR TURNO');
+               }
+             
 
                 }
             },'RESIDENTE'),
@@ -2592,7 +2614,7 @@ print('DESPUES DE LLENAR LA VARIABLE COORDENADAS DE ALERTA : $coordenadasItem');
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    _ctrl.getTurnoBTN == true
+                    _ctrl.getTurnoBTN == true  || _label=='Multas'|| _label=='Permisos' || _label=='Quejas/Reclamos'|| _label=='Encuestas' 
                         ? Icon(
                             _icon,
                             size: size.iScreen(4.0),
@@ -4047,6 +4069,12 @@ print('DESPUES DE LLENAR LA VARIABLE COORDENADAS DE ALERTA : $coordenadasItem');
         subject: 'NeitorSafe App',
         sharePositionOrigin: box!.localToGlobal(Offset.zero) & box.size);
   }
+
+
+
+
+
+
 }
 
 class _ItemsSocials extends StatelessWidget {

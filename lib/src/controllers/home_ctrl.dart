@@ -946,6 +946,7 @@ class HomeController extends ChangeNotifier {
     }
     if (response == null) {
       _errorRefreshToken = false;
+      // Auth.instance.deleteSesion(context);
       notifyListeners();
       return null;
     }
@@ -1439,7 +1440,7 @@ List get  getListaNotificacionesMenu=>_listaNotificacionesMenu;
 
       _listaNotificacionesMenu.addAll(_info);
 
-     print('RECIBE NOTIFICACION DE MENU API: ${_listaNotificacionesMenu} ');
+    //  print('RECIBE NOTIFICACION DE MENU API: ${_listaNotificacionesMenu} ');
       // print('RECIBE NOTIFICACION DE MENU API: ${_listaNotificacionesMenu} ');
   //  for (var item in  _meses) {
   //      _listaMeses.add(item['mes']);

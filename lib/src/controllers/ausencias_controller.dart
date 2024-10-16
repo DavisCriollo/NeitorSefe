@@ -205,6 +205,11 @@ class AusenciasController extends ChangeNotifier {
     setCedulaCliente(guardia['perDocuCliente']);
     setNombreCliente(guardia['perNombreCliente']);
     getTodosLosClientes(guardia['perDocuCliente']);
+
+
+  // print('INFO GUARDIA =======>  :$guardia');
+  print('INFO GUARDIA =======>  :${guardia['perTurno']}');
+
   }
 
 //================================== ELIMINAR  MULTA  ==============================//
@@ -1089,8 +1094,7 @@ class AusenciasController extends ChangeNotifier {
 //========================= TOMAMOS LA INFO PARA VALIDAR SI EL GUARDIA TIENE TURNO ================================//
 
   Map<String, dynamic> _infoGuardiaVerificaTurno = {};
-  Map<String, dynamic> get getInfoGuardiaVerificaTurno =>
-      _infoGuardiaVerificaTurno;
+  Map<String, dynamic> get getInfoGuardiaVerificaTurno =>_infoGuardiaVerificaTurno;
 
 
 
@@ -1099,7 +1103,7 @@ Map<String,String> _fechas={};
     _infoGuardiaVerificaTurno = _guardia;
 
     
-    print('ESTA ES LA DATA: $_fechas');
+    // print('ESTA ES LA DATA ========**** > : $_infoGuardiaVerificaTurno');
 
     notifyListeners();
   }
@@ -1107,12 +1111,16 @@ Map<String,String> _fechas={};
 Map<String, dynamic> _contieneFecha={};
 Map<String, dynamic>  get getContieneFecha => _contieneFecha;
 String _idItem='';
-void findDate(String targetDate) {
 
-if ( _infoGuardiaVerificaTurno['perTurno']!=null) {
-   if (_infoGuardiaVerificaTurno['perTurno'].isNotEmpty) {
-   for (var item in _infoGuardiaVerificaTurno['perTurno']) {
-        print('ESTA ES LA DATA: ${item['fechas']['desde']}');
+void findDate(String targetDate) {
+//  print("La fecha ******** > ${_infoGuardiaVerificaTurno['perTurno']}");
+
+
+
+if ( _guardiaInfo['perTurno']!=null) {
+   if (_guardiaInfo['perTurno'].isNotEmpty) {
+   for (var item in _guardiaInfo['perTurno']) {
+        // print('ESTA ES LA DATA: ${item['fechas']['desde']}');
         if (item['fechasConsultaDB'].isNotEmpty) {
           for (var fecha in item['fechasConsultaDB']) {
           //  print('ESTA ES LA DATA: desde: ${fecha['desde']} - hasta : ${fecha['hasta']}');
@@ -1156,6 +1164,7 @@ if ( _infoGuardiaVerificaTurno['perTurno']!=null) {
       
  } else {
   _contieneFecha={};
+    print("La fecha $targetDate  encuentra $_contieneFecha.");
  }
   
 } else {
