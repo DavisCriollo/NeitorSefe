@@ -80,11 +80,24 @@ class ApiProvider {
       final dataResp = await _http.post(Uri.parse('$_dirURL/auth/password'),
           body: {"usuario": usuario, "empresa": empresa});
       final respo = jsonDecode(dataResp.body);
+        //  print('-respuesta PASS -> $respo --  ${dataResp.statusCode}');
       if (dataResp.statusCode == 404) {
-        return null;
+        final _info={
+          "info":respo['msg'],
+          "code":dataResp.statusCode
+
+        };
+        return _info;
       }
+       
       if (dataResp.statusCode == 200) {
-        return respo;
+        final _info={
+          "info":respo['msg'],
+          "code":dataResp.statusCode
+
+        };
+        return _info;
+       
       }
       if (dataResp.statusCode == 401) {
         Auth.instance.deleteSesion(context!);

@@ -802,7 +802,7 @@ print('DESPUES DE LLENAR LA VARIABLE COORDENADAS DE ALERTA : $coordenadasItem');
           bottom: 5.0,
           left: 4.0,
           child: Text(
-            'Ver: 1.0.0',
+            'Ver: 1.0.2',
             style: GoogleFonts.roboto(
               fontSize: size.iScreen(1.7),
               color: Colors.grey,

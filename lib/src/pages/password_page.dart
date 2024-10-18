@@ -4,6 +4,7 @@ import 'package:nseguridad/src/controllers/password_controller.dart';
 import 'package:nseguridad/src/service/notifications_service.dart';
 import 'package:nseguridad/src/theme/themes_app.dart';
 import 'package:nseguridad/src/utils/dialogs.dart';
+import 'package:nseguridad/src/utils/letras_mayusculas_minusculas.dart';
 import 'package:nseguridad/src/utils/responsive.dart';
 import 'package:nseguridad/src/utils/theme.dart';
 
@@ -148,6 +149,9 @@ class PasswordPage extends StatelessWidget {
                         decoration: const InputDecoration(
                           suffixIcon: Icon(Icons.apartment_outlined),
                         ),
+                        inputFormatters: [
+                                    UpperCaseText(),
+                                  ],
                         textAlign: TextAlign.start,
                         style: const TextStyle(),
                         onChanged: (text) {
@@ -207,8 +211,11 @@ class PasswordPage extends StatelessWidget {
       ProgressDialog.show(context);
       final response = await controller.passwordRecovery();
       ProgressDialog.dissmiss(context);
-      if (response != null) {
-        NotificatiosnService.showSnackBarSuccsses("${response["msg"]}");
+      if (response != null && response['code']==200) {
+        NotificatiosnService.showSnackBarSuccsses("${response["info"]}");
+        Navigator.pop(context);
+      }else if (response != null && response['code']==404){
+         NotificatiosnService.showSnackBarError("${response["info"]}");
       }
     }
   }

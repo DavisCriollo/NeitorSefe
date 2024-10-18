@@ -26,7 +26,7 @@ class PasswordController extends ChangeNotifier {
 //========================== RECUPERA CLAVE =======================//
   Future passwordRecovery() async {
     final response =
-        await _api.recuperaClave(empresa: _empresa, usuario: _usuario);
+        await _api.recuperaClave(empresa: _empresa.trim(), usuario: _usuario.trim());
     if (response != null) {
       return response;
     }

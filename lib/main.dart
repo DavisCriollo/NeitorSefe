@@ -46,7 +46,8 @@ void main() async {
    await Firebase.initializeApp();
   await PushNotificationService.initializeApp(); 
     await LocalNotificationsService.initialize();
-    await LocalNotificationsService.requestIOSPermissions(); // Pedir permisos en iOS
+    // await LocalNotificationsService.requestIOSPermissions(); // Pedir permisos en iOS
+    // await LocalNotificationsService.initialize();
 
     
 
