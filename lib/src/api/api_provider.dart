@@ -2390,7 +2390,7 @@ _path='$_dirURL/bitacora/filtro/0?&search=$search&notificacion=$notificacion&reg
         url,
         headers: {"x-auth-token": '$token'},
       );
-        // print('la data de residentes--------------------> :${dataResp.body} ');
+        print('la data de residentes--------------------> :${dataResp.body} ');
       final respo = jsonDecode(dataResp.body);
       if (dataResp.statusCode == 200) {
         
@@ -2728,8 +2728,8 @@ _path='$_dirURL/bitacora/filtro/0?&search=$search&notificacion=$notificacion&reg
     try {
       final url = Uri.parse(
 
-          // 'https://backsigeop.neitor.com/api/nominanovedades/filtro/0?search=$search&notificacion=$notificacion');
-          '$_dirURL/nominanovedades/getMultaById?lista=$idTurno');
+          // '$_dirURL/nominanovedades/getMultaById?lista=$idTurno');
+             '$_dirURL/turnoextra/byid?lista=$idTurno');
 
       final dataResp = await _http.get(
         url,

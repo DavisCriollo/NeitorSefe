@@ -550,11 +550,9 @@ class _ListaResidentesState extends State<ListaResidentes> {
                                                                     .iScreen(
                                                                         0.0)),
                                                             child: Text(
-                                                              residente['resNombrePropietario'] !=
-                                                                      null
-                                                                  ? ' ${residente['resApellidoPropietario']} ${residente['resNombrePropietario']}'
-                                                                  : 
-                                                                  ' --- --- --- --- ---',
+                                                               residente['resApellidoPropietario'] != null ? ' ${residente['resApellidoPropietario']}' : residente['resNombrePropietario'] !=
+                                                                      null ? ' ${residente['resNombrePropietario']}' : ' --- --- --- --- ---',
+                                                                
                                                               overflow:
                                                                   TextOverflow
                                                                       .ellipsis,
@@ -640,12 +638,16 @@ class _ListaResidentesState extends State<ListaResidentes> {
                                                                 bottom: size
                                                                     .iScreen(
                                                                         0.0)),
-                                                            child: Text(
-                                                              residente['resCedula'] !=
-                                                                      null
+                                                            child: Text( 
+                                                            residente['resTipoResidente'] ==
+                                                                      'RESIDENTE'
                                                                   ? ' ${residente['resCedula']}'
-                                                                  : 
-                                                                  ' --- --- --- --- ---',
+                                                                  : ' --- --- --- --- ---',
+                                                              // residente['resCedula'] !=
+                                                              //         null
+                                                              //     ? ' ${residente['resCedula']}'
+                                                              //     : 
+                                                              //     ' --- --- --- --- ---',
                                                               overflow:
                                                                   TextOverflow
                                                                       .ellipsis,
@@ -697,8 +699,14 @@ class _ListaResidentesState extends State<ListaResidentes> {
                                                                     .iScreen(
                                                                         0.0)),
                                                             child: Text(
-                                                             
-                                                              ' ${residente['resApellidos']} ${residente['resNombres']}',
+                                                                         residente['resTipoResidente'] ==
+                                                                      'RESIDENTE'
+                                                                  ? ' ${residente['resApellidos']} ${residente['resNombres']}'
+                                                                  : ' --- --- --- --- ---',
+
+                                                              //  residente['resApellidos'] != null ? ' ${residente['resApellidos']}' : residente['resNombres'] !=
+                                                              //         null ? ' ${residente['resNombres']}' : ' --- --- --- --- ---',
+                                                              
                                                               overflow:
                                                                   TextOverflow
                                                                       .ellipsis,

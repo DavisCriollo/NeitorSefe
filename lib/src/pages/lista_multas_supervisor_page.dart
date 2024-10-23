@@ -1054,8 +1054,8 @@ class _ListaMultasSupervisorState extends State<ListaMultasSupervisor> {
                                         //     context, multa!);
 
                                         // ProgressDialog.dissmiss(context);
-                                        print(
-                                            'la data es:${valueGuardia.getListaIdPersona}');
+                                        // print(
+                                        //     'la data es:${valueGuardia.getListaIdPersona}');
                                         Navigator.pop(context);
 
                                         Navigator.pushNamed(

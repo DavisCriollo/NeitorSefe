@@ -217,7 +217,7 @@ class MultasGuardiasContrtoller extends ChangeNotifier {
   void setInfoMultaObtenida(dynamic _info) {
     _getInformacionMulta = _info;
 
-    print('EL ITEM DE MULTA: $_getInformacionMulta');
+    // print('EL ITEM DE MULTA: $_getInformacionMulta');
 
 
     notifyListeners();
@@ -1805,7 +1805,7 @@ void resetListFaltas()
     _listaIdTurnoAsignado = [];
     _listaIdTurnoAsignado = data;
 
-    print('la data es:$_listaIdTurnoAsignado');
+    // print('la data es:$_listaIdTurnoAsignado');
     notifyListeners();
   }
 

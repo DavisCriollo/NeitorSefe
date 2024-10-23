@@ -831,7 +831,7 @@ dynamic get getInfPersonaDirige=>_infPersonaDirige;
 
 
  void setDirigidoAChange(dynamic _persona) {
-  print('LA DATA ES: $_persona');
+  // print('LA DATA ES: $_persona');
   // _itemSeDirigeA=_persona['resNombres'];
   _infPersonaDirige=_persona;
 

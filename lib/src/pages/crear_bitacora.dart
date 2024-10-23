@@ -2667,7 +2667,9 @@ print('LOS URL DE LA LISTA DE VICITANTES >>>>>> $urlList');
                     physics: const BouncingScrollPhysics(),
                     itemCount: _data.length,
                     itemBuilder: (BuildContext context, int index) {
-                      return GestureDetector(
+                      return 
+                      _data[index]['nombre']!=null
+                      ?GestureDetector(
                         onTap: () {
                           _control.setItemPersonaDestino(_data[index]);
                           Navigator.pop(context);
@@ -2682,7 +2684,8 @@ print('LOS URL DE LA LISTA DE VICITANTES >>>>>> $urlList');
                             vertical: size.iScreen(1.0),
                           ),
                           child: Text(
-                            '${_data[index]['nombre'].replaceAll('"', '')}',
+                            // '${_data[index]['nombre'].replaceAll('"', '')}',
+                             '${_data[index]['nombre']}',
                             style: GoogleFonts.lexendDeca(
                               fontSize: size.iScreen(1.8),
                               fontWeight: FontWeight.bold,
@@ -2690,7 +2693,7 @@ print('LOS URL DE LA LISTA DE VICITANTES >>>>>> $urlList');
                             ),
                           ),
                         ),
-                      );
+                      ):Container();
                     },
                   ),
                 ),

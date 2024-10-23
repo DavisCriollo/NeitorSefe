@@ -1305,8 +1305,10 @@ print('DESPUES DE LLENAR LA VARIABLE COORDENADAS DE ALERTA : $coordenadasItem');
                 SizedBox(
                   height: size.iScreen(1.0),
                 ),
-                widget.user!.rol!.contains('RESIDENTE')  || widget.user!.rol!.contains('PROPIETARIO') ? Container() : gruposItemMenuGestionIntegral(size,  'Gestión Integral'),
-                 widget.user!.rol!.contains('RESIDENTE')  || widget.user!.rol!.contains('PROPIETARIO') ? Container() : gruposItemMenuNovedades(size, 'Novedades'),
+                // widget.user!.rol!.contains('RESIDENTE')  || widget.user!.rol!.contains('PROPIETARIO') ? Container() : gruposItemMenuGestionIntegral(size,  'Gestión Integral'),
+                //  widget.user!.rol!.contains('RESIDENTE')  || widget.user!.rol!.contains('PROPIETARIO') ? Container() : gruposItemMenuNovedades(size, 'Novedades'),
+                 widget.user!.rol!.contains('SUPERVISOR')  || widget.user!.rol!.contains('GUARDIA')  || widget.user!.rol!.contains('ADMINISTADOR') ?  gruposItemMenuGestionIntegral(size,  'Gestión Integral'):Container(),
+                widget.user!.rol!.contains('SUPERVISOR')  || widget.user!.rol!.contains('GUARDIA')  || widget.user!.rol!.contains('ADMINISTADOR') ?  gruposItemMenuNovedades(size, 'Novedades'):Container(),
                 gruposItemMenuBitacora(size,  'Bitácora'),
               ],
             );

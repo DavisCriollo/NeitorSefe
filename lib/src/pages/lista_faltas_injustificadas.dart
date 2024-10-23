@@ -1432,7 +1432,7 @@ class _ListaFaltasInjustificadasState extends State<ListaFaltasInjustificadas> {
                         //     context, multa!);
 
                         // ProgressDialog.dissmiss(context);
-                                   print('la data es:${valueGuardia.getListaIdPersona}');
+                                  //  print('la data es:${valueGuardia.getListaIdPersona}');
                         Navigator.pop(context);
 
 Navigator.pushNamed( context, 'creaTurnoExtra',arguments: 'FALTAS');

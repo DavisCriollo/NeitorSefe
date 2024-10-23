@@ -552,7 +552,7 @@ class _SplashPageState extends State<SplashPage> {
     final Session? session = await Auth.instance.getSession();
     // controllerHome.setSesionUser(session);
     final String? validaTurno = await Auth.instance.getTurnoSession();
-
+          // print('EL ROL : ${session!.rol}');
     // final String? tokenFCM = await Auth.instance.getTokenFireBase();
 
     if (session != null) {

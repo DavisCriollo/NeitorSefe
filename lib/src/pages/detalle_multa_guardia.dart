@@ -451,7 +451,7 @@ String _fechaLocalServer= DateUtility.fechaLocalConvert(_date.toString());
                                                           ),
                                                           // width: size.iScreen(12.0),
                                                           child: Text(
-                                                            '${e['nomNombrePer']}',
+                                                            '${e['turNomPersona']}',
                                                             // e.toString(),
                                                             // .toString().replaceAll('T',' '),
                                                             // .substring(0, 10),

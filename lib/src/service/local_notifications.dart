@@ -235,7 +235,7 @@ class LocalNotificationsService {
       'neitor', // ID del canal
       'NeitorSafe', // Nombre del canal
       channelDescription: 'Sistema de seguridad integral',
-      sound: RawResourceAndroidNotificationSound('ipsnapchat'), // Sonido personalizado
+      sound: RawResourceAndroidNotificationSound('ipsound'), // Sonido personalizado
       importance: Importance.max,
       priority: Priority.high,
       showWhen: false,
