@@ -299,7 +299,7 @@ class HomeController extends ChangeNotifier {
     };
     serviceSocket.socket?.emit('client:guardarData', _pyloadDataIniciaTurno);
     serviceSocket.socket?.on('server:guardadoExitoso', (data) async {
-      if (data['tabla'] == 'registro') {
+      if (data['tabla'] == 'registro' && data['regUser'] ==  infoUser.usuario &&   data['regEmpresa'] ==  infoUser.rucempresa) {
         if (data['regCodigo'] == infoUser.id.toString()) {
           //====================================//
           await Auth.instance.saveIdRegistro('${data['regId']}');
@@ -311,7 +311,7 @@ class HomeController extends ChangeNotifier {
 
           await Auth.instance.saveTurnoSessionUser(datosLogin);
           //========INICIO TURNO DE NUEVA NAMERA======//
- btnCtrl.setTurnoBTN(true);
+          btnCtrl.setTurnoBTN(true);
 
           setBotonTurno(true);
           //====================================//
@@ -866,19 +866,40 @@ class HomeController extends ChangeNotifier {
         "longitud": position!.longitude,
       }
     };
-    serviceSocket.socket
-        ?.emit('client:actualizarData', _pyloadDataFinaizaTurno);
-    serviceSocket.socket!.on('server:actualizadoExitoso', (data) async {
-      if (data['tabla'] == 'registro') {
-        //================= FINALIZO TURNO DE NUEVA FORMA ===================//
-         btnCtrl.setTurnoBTN(false);
+    // serviceSocket.socket
+    //     ?.emit('client:actualizarData', _pyloadDataFinaizaTurno);
+    // serviceSocket.socket!.on('server:actualizadoExitoso', (data) async {
+    //   if (data['tabla'] == 'registro') {
+    //     //================= FINALIZO TURNO DE NUEVA FORMA ===================//
+    //      btnCtrl.setTurnoBTN(false);
 
-        setBotonTurno(false);
+    //     setBotonTurno(false);
+    //   }
+    // });
+    // serviceSocket.socket?.on('server:error', (data) async {
+    //   NotificatiosnService.showSnackBarError(data['msg']);
+    // });
+
+       //================= FINALIZO TURNO DE NUEVA FORMA ===================//
+        serviceSocket.socket ?.emit('client:actualizarData', _pyloadDataFinaizaTurno);
+        serviceSocket.socket!.on('server:actualizadoExitoso', (data) async {
+
+      if (data['tabla'] == 'registro' && data['regUser'] ==  infoUser.usuario &&   data['regEmpresa'] ==  infoUser.rucempresa) {
+        //================= FINALIZO TURNO DE NUEVA FORMA ===================//
+        print('la info igual: ${data['tabla']} ==>   ${data['regUser']} ==  ${infoUser.usuario} &&   ${data['regEmpresa']} ==  ${infoUser.rucempresa}  ');
+         btnCtrl.setTurnoBTN(false);
+         setBotonTurno(false);
       }
-    });
-    serviceSocket.socket?.on('server:error', (data) async {
-      NotificatiosnService.showSnackBarError(data['msg']);
-    });
+        });serviceSocket.socket?.on('server:error', (data) async {
+          NotificatiosnService.showSnackBarError(data['msg']);
+        });
+
+
+      //=======================================================//
+
+
+
+
   }
 
 //========ESTE BOTON INICIA Y FINALIZA TURNO ======//

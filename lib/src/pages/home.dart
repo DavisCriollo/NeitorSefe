@@ -1437,44 +1437,6 @@ print('DESPUES DE LLENAR LA VARIABLE COORDENADAS DE ALERTA : $coordenadasItem');
                         ),
                       )),
                   // btnAlerta(size),
-                  GestureDetector(
-                    onTap: () {
-                      // Navigator.of(context)
-                      //     .push(MaterialPageRoute(builder: (context) => Perfil()));
-                    },
-                    child:
-                       Container(
-                      padding: EdgeInsets.all(size.iScreen(0.5)),
-                      width: size.iScreen(12.0),
-                      height: size.iScreen(12.0),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                          color: Colors.grey,
-                          width: 2.0,
-                        ),
-                      ),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(
-                            100.0), // 50.0 es un radio grande para hacer la imagen completamente redonda
-                        child: 
-                         ctrlHome.getUsuarioInfo!.foto==null ?Image.asset('assets/imgs/no-image.jpg'):
-                        CachedNetworkImage(
-                          imageUrl: '${ctrlHome.getUsuarioInfo!.foto}',
-                          fit: BoxFit.cover,
-                          placeholder: (context, url) =>
-                              const CupertinoActivityIndicator(),
-                          // Image.asset(
-                          //     'assets/imgs/loader.gif'),
-    
-                          errorWidget: (context, url, error) =>
-                              // const Icon(Icons.error),
-                              Image.asset('assets/imgs/no-image.jpg'),
-                        ),
-                      ),
-                    ),
-                  ),
                 ],
               ),
               // Container(
@@ -2638,12 +2600,112 @@ print('DESPUES DE LLENAR LA VARIABLE COORDENADAS DE ALERTA : $coordenadasItem');
     });
   }
 
+  // Widget btnTurnoPrincipal(
+  //   Responsive size,
+  //   ThemeApp ctrl,
+  // ) {
+  //   return Consumer<SocketService>(builder: (_, valueEstadoInternet, __) {
+  //     return 
+  //     Consumer<BotonTurnoController>(builder: (_, valueTurno, __) {
+  //       return Container(
+  //         width: size.iScreen(11.0),
+  //         height: size.iScreen(11.0),
+  //         decoration: BoxDecoration(
+  //           boxShadow: const <BoxShadow>[
+  //             BoxShadow(
+  //                 color: Colors.black54,
+  //                 blurRadius: 2.0,
+  //                 offset: Offset(0.0, 0.75))
+  //           ],
+  //           color: Colors.white,
+  //           borderRadius: BorderRadius.circular(100),
+  //           border: Border.all(
+  //             color: valueTurno.getTurnoBTN== true
+  //                 ? Colors.black //,_color
+  //                 : Colors.black, // Color del borde
+  //             width: 1.5, // Grosor del borde
+  //           ),
+  //         ),
+  //         margin: EdgeInsets.all(size.iScreen(0.2)),
+  //         padding: EdgeInsets.all(size.iScreen(0.2)),
+  //         child: ClipRRect(
+  //           borderRadius: BorderRadius.circular(0),
+  //           child: Container(
+  //               decoration: BoxDecoration(
+  //                   color: valueTurno.getTurnoBTN == true
+  //                       ? ctrl.combinedColors[3]
+  //                       : Colors.grey, //Aqui se cambia el color de los botones
+  //                   borderRadius: BorderRadius.circular(100)),
+  //               child: MaterialButton(
+  //                   elevation: 20.0,
+  //                   splashColor: valueTurno.getTurnoBTN == true
+  //                       ? ctrl.combinedColors[2]
+  //                       : Color(0xffbd1823),
+  //                   onPressed: () {
+  //                     if (valueEstadoInternet.serverStatus ==
+  //                         ServerStatus.Online) {
+  //                       if (valueTurno.getTurnoBTN) {
+  //                         _modalFinalizarTurno(size);
+  //                       } else {
+  //                         _modalInciaTurno(size,);
+  //                       }
+  //                     } else {}
+  //                   },
+  //                   child: Column(
+  //                     mainAxisAlignment: MainAxisAlignment.center,
+  //                     children: [
+  //                       // Image.asset('assets/imgs/$icon',
+  //                       //     color: (alerta)?Colors.white:color, width: size.iScreen(8.0)),
+  //                       // Icon(Icons.list,size: size.iScreen(4.0),),
+  //                       Text(
+  //                         valueTurno.getTurnoBTN == true
+  //                             ? 'TURNO ACTIVO'
+  //                             : 'TURNO INACTIVO',
+  //                         textAlign: TextAlign.center,
+  //                         style: GoogleFonts.roboto(
+  //                             fontSize: size.iScreen(1.4),
+  //                             color: valueTurno.getTurnoBTN == true
+  //                                 ? Colors.white
+  //                                 : Colors.black,
+  //                             fontWeight: FontWeight.bold),
+  //                       ),
+  //                       // Text(
+  //                       //   valueTurno.getBtnTurno==true?'ACTIVADO':'DESACTIVADO',
+  //                       //   textAlign: TextAlign.center,
+  //                       //   style: GoogleFonts.roboto(
+  //                       //       fontSize: size.iScreen(1.5),
+  //                       //       color: Colors.white,
+  //                       //       fontWeight: FontWeight.bold),
+  //                       // ),
+  //                       valueTurno.getTurnoBTN == true
+  //                           ? Icon(
+  //                               Icons.gpp_good_outlined,
+  //                               color: Colors.white,
+  //                               size: size.iScreen(5),
+  //                             )
+  //                           : Icon(Icons.gpp_bad_outlined,
+  //                               color: Colors.white, size: size.iScreen(5))
+  //                     ],
+  //                   )
+
+  //                   // Consumer<HomeController>(
+  //                   //   builder: (_, valueBtnTurno, __) {
+  //                   //     return
+
+  //                   //   },
+  //                   // )
+  //                   )),
+  //         ),
+  //       );
+  //     });
+  //   });
+  // }
   Widget btnTurnoPrincipal(
     Responsive size,
     ThemeApp ctrl,
   ) {
-    return Consumer<SocketService>(builder: (_, valueEstadoInternet, __) {
-      return Consumer<BotonTurnoController>(builder: (_, valueTurno, __) {
+   
+   return  Consumer<BotonTurnoController>(builder: (_, valueTurno, __) {
         return Container(
           width: size.iScreen(11.0),
           height: size.iScreen(11.0),
@@ -2679,14 +2741,13 @@ print('DESPUES DE LLENAR LA VARIABLE COORDENADAS DE ALERTA : $coordenadasItem');
                         ? ctrl.combinedColors[2]
                         : Color(0xffbd1823),
                     onPressed: () {
-                      if (valueEstadoInternet.serverStatus ==
-                          ServerStatus.Online) {
+                      
                         if (valueTurno.getTurnoBTN) {
                           _modalFinalizarTurno(size);
                         } else {
                           _modalInciaTurno(size,);
                         }
-                      } else {}
+                     
                     },
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -2735,7 +2796,7 @@ print('DESPUES DE LLENAR LA VARIABLE COORDENADAS DE ALERTA : $coordenadasItem');
           ),
         );
       });
-    });
+    
   }
 
   Widget btnTurno(Responsive size, Color _color, HomeController _ctrl) {
