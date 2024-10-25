@@ -333,7 +333,10 @@ class _ListaMultasSupervisorState extends State<ListaMultasSupervisor> {
 
                                     //======================================//
 
-                                    return Slidable(
+                                    return 
+                                    multas['nomEstado'] != 'ANULADA'?
+                                    
+                                    Slidable(
                                       startActionPane: ActionPane(
                                         motion: const ScrollMotion(),
                                         children: [
@@ -893,7 +896,7 @@ class _ListaMultasSupervisorState extends State<ListaMultasSupervisor> {
                                           ),
                                         ),
                                       ),
-                                    );
+                                    ):Container();
 
                                     //   },
                                     // );
