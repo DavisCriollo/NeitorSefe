@@ -102,6 +102,7 @@ dependencies:
   pdf: 
  
   google_mlkit_text_recognition: ^0.13.0
+  youtube_player_flutter: ^8.0.0
   
 
 

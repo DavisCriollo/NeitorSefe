@@ -45,6 +45,7 @@ import 'package:nseguridad/src/pages/lista_informes_guardias_page.dart';
 import 'package:nseguridad/src/pages/lista_multas_supervisor_page.dart';
 import 'package:nseguridad/src/pages/lista_residentes.dart';
 import 'package:nseguridad/src/pages/lista_rol_pagos.dart';
+import 'package:nseguridad/src/pages/lista_videos_ayuda.dart';
 import 'package:nseguridad/src/pages/mis_notificaciones1_push.dart';
 import 'package:nseguridad/src/pages/mis_notificaciones2_push.dart';
 import 'package:nseguridad/src/pages/perfil.dart';
@@ -66,6 +67,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:upgrader/upgrader.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 // import 'package:url_launcher/url_launcher.dart';
 
 class Home extends StatefulWidget {
@@ -886,6 +888,10 @@ print('DESPUES DE LLENAR LA VARIABLE COORDENADAS DE ALERTA : $coordenadasItem');
                           icon: Icon(Icons.contact_support_outlined),
                           label: 'Quienes somos',
                         ),
+                         BottomNavigationBarItem(
+                          icon: Icon(Icons.video_collection),
+                          label: 'Ayuda',
+                        ),
                         BottomNavigationBarItem(
                           icon: Icon(Icons.logout),
                           label: 'Salir',
@@ -922,7 +928,9 @@ print('DESPUES DE LLENAR LA VARIABLE COORDENADAS DE ALERTA : $coordenadasItem');
 
       case 2:
         return  _quienesSomos(size);
-      case 3:
+         case 3:
+        return  _videosAyuda(size);
+      case 4:
         return 
         // Padding(
         //   padding: EdgeInsets.all(size.iScreen(2.0)),
@@ -1246,6 +1254,44 @@ print('DESPUES DE LLENAR LA VARIABLE COORDENADAS DE ALERTA : $coordenadasItem');
       ),
     );
   }
+SingleChildScrollView _videosAyuda(Responsive size) {
+  final videoProvider = context.read<HomeController>();
+
+  return SingleChildScrollView(
+    child: Column(
+      children: [
+        ListView.builder(
+          itemCount: videoProvider.videos.length,
+          shrinkWrap: true, // Agrega esta línea para ajustar el tamaño
+          physics: NeverScrollableScrollPhysics(), // Desactiva el desplazamiento del ListView
+          itemBuilder: (context, index) {
+            final video = videoProvider.videos[index];
+
+            return Card(
+              margin: EdgeInsets.all(10),
+              child: ListTile(
+                title: Text(
+                  video['title']!, // Muestra solo el título
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                ),
+                onTap: () {
+                  // Navegar a la pantalla del reproductor de video
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => VideoPlayerScreen(videoId: video['videoId']!),
+                    ),
+                  );
+                },
+              ),
+            );
+          },
+        ),
+      ],
+    ),
+  );
+}
+
 
   Container _menuPrincipal(Responsive size, HomeController ctrlHome) {
       return Container(

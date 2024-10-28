@@ -1547,8 +1547,34 @@ bool _isGpsEnabled = false;
   }
   
 
+//**********************************//
+ List<Map<String, String>> _videos = [
+    {
+      'title': 'Video 1',
+      'videoId': 'me4h_Ye3o3Y', // Reemplaza con el ID de video real
+    },
+    {
+      'title': 'Video 2',
+      'videoId': 'cKxRFlXYquo', // Reemplaza con el ID de video real
+    },
+    {
+      'title': 'Video 3',
+      'videoId': 'cKxRFlXYquo', // Reemplaza con el ID de video real
+    },
+     {
+      'title': 'Video 3',
+      'videoId': 'Zs9MZosVuqo', // Reemplaza con el ID de video real
+    },
+    
+  ];
+
+  List<Map<String, String>> get videos => _videos;
+
+
+
 
 
 
 
 }
+
