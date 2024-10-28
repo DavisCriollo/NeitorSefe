@@ -1307,8 +1307,10 @@ print('DESPUES DE LLENAR LA VARIABLE COORDENADAS DE ALERTA : $coordenadasItem');
                 ),
                 // widget.user!.rol!.contains('RESIDENTE')  || widget.user!.rol!.contains('PROPIETARIO') ? Container() : gruposItemMenuGestionIntegral(size,  'Gestión Integral'),
                 //  widget.user!.rol!.contains('RESIDENTE')  || widget.user!.rol!.contains('PROPIETARIO') ? Container() : gruposItemMenuNovedades(size, 'Novedades'),
-                 widget.user!.rol!.contains('SUPERVISOR')  || widget.user!.rol!.contains('GUARDIA')  || widget.user!.rol!.contains('ADMINISTADOR') ?  gruposItemMenuGestionIntegral(size,  'Gestión Integral'):Container(),
-                widget.user!.rol!.contains('SUPERVISOR')  || widget.user!.rol!.contains('GUARDIA')  || widget.user!.rol!.contains('ADMINISTADOR') ?  gruposItemMenuNovedades(size, 'Novedades'):Container(),
+                //  widget.user!.rol!.contains('SUPERVISOR')  || widget.user!.rol!.contains('GUARDIA')  || widget.user!.rol!.contains('ADMINISTADOR') ?  gruposItemMenuGestionIntegral(size,  'Gestión Integral'):Container(),
+                // widget.user!.rol!.contains('SUPERVISOR')  || widget.user!.rol!.contains('GUARDIA')  || widget.user!.rol!.contains('ADMINISTADOR') ?  gruposItemMenuNovedades(size, 'Novedades'):Container(),
+                widget.user!.rol!.contains('SUPERVISOR')  || widget.user!.rol!.contains('ADMINISTADOR') ? gruposItemMenuGestionIntegral(size,  'Gestión Integral'):Container(),
+                 gruposItemMenuNovedades(size, 'Novedades'),
                 gruposItemMenuBitacora(size,  'Bitácora'),
               ],
             );
@@ -1382,12 +1384,13 @@ print('DESPUES DE LLENAR LA VARIABLE COORDENADAS DE ALERTA : $coordenadasItem');
                                       Icons.edit,
                                       size: size.iScreen(3.0),
                                       color: ctrlTheme.secondaryColor,
-                                    )
+                                    ),
                                   ],
                                 ),
                               ),
                             ),
                             Container(
+                              alignment: Alignment.center,
                               color: Colors.grey.shade300,
                               padding: EdgeInsets.symmetric(
                                   vertical: size.iScreen(0.5),
@@ -1395,32 +1398,41 @@ print('DESPUES DE LLENAR LA VARIABLE COORDENADAS DE ALERTA : $coordenadasItem');
                               // height:size.iScreen(0.2),
                               width: size.wScreen(100),
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Icon(
                                     Icons.assignment_ind_outlined,
                                     size: size.iScreen(3.0),
                                   ),
                                   ctrlHome.getUsuarioInfo!.rol!.isNotEmpty
-                                      ? Wrap(
-                                          children:
-                                              ctrlHome.getUsuarioInfo!.rol!
-                                                  .map((e) => Text(
-                                                        ': ${e} ',
-                                                        style: GoogleFonts.roboto(
-                                                            fontSize: size
-                                                                .iScreen(
-                                                                    1.7),
-                                                            color: Colors
-                                                                .black,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .normal),
-                                                        textAlign: TextAlign
-                                                            .justify,
-                                                      ))
-                                                  .toList(),
+                                      ?Text(
+                                          '${ctrlHome.getUsuarioInfo!.areadepartamento}',
+                                          style: GoogleFonts.roboto(
+                                              fontSize: size.iScreen(1.7),
+                                              color: Colors.black,
+                                              fontWeight:
+                                                  FontWeight.normal),
+                                          textAlign: TextAlign.center,
                                         )
+                                      //  Wrap(
+                                      //     children:
+                                      //         ctrlHome.getUsuarioInfo!.rol!
+                                      //             .map((e) => Text(
+                                      //                  ': ${e} ',
+                                      //                   style: GoogleFonts.roboto(
+                                      //                       fontSize: size
+                                      //                           .iScreen(
+                                      //                               1.7),
+                                      //                       color: Colors
+                                      //                           .black,
+                                      //                       fontWeight:
+                                      //                           FontWeight
+                                      //                               .normal),
+                                      //                   textAlign: TextAlign
+                                      //                       .justify,
+                                      //                 ))
+                                      //             .toList(),
+                                      //   )
                                       : Text(
                                           ': Sin Perfil',
                                           style: GoogleFonts.roboto(
@@ -1430,6 +1442,7 @@ print('DESPUES DE LLENAR LA VARIABLE COORDENADAS DE ALERTA : $coordenadasItem');
                                                   FontWeight.normal),
                                           textAlign: TextAlign.justify,
                                         )
+                                        
                                 ],
                               ),
                             ),
@@ -1437,6 +1450,45 @@ print('DESPUES DE LLENAR LA VARIABLE COORDENADAS DE ALERTA : $coordenadasItem');
                         ),
                       )),
                   // btnAlerta(size),
+                  
+                  // GestureDetector(
+                  //   onTap: () {
+                  //     // Navigator.of(context)
+                  //     //     .push(MaterialPageRoute(builder: (context) => Perfil()));
+                  //   },
+                  //   child:
+                  //      Container(
+                  //     padding: EdgeInsets.all(size.iScreen(0.5)),
+                  //     width: size.iScreen(12.0),
+                  //     height: size.iScreen(12.0),
+                  //     decoration: BoxDecoration(
+                  //       color: Colors.white,
+                  //       shape: BoxShape.circle,
+                  //       border: Border.all(
+                  //         color: Colors.grey,
+                  //         width: 2.0,
+                  //       ),
+                  //     ),
+                  //     child: ClipRRect(
+                  //       borderRadius: BorderRadius.circular(
+                  //           100.0), // 50.0 es un radio grande para hacer la imagen completamente redonda
+                  //       child: 
+                  //        ctrlHome.getUsuarioInfo!.foto==null ?Image.asset('assets/imgs/no-image.jpg'):
+                  //       CachedNetworkImage(
+                  //         imageUrl: '${ctrlHome.getUsuarioInfo!.foto}',
+                  //         fit: BoxFit.cover,
+                  //         placeholder: (context, url) =>
+                  //             const CupertinoActivityIndicator(),
+                  //         // Image.asset(
+                  //         //     'assets/imgs/loader.gif'),
+    
+                  //         errorWidget: (context, url, error) =>
+                  //             // const Icon(Icons.error),
+                  //             Image.asset('assets/imgs/no-image.jpg'),
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
                 ],
               ),
               // Container(
