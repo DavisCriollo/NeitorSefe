@@ -20,6 +20,7 @@ import 'package:nseguridad/src/controllers/bitacora_controller.dart';
 import 'package:nseguridad/src/controllers/botonTurno_controller.dart';
 import 'package:nseguridad/src/controllers/cambio_puesto_controller.dart';
 import 'package:nseguridad/src/controllers/capacitaciones_controller.dart';
+import 'package:nseguridad/src/controllers/cierre_bitacora_controller.dart';
 import 'package:nseguridad/src/controllers/consignas_controller.dart';
 import 'package:nseguridad/src/controllers/encuastas_controller.dart';
 import 'package:nseguridad/src/controllers/evaluaciones_controller.dart';
@@ -37,6 +38,7 @@ import 'package:nseguridad/src/pages/list_gestion_documental.dart';
 import 'package:nseguridad/src/pages/lista_bitacora.dart';
 import 'package:nseguridad/src/pages/lista_cambio_puesto.dart';
 import 'package:nseguridad/src/pages/lista_capacitaciones.dart';
+import 'package:nseguridad/src/pages/lista_cierre_bitacora.dart';
 import 'package:nseguridad/src/pages/lista_comunicados_guardias.dart';
 import 'package:nseguridad/src/pages/lista_de_actividades.dart';
 import 'package:nseguridad/src/pages/lista_encuestas_page.dart';
@@ -2573,6 +2575,46 @@ SingleChildScrollView _videosAyuda(Responsive size) {
 
                 }
             },'RESIDENTE'),
+
+              //*************BOTON CIERRE BITACOTA**************//
+                  _itemsMenuLateral(
+                size,
+               'Cierre Bitácora',
+                Icons.auto_stories_sharp,
+               
+                ctrlTheme.combinedColors[1], 
+                () async{
+             bool isGpsEnabled = await context.read<HomeController>().checkGpsStatus();
+            if (!isGpsEnabled) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => AccesoGPSPage()),
+              );
+            } else {
+                final _ctrl=context.read<BotonTurnoController>();
+              
+               if ( _ctrl.getTurnoBTN == true || !widget.user!.rol!.contains('RESIDENTE') ) {
+                 final _controller = context.read<CierreBitacoraController>();
+                          _controller.buscaBitacorasCierre('', 'false');
+
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => ListaCierreBitacora(
+                        user: widget.user,
+                      )));
+                 
+               } else {
+                 NotificatiosnService.showSnackBarDanger('DEBE INICIAR TURNO');
+               }
+             
+
+                }
+            },'RESIDENTE'),
+
+
+              //****************************//
+
+
+
           ],
         ),
         SizedBox(

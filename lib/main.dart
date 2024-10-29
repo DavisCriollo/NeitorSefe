@@ -13,6 +13,7 @@ import 'package:nseguridad/src/controllers/bitacora_controller.dart';
 import 'package:nseguridad/src/controllers/botonTurno_controller.dart';
 import 'package:nseguridad/src/controllers/cambio_puesto_controller.dart';
 import 'package:nseguridad/src/controllers/capacitaciones_controller.dart';
+import 'package:nseguridad/src/controllers/cierre_bitacora_controller.dart';
 import 'package:nseguridad/src/controllers/consignas_clientes_controller.dart';
 import 'package:nseguridad/src/controllers/consignas_controller.dart';
 import 'package:nseguridad/src/controllers/encuastas_controller.dart';
@@ -115,6 +116,9 @@ class _MyAppState extends State<MyApp> {
         //**********NUEVOS************//
         ChangeNotifierProvider(create: (_) => NuevoPermisoController()),
         ChangeNotifierProvider(create: (_) => NuevoTurnoExtraController()),
+
+        ChangeNotifierProvider(create: (_) => CierreBitacoraController()),
+        
          
 
 
