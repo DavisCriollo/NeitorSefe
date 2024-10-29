@@ -2580,9 +2580,9 @@ SingleChildScrollView _videosAyuda(Responsive size) {
                   _itemsMenuLateral(
                 size,
                'Cierre Bitácora',
-                Icons.auto_stories_sharp,
+                Icons.folder_shared_outlined,
                
-                ctrlTheme.combinedColors[1], 
+                ctrlTheme.combinedColors[0], 
                 () async{
              bool isGpsEnabled = await context.read<HomeController>().checkGpsStatus();
             if (!isGpsEnabled) {
@@ -2608,7 +2608,7 @@ SingleChildScrollView _videosAyuda(Responsive size) {
              
 
                 }
-            },'RESIDENTE'),
+            },'GUARDIA'),
 
 
               //****************************//
