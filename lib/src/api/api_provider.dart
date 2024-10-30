@@ -3721,6 +3721,41 @@ _path='$_dirURL/bitacora/cliente_residente?search=$search&notificacion=$notifica
     }
   }
 
+  //=========================GET ALL AUSENCIAS DE LOS  GUARDIAS =====================================//
+  Future getAllVideosAyuda({
+    BuildContext? context,
+    String? token,
+  }) async {
+    try {
+      final url = Uri.parse('$_dirURL/sidebar/para/app');
+
+      final dataResp = await _http.get(
+        url,
+        headers: {"x-auth-token": '$token'},
+      );
+
+      // print(' LA RESPUESTA DEL videos ayuda; ${dataResp.body}');
+
+      if (dataResp.body.isEmpty) {
+        return null;
+      }
+
+      if (dataResp.statusCode == 200) {
+        final responseData = jsonDecode(dataResp.body);
+        return responseData;
+      }
+      if (dataResp.statusCode == 404) {
+        return null;
+      }
+      if (dataResp.statusCode == 401) {
+        Auth.instance.deleteSesion(context!);
+
+        return null;
+      }
+    } catch (e) {
+      return null;
+    }
+  }
 
 
 

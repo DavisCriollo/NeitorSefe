@@ -7,6 +7,7 @@ import 'package:nseguridad/src/controllers/cierre_bitacora_controller.dart';
 import 'package:nseguridad/src/controllers/home_ctrl.dart';
 import 'package:nseguridad/src/models/session_response.dart';
 import 'package:nseguridad/src/pages/crea_cierre_bitacora.dart';
+import 'package:nseguridad/src/pages/detalle_cierre_bitacora.dart';
 import 'package:nseguridad/src/theme/themes_app.dart';
 import 'package:nseguridad/src/utils/fecha_local_convert.dart';
 import 'package:nseguridad/src/utils/responsive.dart';
@@ -183,34 +184,58 @@ class _ListaCierreBitacoraState extends State<ListaCierreBitacora> {
                                 startActionPane: ActionPane(
                                   motion: const ScrollMotion(),
                                   children: [
-                                    // _usuario!.usuario == ausencia['ausUser']
-                                    //     ? SlidableAction(
-                                    //         backgroundColor: Colors.purple,
-                                    //         foregroundColor: Colors.white,
-                                    //         icon: Icons.edit,
-                                    //         // label: 'Editar',
-                                    //         onPressed: (context) {
-                                    //          final List<String>_ids=[];
-                                    //          for (var item in  ausencia['idTurno']) {
-                                    //           _ids.addAll([item.toString()]);
-                                    //          }
-                                    //           provider.resetDropDown();
-                                    //           provider.resetValuesAusencias();
-                                    //           provider.buscaListaGuardiasReemplazo(_ids);
+                                    widget.user!.usuario == cierreBit['bitcUsuario']
+                                        ? SlidableAction(
+                                            backgroundColor: ctrlTheme.primaryColor,
+                                            foregroundColor: Colors.white,
+                                            icon: Icons.copy_all_outlined,
+                                            // label: 'Editar',
+                                            onPressed: (context) {
+
+                                            provider.copiaCierreBitacora(context,cierreBit);
+                                            provider.buscaBitacorasCierre('', 'false');
+                                           
+
+                                            },
+                                          )
+                                        : Container(),
+
+
+
+
+
+                                         widget.user!.usuario == cierreBit['bitcUsuario'] && cierreBit['bitcEstado']!='ANULADA'
+                                        ? SlidableAction(
+                                            backgroundColor: Colors.purple,
+                                            foregroundColor: Colors.white,
+                                            icon: Icons.edit,
+                                            // label: 'Editar',
+                                            onPressed: (context) {
+                                            //  final List<String>_ids=[];
+                                            //  for (var item in  cierreBit['idTurno']) {
+                                            //   _ids.addAll([item.toString()]);
+                                            //  }
+                                            //   provider.resetDropDown();
+                                            //   provider.resetValuesAusencias();
+                                            //   provider.buscaListaGuardiasReemplazo(_ids);
                                             
-                                    //           provider.getDataAusencia(ausencia);
+                                           
                               
-                              
-                                    //           Navigator.push(
-                                    //               context,
-                                    //               MaterialPageRoute(
-                                    //                   builder: ((context) => CreaAusencia(
-                                    //                         usuario: _usuario,
-                                    //                         action: 'EDIT',
-                                    //                       ))));
-                                    //         },
-                                    //       )
-                                    //     : Container(),
+                               final ctrl= context.read<CierreBitacoraController>();
+                      ctrl.resetFormCierreBitacora() ;
+                      ctrl.obtieneFechaActual();
+                         provider.getDataBitacora(cierreBit);
+                  
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: ((context) => CreaCierreBotacora(
+                                    usuario:widget.user,
+                                    action: 'EDIT',
+                                  ))));
+                                            },
+                                          )
+                                        : Container(),
                                   ],
                                 ),
                                 child: GestureDetector(
@@ -223,12 +248,17 @@ class _ListaCierreBitacoraState extends State<ListaCierreBitacora> {
                                            
                                     //           provider.buscaListaGuardiasReemplazo(_ids);
                                     // provider.getDataAusencia(ausencia);
+                                ctrl.resetFormCierreBitacora() ;
+                                ctrl.setListaFotosUrl([]);
+                                 provider.getDataBitacora(cierreBit);
                               
-                                    // Navigator.push(
-                                    //     context,
-                                    //     MaterialPageRoute(
-                                    //         builder: ((context) =>
-                                    //             const DetalleAusenciaPage())));
+                              
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: ((context) => DetalleCierreBitacora(
+                                                         
+                                                          ))));
                                   },
                                   child: ClipRRect(
                                     child: Card(
@@ -486,8 +516,7 @@ class _ListaCierreBitacoraState extends State<ListaCierreBitacora> {
                                                   '${cierreBit['bitcEstado']}',
                                                   style: GoogleFonts.lexendDeca(
                                                       fontSize: size.iScreen(1.6),
-                                                      color:
-                                                          tercearyColor, //_colorEstado,
+                                                      color: _colorEstado(cierreBit['bitcEstado']), //_colorEstado,
                                                       fontWeight: FontWeight.bold),
                                                 ),
                                               ],
@@ -544,18 +573,10 @@ class _ListaCierreBitacoraState extends State<ListaCierreBitacora> {
                    backgroundColor:  ctrlTheme.primaryColor,
                     child: const Icon(Icons.add),
                     onPressed: () {
-                      // final ausenciaController =
-                      //     Provider.of<AusenciasController>(context,
-                      //         listen: false);
-                      // final turnoExtraController =
-                      //     Provider.of<TurnoExtraController>(context,
-                      //             listen: false)
-                      //         .resetValuesTurnoExtra();
-                      // ausenciaController.resetValuesAusencias();
-                      //  ausenciaController.onInputFechaInicioChange('');
-
-                      // ausenciaController.setUsuarioLogin(_usuario);
-                      context.read<CierreBitacoraController>().obtieneFechaActual();
+                    
+                    final ctrl= context.read<CierreBitacoraController>();
+                      ctrl.resetFormCierreBitacora() ;
+                      ctrl.obtieneFechaActual();
                   
                       Navigator.push(
                           context,
@@ -565,8 +586,6 @@ class _ListaCierreBitacoraState extends State<ListaCierreBitacora> {
                                     action: 'CREATE',
                                   ))));
 
-                      // Navigator.pushNamed(context, 'creaAusencia',
-                      //     arguments: 'CREATE');
                     },
                   )
                 : Container());
@@ -583,5 +602,18 @@ Future<void> onRefresh() async {
   }
 
 
+// Función para determinar el color según el estado
+Color _colorEstado(String estado) {
+  switch (estado) {
+    case 'APERTURA':
+      return tercearyColor; // Color para APERTURA
+    case 'CIERRE':
+      return secondaryColor;  // Color para CIERRE
+    case 'ANULADA':
+      return cuaternaryColor;    // Color para ANULADA
+    default:
+      return Colors.black;  // Color por defecto
+  }
+  }
 
 }

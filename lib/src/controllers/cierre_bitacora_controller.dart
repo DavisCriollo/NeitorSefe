@@ -70,7 +70,7 @@ void search(String query) {
     // Filtra según el término de búsqueda
     _allItemsFilters = originalList.where((item) {
       return item['bitcFecha'].toLowerCase().contains(query.toLowerCase()) ||
-             item['cliDocNumero'].toLowerCase().contains(query.toLowerCase()) ||
+             item['cliDocNumero'].toLowerCase().contains(query.toLowerCase()) || 
              item['cliRazonSocial'].toLowerCase().contains(query.toLowerCase());
     }).toList();
     
@@ -89,10 +89,15 @@ Future buscaBitacorasCierre(String? _search, String? notificacion) async {
 
   if (response != null) {
     List dataSort = [];
-    dataSort = response;
-    dataSort.sort((a, b) => b['bitcFecha']!.compareTo(a['bitcFecha']!));
-    setBtacotasCierradas(dataSort);
-    setListFilter(dataSort); // Llama a la función para actualizar la lista filtrada
+     dataSort = response;
+    //  dataSort.sort((a, b) => b['bitcFecha']!.compareTo(a['bitcFecha']!));
+     dataSort.sort((a, b) {
+    DateTime dateA = DateTime.parse(a['bitcFecReg']);
+    DateTime dateB = DateTime.parse(b['bitcFecReg']);
+    return dateB.compareTo(dateA); // Orden descendente
+  });
+    setBtacotasCierradas(response);
+    setListFilter(response); // Llama a la función para actualizar la lista filtrada
     notifyListeners();
     return response;
   }
@@ -112,7 +117,7 @@ String get getFechaActual=>_fechaActual;
 void obtieneFechaActual() {
 
  final now = DateTime.now();
-  final  _currentDateTime = DateFormat('yyyy-MM-dd HH:mm').format(now);
+  final  _currentDateTime = DateFormat('yyyy-MM-dd').format(now);
 _fechaActual='';
 _fechaActual=_currentDateTime;
 print('la fecha es: $_fechaActual');
@@ -132,7 +137,7 @@ notifyListeners();
   }
 
 //************FOTOS*****************/
-final List<XFile> _photos = [];
+ List<XFile> _photos = [];
   final ImagePicker _picker = ImagePicker();
   bool _isPicking = false;
 
@@ -149,37 +154,80 @@ final List<XFile> _photos = [];
     await _pickAndCompressImage(ImageSource.gallery);
   }
 
+  // Future<void> _pickAndCompressImage(ImageSource source) async {
+  //   if (_isPicking) return;
+  //   _isPicking = true;
+  //   notifyListeners();
+
+  //   try {
+  //     final XFile? pickedImage = await _picker.pickImage(source: source, imageQuality: 70);
+  //     if (pickedImage != null) {
+  //       // Comprime la imagen
+  //       final compressedFile = await FlutterImageCompress.compressAndGetFile(
+  //         pickedImage.path,
+  //         "$compressedImagePath/${DateTime.now().millisecondsSinceEpoch}.jpg",
+  //         quality: 20,
+  //       );
+
+  //       if (compressedFile != null) {
+  //         // Añade la imagen comprimida a la lista
+  //         _photos.add(XFile(compressedFile.path));
+  //         notifyListeners();
+  //       }
+  //     }
+  //   } finally {
+  //     _isPicking = false;
+  //     notifyListeners();
+  //   }
+  // }
   Future<void> _pickAndCompressImage(ImageSource source) async {
-    if (_isPicking) return;
-    _isPicking = true;
-    notifyListeners();
+  if (_isPicking) return;
 
-    try {
-      final XFile? pickedImage = await _picker.pickImage(source: source, imageQuality: 70);
-      if (pickedImage != null) {
-        // Comprime la imagen
-        final compressedFile = await FlutterImageCompress.compressAndGetFile(
-          pickedImage.path,
-          "$compressedImagePath/${DateTime.now().millisecondsSinceEpoch}.jpg",
-          quality: 20,
-        );
+  _isPicking = true;
+  _safeNotifyListeners();
 
-        if (compressedFile != null) {
-          // Añade la imagen comprimida a la lista
-          _photos.add(XFile(compressedFile.path));
-          notifyListeners();
-        }
+  try {
+    final XFile? pickedImage = await _picker.pickImage(source: source, imageQuality: 70);
+    if (pickedImage != null) {
+      final compressedFile = await FlutterImageCompress.compressAndGetFile(
+        pickedImage.path,
+        "$compressedImagePath/${DateTime.now().millisecondsSinceEpoch}.jpg",
+        quality: 20,
+      );
+
+      if (compressedFile != null) {
+        _photos.add(XFile(compressedFile.path));
+        _safeNotifyListeners();
       }
-    } finally {
-      _isPicking = false;
-      notifyListeners();
     }
+  } finally {
+    _isPicking = false;
+    _safeNotifyListeners();
   }
+}
+
+void _safeNotifyListeners() {
+  try {
+    notifyListeners();
+  } catch (e) {
+    // Log or handle error gracefully if needed
+    print('El widget que escucha al controlador está desmontado: $e');
+  }
+}
 
   void removePhoto(int index) {
     _photos.removeAt(index);
     notifyListeners();
   }
+  //==================RESET FORMULARIO======================//
+    void resetFormCierreBitacora() {
+  _photos = [];
+  _listaFotosUrl=[];
+   _fechaActual='';
+   _infoBitacoraFotos=[];
+    notifyListeners();
+  }
+  //========================================//
 Future<void> deleteOriginalFiles(String photoPath) async {
   try {
     final originalFile = File(photoPath);
@@ -194,10 +242,34 @@ Future<void> deleteOriginalFiles(String photoPath) async {
 
 
 //***********   CREAR CIERRE BITACORA *******************//
-  List<Map<String, String>> _listaFotosUrl = [];
+  List<Map<String, dynamic>> _listaFotosUrl = [];
+    
+    List<Map<String, dynamic>> get getListaFotosUrl =>_listaFotosUrl;
+
+
+void setListaFotosUrl(List _item){
+
+_listaFotosUrl = [];
+
+for (var item in _item) {
+  _listaFotosUrl.add(item);
+  
+}
+
+  notifyListeners();
+}
+
+
+
+
 Future crearCierreBitacora(BuildContext context) async {
     final serviceSocket = context.read<SocketService>();
   final infoUserLogin = await Auth.instance.getSession();
+   final infoTurno = await Auth.instance.getTurnoSessionUsuario();
+             final  Map<String, dynamic> _info = jsonDecode(infoTurno);
+             final _idCliente=_info['data']['regDatosTurno'][0]['idClienteIngreso'];
+              // print('SIN FOTO turno es ======?: ${infoTurno}');
+                      // print('SIN FOTO turno es: ${_info['data']['regDatosTurno'][0]['idClienteIngreso']}');
 
 
 final _pyloadNuevoCierreBitacora = {
@@ -205,15 +277,16 @@ final _pyloadNuevoCierreBitacora = {
   "bitcId": 0,
   "bitcFecha": _fechaActual,
   "bitcFotos": _listaFotosUrl,
-  "bitcEstado": "APERTURA",
+  "bitcEstado": _estadoCierre,
   "bitcObservacion": _inputObservacion,
   "bitcUsuario": infoUserLogin!.usuario,
   "tabla": "bitacora_cierre",
   "rucempresa": infoUserLogin.rucempresa, //login
   "rol": infoUserLogin.rol,
+  "bitcIdCliente":_idCliente
 };
 
-//  print('_pyloadNuevTurnoExtra :$_pyloadNuevoCierreBitacora');
+//  print('_pyloadNuevoCierreBitacora :$_pyloadNuevoCierreBitacora');
 
  serviceSocket.socket!.emit('client:guardarData', _pyloadNuevoCierreBitacora);
  
@@ -275,6 +348,41 @@ Future<bool> enviarImagenesAlServidor() async {
 
 
 
+
+//================== OBTENEMOS LA INDORMACION DEL ITEM DE BITACORA==========================//
+
+//*************** LISTA DE IMAGENES  *****************//
+List<Map<String,dynamic>> _infoBitacoraFotos=[];
+List<Map<String,dynamic> >get getInfoBitacoraFotos=>_infoBitacoraFotos;
+//****************************************************//
+
+Map<String,dynamic> _infoBitacora={};
+Map<String,dynamic> get getInfoBitacora=>_infoBitacora;
+
+
+void getDataBitacora(Map<String,dynamic> _info)
+{
+_infoBitacora={};
+_infoBitacora=_info;
+
+ _infoBitacoraFotos=[];
+for (var item in _infoBitacora['bitcFotos']) {
+ _infoBitacoraFotos.add(item);
+ print('_infoBitacoraFotos : $_infoBitacoraFotos}');
+ }
+
+_estadoCierre=_infoBitacora['bitcEstado'];
+_inputObservacion=_infoBitacora['bitcObservacion'];
+_fechaActual=_infoBitacora['bitcFecReg'];
+
+ print('_infoBitacora : $_infoBitacora}');
+
+notifyListeners();
+}
+
+
+
+
 Future eliminaUrlServer( String _url) async {
 
 
@@ -295,22 +403,133 @@ final _urlImageDelete=
     );
 
     if (response != null) {
-      // _errorUrl = true;
-      // setListaUrlse(response['data']);
-      // print('ES LOS URLS: ${response['urls'][0]}');
-      // setUrlImge(response.toString());
+  
+        // Verificamos si existe "bitcFotos" y si es una lista
+  if (_infoBitacora.containsKey("bitcFotos") && _infoBitacora["bitcFotos"] is List) {
+    List<dynamic> fotos = _infoBitacora["bitcFotos"];
+    
+    // Eliminamos el elemento donde la URL coincide con urlToDelete
+    fotos.removeWhere((foto) => foto["url"] == _url);
+  }
+
       notifyListeners();
-      return 'true';
+      return true;
       // return response;
     }
     if (response == null) {
-      // _errorUrl = false;
+      
       notifyListeners();
-      return 'false';
+      return false;
 
     }
  
   }
+
+
+//***********   CREAR CIERRE BITACORA *******************//
+
+Future editarCierreBitacora(BuildContext context) async {
+    final serviceSocket = context.read<SocketService>();
+  final infoUserLogin = await Auth.instance.getSession();
+   final infoTurno = await Auth.instance.getTurnoSessionUsuario();
+             final  Map<String, dynamic> _info = jsonDecode(infoTurno);
+             final _idCliente=_info['data']['regDatosTurno'][0]['idClienteIngreso'];
+              // print('SIN FOTO turno es ======?: ${infoTurno}');
+                      // print('SIN FOTO turno es: ${_info['data']['regDatosTurno'][0]['idClienteIngreso']}');
+
+// Unir las dos listas
+List<Map<String, dynamic>> _listaFotosUrls = [];
+
+// Agregar los elementos de bitcFotos
+for (var item in _listaFotosUrl) {
+_listaFotosUrls.add(item);
+  
+}
+
+
+// Agregar los elementos de segundaLista
+for (var item in _infoBitacoraFotos) {
+_listaFotosUrls.add(item);
+  
+}
+// _listaFotosUrl = List<Map<String, String>>.from(_infoBitacoraFotos);
+
+
+
+
+final _pyloadEditaCierreBitacora = {
+
+  "bitcId": _infoBitacora['bitcId'],
+  "bitcFecha": _infoBitacora['bitcFecha'],
+  "bitcFotos": _listaFotosUrls,
+  "bitcEstado": _estadoCierre,
+  "bitcObservacion": _inputObservacion,
+  "bitcUsuario": infoUserLogin!.usuario,
+  "tabla": "bitacora_cierre",
+  "rucempresa": infoUserLogin.rucempresa, //login
+  "rol": infoUserLogin.rol,
+  "bitcIdCliente":_idCliente
+
+
+
+};
+
+//  print('_pyloadNuevTurnoExtra :$_pyloadEditaCierreBitacora');
+
+ serviceSocket.socket!.emit('client:actualizarData', _pyloadEditaCierreBitacora);
+ 
+}
+
+
+
+ String? _estadoCierre = "";
+  String? get getEstadoCierre => _estadoCierre;
+  void setEstadoCierre(String? text) {
+    _estadoCierre = text;
+    notifyListeners();
+  }
+
+
+Future copiaCierreBitacora(BuildContext context,Map<String,dynamic> _data) async {
+    final serviceSocket = context.read<SocketService>();
+  final infoUserLogin = await Auth.instance.getSession();
+   final infoTurno = await Auth.instance.getTurnoSessionUsuario();
+             final  Map<String, dynamic> _info = jsonDecode(infoTurno);
+             final _idCliente=_info['data']['regDatosTurno'][0]['idClienteIngreso'];
+              // print('LA DATA ======?: ${_data}');
+                      // print('SIN FOTO turno es: ${_info['data']['regDatosTurno'][0]['idClienteIngreso']}');
+
+
+final _pyloadCopiaCierreBitacora = {
+
+  "bitcId": 0,
+  "bitcFecha": _data['bitcFecha'],
+  "bitcFotos": _data['bitcFotos'],
+  "bitcEstado": _data['bitcEstado'],
+  "bitcObservacion": _data['bitcObservacion'],
+
+  "bitcUsuario": infoUserLogin!.usuario,
+  "tabla": "bitacora_cierre",
+  "rucempresa": infoUserLogin.rucempresa, //login
+  "rol": infoUserLogin.rol,
+  "bitcIdCliente":_idCliente
+};
+
+//  print('_pyloadNuevoCierreBitacora :$_pyloadCopiaCierreBitacora');
+
+ serviceSocket.socket!.emit('client:guardarData', _pyloadCopiaCierreBitacora);
+ 
+}
+
+
+
+
+
+
+
+
+
+
 
 
 

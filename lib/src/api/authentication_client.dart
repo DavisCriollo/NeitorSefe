@@ -177,6 +177,7 @@ class Auth {
 // GUARDAMOS LA INFORMACION DEL DISPOSITIVO
     final usuario = jsonEncode(infoUser);
     await _storage.write(key: keyTURNO, value: usuario);
+    //  print('turno guardado:$usuario');
   }
 
 // OBTEMENOS EL TURNO  DEL DISPOSITIVO

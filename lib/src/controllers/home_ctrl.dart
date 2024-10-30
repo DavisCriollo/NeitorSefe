@@ -940,6 +940,8 @@ class HomeController extends ChangeNotifier {
     );
 
     if (response != null) {
+       await Auth.instance.deleteIdRegistro();
+       await Auth.instance.saveTurnoSessionUser(response); 
       _errorRefreshToken = true;
       // setTurnoBTN(false);
 
@@ -1548,32 +1550,118 @@ bool _isGpsEnabled = false;
   
 
 //**********************************//
- List<Map<String, String>> _videos = [
-    {
-      'title': 'Video 1',
-      'videoId': 'me4h_Ye3o3Y', // Reemplaza con el ID de video real
-    },
-    {
-      'title': 'Video 2',
-      'videoId': 'cKxRFlXYquo', // Reemplaza con el ID de video real
-    },
-    {
-      'title': 'Video 3',
-      'videoId': 'cKxRFlXYquo', // Reemplaza con el ID de video real
-    },
-     {
-      'title': 'Video 3',
-      'videoId': 'Zs9MZosVuqo', // Reemplaza con el ID de video real
-    },
+ List _videos = [
+    // {
+    //   'title': 'Video 1',
+    //   'videoId': 'me4h_Ye3o3Y', // Reemplaza con el ID de video real
+    // },
+    // {
+    //   'title': 'Video 2',
+    //   'videoId': 'cKxRFlXYquo', // Reemplaza con el ID de video real
+    // },
+    // {
+    //   'title': 'Video 3',
+    //   'videoId': 'cKxRFlXYquo', // Reemplaza con el ID de video real
+    // },
+    //  {
+    //   'title': 'Video 3',
+    //   'videoId': 'Zs9MZosVuqo', // Reemplaza con el ID de video real
+    // },
     
   ];
 
-  List<Map<String, String>> get videos => _videos;
+  List get videos => _videos;
 
 
 
 
 
+
+Future buscaBitacorasCierre(String? _search, String? notificacion) async {
+  final dataUser = await Auth.instance.getSession();
+  final response = await _api.getAllVideosAyuda(
+    token: '${dataUser!.token}',
+  );
+
+  if (response != null) {
+    _videos=[];
+    _videos.addAll(response);
+    _allItemsFilters.addAll(response);
+     
+      // print(' LA RESPUESTA DEL videos ayuda; ${_videos}');
+    // setBtacotasCierradas(response);
+    // setListFilter(response); // Llama a la función para actualizar la lista filtrada
+    notifyListeners();
+    return response;
+  }
+  if (response == null) {
+    notifyListeners();
+    return null;
+  }
+}
+
+//====================  BUSQUEDAS ===========================//
+bool noResults = false; 
+List _allItemsFilters = [];
+List get allItemsFilters => _allItemsFilters;
+
+// void setListFilter(List _list) {
+//   _allItemsFilters = [];
+//   _allItemsFilters.addAll(_list);
+//   noResults = _list.isEmpty; // Actualiza la bandera de resultados
+//   // print('LA RESPUESTA DEL getAllCierreBitacoras: $_bitacotasCierradas');
+//   notifyListeners();
+// }
+void setListFilter(List _list) {
+ 
+  if (_list is List) {
+    _allItemsFilters.clear(); // Limpiar la lista
+    _allItemsFilters.addAll(_list); // Agregar nuevos elementos
+    noResults = _list.isEmpty; // Actualiza la bandera de resultados
+    notifyListeners(); // Notifica a los oyentes
+  } else {
+    print('Error: _list no es de tipo List<Map<String, dynamic>>'); // Mensaje de error
+  }
+}
+
+void search(String query) {
+  List<Map<String, dynamic>> originalList = List.from(_videos); // Copia de la lista original
+
+  if (query.isEmpty) {
+    // Restablece la lista completa si no hay búsqueda
+    _allItemsFilters = originalList;
+    noResults = false;
+  } else {
+    // Filtra según el término de búsqueda
+    _allItemsFilters = originalList.where((item) {
+      final sidInfo = item['sidInfo'];
+      final componentMatch = (sidInfo['component']?.toLowerCase() ?? '').contains(query.toLowerCase());
+      final nameMatch = (sidInfo['name']?.toLowerCase() ?? '').contains(query.toLowerCase());
+      final descriptionMatch = (sidInfo['descripcion']?.toLowerCase() ?? '').contains(query.toLowerCase());
+
+      // Si deseas buscar también dentro de los tutoriales
+      final tutorialMatch = sidInfo['tutoriales'].any((tuto) {
+        return (tuto['nombreVideo']?.toLowerCase() ?? '').contains(query.toLowerCase()) ||
+               (tuto['descVideo']?.toLowerCase() ?? '').contains(query.toLowerCase());
+      });
+
+      // Retorna verdadero si cualquiera de los criterios de búsqueda se cumple
+      return componentMatch || nameMatch || descriptionMatch || tutorialMatch;
+    }).toList();
+
+    // Verifica si hay resultados
+    noResults = _allItemsFilters.isEmpty;
+  }
+
+  notifyListeners();
+}
+
+
+
+
+
+
+//===============================================//
 
 
 }

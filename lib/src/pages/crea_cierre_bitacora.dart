@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
@@ -6,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:nseguridad/src/api/authentication_client.dart';
 import 'package:nseguridad/src/controllers/cierre_bitacora_controller.dart';
 import 'package:nseguridad/src/controllers/home_ctrl.dart';
 import 'package:nseguridad/src/service/notifications_service.dart';
@@ -158,7 +160,104 @@ class _CreaCierreBotacoraState extends State<CreaCierreBotacora> {
                     ],
                   ),
                 ),
+                 //***********************************************/
+                  SizedBox(
+                    height: size.iScreen(1.0),
+                  ),
+                  //*****************************************/
+
+      
+
+                  Column(
+                    children: [
+                      Container(
+                        width: size.wScreen(100.0),
+    
+                        // color: Colors.blue,
+                        child: Text('Estado:',
+                            style: GoogleFonts.lexendDeca(
+                                // fontSize: size.iScreen(2.0),
+                                fontWeight: FontWeight.normal,
+                                color: Colors.grey)),
+                      ),
+
+                    Row(
+                          children: [
+                            Expanded(
+                              child: Container(
+                                // color: Colors.red,
+                                padding: EdgeInsets.only(
+                                  top: size.iScreen(1.0),
+                                  right: size.iScreen(0.5),
+                                ),
+                                child: Consumer<CierreBitacoraController>(
+                                  builder: (_, persona, __) {
+                                    return (persona.getEstadoCierre == '' ||
+                                            persona.getEstadoCierre == null)
+                                        ? Text(
+                                            'SELECCIONES ESTADO',
+                                            style: GoogleFonts.lexendDeca(
+                                                fontSize: size.iScreen(1.8),
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.grey),
+                                          )
+                                        : Text(
+                                            '${persona.getEstadoCierre} ',
+                                            style: GoogleFonts.lexendDeca(
+                                              fontSize: size.iScreen(1.8),
+                                              fontWeight: FontWeight.normal,
+                                              // color: Colors.grey
+                                            ),
+                                          );
+                                  },
+                                ),
+                              ),
+                            ),
+                      widget.usuario!.rol!.contains('SUPERVISOR')
+                           ? ClipRRect(
+                              borderRadius: BorderRadius.circular(8),
+                              child: GestureDetector(
+                                onTap: () {
+                                  _modalSeleccionaEstado(
+                                      size, ctrl);
+                                },
+                                child:  Consumer<ThemeApp>(builder: (_, valueTheme, __) {  
+                                      return Container(
+                                        alignment: Alignment.center,
+                                        color: valueTheme.primaryColor,
+                                        width: size.iScreen(3.5),
+                                        padding: EdgeInsets.only(
+                                          top: size.iScreen(0.5),
+                                          bottom: size.iScreen(0.5),
+                                          left: size.iScreen(0.5),
+                                          right: size.iScreen(0.5),
+                                        ),
+                                        child: Icon(
+                                          Icons.arrow_drop_down,
+                                          color: valueTheme.secondaryColor,
+                                          size: size.iScreen(2.0),
+                                        ),
+                                      );
+                                    },
+                                    )
+                              ),
+                            ):Container(),
+                          ],
+                        ),
+
+
+                  //***********************************************/
+                  SizedBox(
+                    height: size.iScreen(1.0),
+                  ),
+                  //*****************************************/
+                    ],
+                  ),
+                 
                 
+
+
+
                   //***********************************************/
                 SizedBox(
                   height: size.iScreen(1.0),
@@ -174,6 +273,9 @@ class _CreaCierreBotacoraState extends State<CreaCierreBotacora> {
                           color: Colors.grey)),
                 ),
                 TextFormField(
+                  initialValue: widget.action == 'CREATE'
+                        ? ''
+                        : ctrl.getInfoBitacora['bitcObservacion'].toString(),
                   decoration: const InputDecoration(
                      ),
                   textAlign: TextAlign.start,
@@ -205,22 +307,36 @@ class _CreaCierreBotacoraState extends State<CreaCierreBotacora> {
                   width: size.wScreen(100.0),
                             
                   child: 
-                  Consumer<CierreBitacoraController>(builder: (_, values, __) {  
-                    return Row(
-                      children: [
-                        Text('Fotos: ',
-                          style: GoogleFonts.lexendDeca(
-                             fontSize: size.iScreen(1.8),
-                             fontWeight: FontWeight.normal,
-                              color: Colors.grey)),
-                              Text(values.photos.isNotEmpty?'${values.photos.length}':'0',
-                          style: GoogleFonts.lexendDeca(
-                             fontSize: size.iScreen(2.0),
-                             fontWeight: FontWeight.bold,
-                              color: Colors.black)),
-                      ],
-                    );
-                  },)
+                  // Consumer<CierreBitacoraController>(builder: (_, values, __) {  
+                  //   return Row(
+                  //     children: [
+                  //       Text('Fotos: ',
+                  //         style: GoogleFonts.lexendDeca(
+                  //            fontSize: size.iScreen(1.8),
+                  //            fontWeight: FontWeight.normal,
+                  //             color: Colors.grey)),
+                              
+                  //             (values.getInfoBitacora['bitcFotos'].length + values.photos.length).toString()
+                  //             // Text(values.photos.isNotEmpty?'${values.photos.length}':'0',
+                  //         style: GoogleFonts.lexendDeca(
+                  //            fontSize: size.iScreen(2.0),
+                  //            fontWeight: FontWeight.bold,
+                  //             color: Colors.black)),
+                  //     ],
+                  //   );
+                  // },)
+
+        Text(
+          'Fotos: ',
+          style: GoogleFonts.lexendDeca(
+            fontSize: size.iScreen(1.8),
+            fontWeight: FontWeight.normal,
+            color: Colors.grey,
+          ),
+        ),
+        
+     
+    
                   
                 ),
                    /**************************/
@@ -232,7 +348,7 @@ class _CreaCierreBotacoraState extends State<CreaCierreBotacora> {
                   Consumer<CierreBitacoraController>(
               builder: (context, photoProvider, child) {
                 if (photoProvider.photos.isEmpty) {
-                  return Center(child: Text("No hay fotos agregadas", style: GoogleFonts.lexendDeca(
+                  return Center(child: Text("", style: GoogleFonts.lexendDeca(
                              fontSize: size.iScreen(2.0),
                              fontWeight: FontWeight.bold,
                               color: Colors.grey)));
@@ -271,6 +387,67 @@ class _CreaCierreBotacoraState extends State<CreaCierreBotacora> {
                 );
               },
             ),     
+             //*****************************************/
+               Consumer<CierreBitacoraController>(
+  builder: (context, photoProvider, child) {
+    if (photoProvider.getInfoBitacoraFotos.isEmpty) {
+      return Center(
+        child: Text(
+          "",
+          style: GoogleFonts.lexendDeca(
+            fontSize: size.iScreen(2.0),
+            fontWeight: FontWeight.bold,
+            color: Colors.grey,
+          ),
+        ),
+      );
+    }
+    return Wrap(
+      spacing: 8.0, // Espacio horizontal entre las fotos
+      runSpacing: 8.0, // Espacio vertical entre las filas
+      children: List.generate(
+        photoProvider.getInfoBitacoraFotos.length,
+        (index) {
+          final photo = photoProvider.getInfoBitacoraFotos[index];
+          final url = photo['url']; // Extraemos el URL aquí
+
+          return Container(
+            width: size.wScreen(85.0), // Ancho de cada foto
+            height: size.hScreen(40), // Alto de cada foto
+            child: Stack(
+              alignment: AlignmentDirectional.center,
+              children: [
+                FadeInImage(
+                  placeholder: const AssetImage('assets/imgs/loader.gif'),
+                  image: NetworkImage(url),
+                  fit: BoxFit.contain,
+                ),
+                // Positioned(
+                //   top: 0.0,
+                //   right: 0.0,
+                //   child: IconButton(
+                //     icon: Icon(Icons.delete, color: Colors.red),
+                //     onPressed: () async {
+                //       ProgressDialog.show(context);
+                //       final response = await photoProvider.eliminaUrlServer(url);
+                //       ProgressDialog.dissmiss(context);
+                //       if (response) {
+                //         NotificatiosnService.showSnackBarDanger('Foto eliminada correctamente');
+                //       } else {
+                //         NotificatiosnService.showSnackBarError('Error al eliminar foto !!');
+                //       }
+                //     },
+                //   ),
+                // ),
+              ],
+            ),
+          );
+        },
+      ),
+    );
+  },
+)
+
                 
                 ])
        )
@@ -348,61 +525,144 @@ class _CreaCierreBotacoraState extends State<CreaCierreBotacora> {
             ));
   }
 
-  void _onSubmit(BuildContext context, CierreBitacoraController crtl, String _action) async{
+ void _onSubmit(BuildContext context, CierreBitacoraController crtl, String _action) async {
+  final isValid = crtl.validateForm();
+  
+  if (!isValid) return; // Salir si el formulario no es válido
 
- final isValid = crtl.validateForm();
-    if (!isValid) return;
-    if (isValid) {
-
-        if (_action == 'CREATE')  {
-          // await crtl.crearTurno(context);
-          if (crtl.photos.isNotEmpty) {
-             ProgressDialog.show(context);
-              bool result = await crtl.enviarImagenesAlServidor();
-                ProgressDialog.dissmiss(context);
-              if (result) {
-                    print('Las imágenes se enviaron correctamente.');
-                    crtl.crearCierreBitacora(context);
-
-                  } else {
-                     NotificatiosnService.showSnackBarDanger('Ocurrio un Error');
-                     
-                   
-                  }
-          } else {
-              crtl.crearCierreBitacora(context);
-          }
-           crtl.buscaBitacorasCierre('', 'false');
-          Navigator.pop(context);
-
-
-        }
-        if (_action == 'EDIT')  {
-          // await crtl.crearTurno(context);
-          if (crtl.photos.isNotEmpty) {
-             ProgressDialog.show(context);
-              bool result = await crtl.enviarImagenesAlServidor();
-                ProgressDialog.dissmiss(context);
-              if (result) {
-                    print('Las imágenes se enviaron correctamente.');
-                    crtl.crearCierreBitacora(context);
-
-                  } else {
-                     NotificatiosnService.showSnackBarDanger('Ocurrio un Error');
-                     
-                   
-                  }
-          } else {
-              crtl.crearCierreBitacora(context);
-          }
-           crtl.buscaBitacorasCierre('', 'false');
-          Navigator.pop(context);
-
-
-        }
-
-
+  // Verificar si el estado está vacío
+  if (crtl.getEstadoCierre!.isEmpty) {
+    NotificatiosnService.showSnackBarDanger('Debe seleccionar Estado');
+    return; // Salir después de mostrar el mensaje
   }
+
+  // Si la acción es CREATE
+  if (_action == 'CREATE') {
+    // Enviar imágenes al servidor si existen
+    if (crtl.photos.isNotEmpty) {
+      ProgressDialog.show(context);
+      bool result = await crtl.enviarImagenesAlServidor();
+      ProgressDialog.dissmiss(context);
+
+      if (result) {
+        crtl.crearCierreBitacora(context);
+        crtl.buscaBitacorasCierre('', 'false');
+        Navigator.pop(context);
+      } else {
+        NotificatiosnService.showSnackBarDanger('Ocurrió un Error');
+      }
+    } else {
+      // Si no hay imágenes, solo crear el cierre
+      crtl.crearCierreBitacora(context);
+      crtl.buscaBitacorasCierre('', 'false');
+      Navigator.pop(context);
+    }
   }
+  
+  // Si la acción es EDIT
+  else if (_action == 'EDIT') {
+    // Enviar imágenes al servidor si existen
+    if (crtl.photos.isNotEmpty) {
+      ProgressDialog.show(context);
+      bool result = await crtl.enviarImagenesAlServidor();
+      ProgressDialog.dissmiss(context);
+
+      if (result) {
+        crtl.editarCierreBitacora(context);
+        crtl.buscaBitacorasCierre('', 'false');
+        Navigator.pop(context);
+      } else {
+        NotificatiosnService.showSnackBarDanger('Ocurrió un Error');
+      }
+    } else {
+      // Si no hay imágenes, solo crear el cierre
+      crtl.editarCierreBitacora(context);
+      crtl.buscaBitacorasCierre('', 'false');
+      Navigator.pop(context);
+    }
+  }
+}
+
+
+   //====== MUESTRA MODAL DE ESTADO =======//
+  void _modalSeleccionaEstado(
+      Responsive size, CierreBitacoraController ctrl) {
+
+final  _data=[
+                      'APERTURA',
+                      'CIERRE',
+                      'ANULADA',
+                      
+                    ];
+    showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (BuildContext context) {
+          return GestureDetector(
+            onTap: () => FocusScope.of(context).unfocus(),
+            child: AlertDialog(
+              insetPadding: EdgeInsets.symmetric(
+                  horizontal: size.wScreen(5.0), vertical: size.wScreen(3.0)),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('SELECCIONAR ESTADO',
+                          style: GoogleFonts.lexendDeca(
+                            fontSize: size.iScreen(2.0),
+                            fontWeight: FontWeight.bold,
+                            // color: Colors.white,
+                          )),
+                      IconButton(
+                          splashRadius: size.iScreen(3.0),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          icon: Icon(
+                            Icons.close,
+                            color: Colors.red,
+                            size: size.iScreen(3.5),
+                          )),
+                    ],
+                  ),
+                  Container(
+                    width: size.wScreen(100),
+                    height: size.hScreen(15),
+                    child: ListView.builder(
+      shrinkWrap: true,
+      physics: const BouncingScrollPhysics(),
+      itemCount: _data.length,
+      itemBuilder: (BuildContext context, int index) {
+        return GestureDetector(
+          onTap: (){
+            ctrl.setEstadoCierre( _data[index]);
+             Navigator.pop(context);
+          },
+          child: Container(color: Colors.grey[100],
+          margin: EdgeInsets.symmetric(vertical: size.iScreen(0.3)),
+          padding: EdgeInsets.symmetric(horizontal: size.iScreen(1.0),vertical: size.iScreen(1.0)),
+            child:Text(
+                        _data[index],
+                        style: GoogleFonts.lexendDeca(
+                          fontSize: size.iScreen(1.8),
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black54,
+                        ),
+                      ),),
+        );
+      },
+    ),
+                  ),
+            
+                ],
+              ),
+     
+            ),
+          );
+        });
+  }
+
  
 }

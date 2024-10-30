@@ -47,11 +47,12 @@ import 'package:nseguridad/src/pages/lista_informes_guardias_page.dart';
 import 'package:nseguridad/src/pages/lista_multas_supervisor_page.dart';
 import 'package:nseguridad/src/pages/lista_residentes.dart';
 import 'package:nseguridad/src/pages/lista_rol_pagos.dart';
-import 'package:nseguridad/src/pages/lista_videos_ayuda.dart';
+
 import 'package:nseguridad/src/pages/mis_notificaciones1_push.dart';
 import 'package:nseguridad/src/pages/mis_notificaciones2_push.dart';
 import 'package:nseguridad/src/pages/perfil.dart';
 import 'package:nseguridad/src/pages/update_app_page.dart';
+import 'package:nseguridad/src/pages/view_videos_ayuda.dart';
 import 'package:nseguridad/src/pages/views_pdf.dart';
 import 'package:nseguridad/src/service/local_notifications.dart';
 import 'package:nseguridad/src/service/notification_push.dart';
@@ -340,7 +341,7 @@ print('DESPUES DE LLENAR LA VARIABLE COORDENADAS DE ALERTA : $coordenadasItem');
   Widget build(BuildContext context) {
         final screenSize = ScreenSize(context);
     final ctrlHome = context.read<HomeController>();
-    final ctrlTheme = context.read<ThemeApp>();
+   final ctrlTheme = context.read<ThemeApp>();
 
     ctrlHome.buscaNotificacionesPush('');
     ctrlHome.buscaNotificacionesPush2('');
@@ -575,7 +576,7 @@ print('DESPUES DE LLENAR LA VARIABLE COORDENADAS DE ALERTA : $coordenadasItem');
   // ),
   // child: 
   Scaffold(
-    // backgroundColor: Colors.white,
+    backgroundColor: Colors.white,
     appBar: AppBar(
       flexibleSpace: Container(
         decoration: BoxDecoration(
@@ -904,7 +905,14 @@ print('DESPUES DE LLENAR LA VARIABLE COORDENADAS DE ALERTA : $coordenadasItem');
                       selectedItemColor: themeModel.secondaryColor,
                       unselectedItemColor:
                           Colors.white, // color de texto no seleccionado
-                      onTap: (index) => provider.setIndex(index),
+                      onTap: (index) {
+                        provider.setIndex(index);
+                        if (index==3) {
+                          provider.buscaBitacorasCierre('','false');
+                        print('EL INDEX ES : $index');
+                        }
+                          
+                      },
                     ),
                   );
                 },
@@ -1256,41 +1264,187 @@ print('DESPUES DE LLENAR LA VARIABLE COORDENADAS DE ALERTA : $coordenadasItem');
       ),
     );
   }
-SingleChildScrollView _videosAyuda(Responsive size) {
-  final videoProvider = context.read<HomeController>();
+// SingleChildScrollView _videosAyuda(Responsive size) {
+//   final videoProvider = context.read<HomeController>();
 
-  return SingleChildScrollView(
-    child: Column(
-      children: [
-        ListView.builder(
-          itemCount: videoProvider.videos.length,
-          shrinkWrap: true, // Agrega esta línea para ajustar el tamaño
-          physics: NeverScrollableScrollPhysics(), // Desactiva el desplazamiento del ListView
-          itemBuilder: (context, index) {
-            final video = videoProvider.videos[index];
+//   return SingleChildScrollView(
+//     child: Expanded(
+//       child: ListView.builder(
+//          itemCount: videoProvider.videos.length,
+//          itemBuilder: (context, index) {
+//            var item = videoProvider.videos[index];
+//            var sidInfo = item['sidInfo'];
+//            return ExpansionTile(
+//              title: Text(sidInfo['name']),
+//              subtitle: Text(sidInfo['descripcion'] ?? ''),
+//              children: [
+//                ListTile(
+//                  title: Text("Path: ${sidInfo['path']}"),
+//                ),
+//                ListTile(
+//                  title: Text("Permissions: ${sidInfo['permisos'].join(', ')}"),
+//                ),
+//                ListTile(
+//                  title: Text("Layout: ${sidInfo['layout']}"),
+//                ),
+//                ListTile(
+//                  title: Text("Category: ${sidInfo['categoriaEmpresa']}"),
+//                ),
+//              ],
+//            );
+//          },
+//        ),
+//     ),
+//   );
+// }
+// SingleChildScrollView _videosAyuda(Responsive size) {
+//   final videoProvider = context.read<HomeController>();
 
-            return Card(
-              margin: EdgeInsets.all(10),
-              child: ListTile(
-                title: Text(
-                  video['title']!, // Muestra solo el título
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+//   return SingleChildScrollView(
+//   child: Column(
+//     children: [
+//       ListView.builder(
+//         itemCount: videoProvider.videos.length,
+//         shrinkWrap: true, // Permite que el ListView ocupe solo el espacio necesario
+//         physics: NeverScrollableScrollPhysics(), // Desactiva el scroll del ListView para evitar conflicto con el SingleChildScrollView
+//         itemBuilder: (context, index) {
+//           var item = videoProvider.videos[index];
+//           var sidInfo = item['sidInfo'];
+//           return Card(
+//             color: Colors.grey.shade200,
+//             child: ExpansionTile(
+//               tilePadding: EdgeInsets.symmetric(horizontal: size.iScreen(1.0)), // Sin padding superior e inferior
+//               title: Text(sidInfo['name'],style: GoogleFonts.roboto(
+//                                   fontSize: size.iScreen(2.0),
+//                                   fontWeight: FontWeight.normal),),
+//               subtitle: Text(sidInfo['descripcion'] ?? ''),
+//               children: [
+//                 Wrap(
+//                   children: (sidInfo['tutoriales'] as List).map((e) => 
+//                     Padding(
+//                       padding:  EdgeInsets.symmetric(vertical: size.iScreen(0.5),horizontal: size.iScreen(1.0)), // Espacio vertical entre ListTiles
+//                       child: ListTile(
+//                         trailing:Icon(Icons.video_file,color: ctrlTheme.secondaryColor,),
+//                         tileColor: Colors.grey.shade50,
+//                         title: Text("${e['nombreVideo']}",style: GoogleFonts.roboto(
+//                                   fontSize: size.iScreen(2.0),
+//                                   fontWeight: FontWeight.normal),),
+//                         subtitle: Text("${e['descVideo']}",style: GoogleFonts.roboto(
+//                                   fontSize: size.iScreen(1.8),
+//                                   fontWeight: FontWeight.normal),),
+//                       ),
+//                     )
+//                   ).toList(),
+//                 ),
+//               ],
+//             ),
+//           );
+//         },
+//       ),
+//     ],
+//   ),
+// );
+
+// }
+
+Widget _videosAyuda(Responsive size) {
+  return Container(
+    height: MediaQuery.of(context).size.height, // Limita la altura total
+    child: Consumer<HomeController>(builder: (_, videoProvider, __) {
+      return Column(
+        children: [
+          // Caja de texto fija
+          Padding(
+            padding: EdgeInsets.all(size.iScreen(1.0)),
+            child: TextField(
+              decoration: InputDecoration(
+                hintText: 'Buscar videos',
+                prefixIcon: Icon(Icons.search, color: Colors.grey),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8.0),
                 ),
-                onTap: () {
-                  // Navegar a la pantalla del reproductor de video
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => VideoPlayerScreen(videoId: video['videoId']!),
-                    ),
-                  );
-                },
+                contentPadding: EdgeInsets.symmetric(
+                  vertical: size.iScreen(1.5),
+                  horizontal: size.iScreen(1.0),
+                ),
               ),
-            );
-          },
-        ),
-      ],
-    ),
+              onChanged: (text) {
+                // Lógica de búsqueda para filtrar los videos
+                videoProvider.search(text);
+              },
+            ),
+          ),
+          // Lista desplazable
+          Expanded(
+            child: videoProvider.allItemsFilters.isEmpty
+                ? const Center(
+                    child: CircularProgressIndicator(), // Progreso centrado
+                  )
+                : ListView.builder(
+                    itemCount: videoProvider.allItemsFilters.length,
+                    itemBuilder: (context, index) {
+                      var item = videoProvider.allItemsFilters[index];
+                      var sidInfo = item['sidInfo'];
+
+                      return Card(
+                        color: Colors.grey.shade200,
+                        child: ExpansionTile(
+                          tilePadding: EdgeInsets.symmetric(horizontal: size.iScreen(1.0)),
+                          title: Text(
+                            sidInfo['name'],
+                            style: GoogleFonts.roboto(
+                              fontSize: size.iScreen(2.0),
+                              fontWeight: FontWeight.normal,
+                            ),
+                          ),
+                          subtitle: Text(sidInfo['descripcion'] ?? ''),
+                          children: [
+                            Wrap(
+                              children: (sidInfo['tutoriales'] as List).map((e) => 
+                                Padding(
+                                  padding: EdgeInsets.symmetric(
+                                    vertical: size.iScreen(0.5),
+                                    horizontal: size.iScreen(1.0),
+                                  ),
+                                  child: ListTile(
+                                    onTap:() {
+                                       Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: ((context) => VideoPlayerScreen(
+                                                        infoVideo: e,
+                                                         
+                                                          ))));
+                                    },
+                                    trailing: Icon(Icons.video_file, color: ctrlTheme.secondaryColor),
+                                    tileColor: Colors.grey.shade50,
+                                    title: Text(
+                                      "${e['nombreVideo']}",
+                                      style: GoogleFonts.roboto(
+                                        fontSize: size.iScreen(2.0),
+                                        fontWeight: FontWeight.normal,
+                                      ),
+                                    ),
+                                    subtitle: Text(
+                                      "${e['descVideo']}",
+                                      style: GoogleFonts.roboto(
+                                        fontSize: size.iScreen(1.8),
+                                        fontWeight: FontWeight.normal,
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              ).toList(),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+          ),
+        ],
+      );
+    }),
   );
 }
 
@@ -1357,7 +1511,7 @@ SingleChildScrollView _videosAyuda(Responsive size) {
                 //  widget.user!.rol!.contains('RESIDENTE')  || widget.user!.rol!.contains('PROPIETARIO') ? Container() : gruposItemMenuNovedades(size, 'Novedades'),
                 //  widget.user!.rol!.contains('SUPERVISOR')  || widget.user!.rol!.contains('GUARDIA')  || widget.user!.rol!.contains('ADMINISTADOR') ?  gruposItemMenuGestionIntegral(size,  'Gestión Integral'):Container(),
                 // widget.user!.rol!.contains('SUPERVISOR')  || widget.user!.rol!.contains('GUARDIA')  || widget.user!.rol!.contains('ADMINISTADOR') ?  gruposItemMenuNovedades(size, 'Novedades'):Container(),
-                widget.user!.rol!.contains('SUPERVISOR')  || widget.user!.rol!.contains('ADMINISTADOR') ? gruposItemMenuGestionIntegral(size,  'Gestión Integral'):Container(),
+                widget.user!.rol!.contains('SUPERVISOR')  || widget.user!.rol!.contains('ADMINISTADOR') || widget.user!.rol!.contains('ADMIN')? gruposItemMenuGestionIntegral(size,  'Gestión Integral'):Container(),
                  gruposItemMenuNovedades(size, 'Novedades'),
                 gruposItemMenuBitacora(size,  'Bitácora'),
               ],
@@ -2596,7 +2750,7 @@ SingleChildScrollView _videosAyuda(Responsive size) {
                if ( _ctrl.getTurnoBTN == true || !widget.user!.rol!.contains('RESIDENTE') ) {
                  final _controller = context.read<CierreBitacoraController>();
                           _controller.buscaBitacorasCierre('', 'false');
-
+                
               Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) => ListaCierreBitacora(
                         user: widget.user,
